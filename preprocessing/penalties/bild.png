@@ -1,0 +1,452 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="500" height="500" id="plotting-area">
+	<g>
+		<g class="brush" style="pointer-events: all; -webkit-tap-highlight-color: rgba(0, 0, 0, 0);">
+			<rect class="background" x="0" width="500" y="0" height="500" style="visibility: hidden; cursor: auto;"/>
+			<rect class="extent" x="0" width="0" y="0" height="0" style="cursor: move;"/>
+			<g class="resize n" transform="translate(0,0)" style="cursor: ns-resize; display: none;">
+				<rect y="-3" width="0" height="6" style="visibility: hidden;"/>
+			</g><g class="resize e" transform="translate(0,0)" style="cursor: ew-resize; display: none;">
+				<rect x="-3" width="6" height="0" style="visibility: hidden;"/>
+			</g><g class="resize s" transform="translate(0,0)" style="cursor: ns-resize; display: none;">
+				<rect y="-3" width="0" height="6" style="visibility: hidden;"/>
+			</g><g class="resize w" transform="translate(0,0)" style="cursor: ew-resize; display: none;">
+				<rect x="-3" width="6" height="0" style="visibility: hidden;"/>
+			</g><g class="resize nw" transform="translate(0,0)" style="cursor: nwse-resize; display: none;">
+				<rect x="-3" y="-3" width="6" height="6" style="visibility: hidden;"/>
+			</g><g class="resize ne" transform="translate(0,0)" style="cursor: nesw-resize; display: none;">
+				<rect x="-3" y="-3" width="6" height="6" style="visibility: hidden;"/>
+			</g><g class="resize se" transform="translate(0,0)" style="cursor: nwse-resize; display: none;">
+				<rect x="-3" y="-3" width="6" height="6" style="visibility: hidden;"/>
+			</g><g class="resize sw" transform="translate(0,0)" style="cursor: nesw-resize; display: none;">
+				<rect x="-3" y="-3" width="6" height="6" style="visibility: hidden;"/>
+			</g>
+		</g><g transform="translate(25.783283233642578,-157.0670623779297),scale(3.272397994995117,3.272397994995117)">
+			<g>
+				<line class="link basepair" x1="38.02489323699663" y1="99.57706844955419" x2="38.85283716929146" y2="114.48031939306986" link_type="basepair" pointer-events="all">
+					<title>8ed3e8bf-cd27-4014-aab9-466607419f3f0cb3c2a0-c767-4046-afc7-cf56952eef71</title>
+				</line>
+				<line class="link basepair" x1="53.459299363030084" y1="98.62733262023994" x2="54.69904949265833" y2="113.65286795529713" link_type="basepair" pointer-events="all">
+					<title>6ef1c36b-fdb0-4d97-854f-bc31ffda2ebbfe8c57e5-3289-4058-a6c4-95c4a87575dd</title>
+				</line>
+				<line class="link backbone" x1="38.02489323699663" y1="99.57706844955419" x2="53.459299363030084" y2="98.62733262023994" link_type="backbone" pointer-events="all">
+					<title>8ed3e8bf-cd27-4014-aab9-466607419f3f6ef1c36b-fdb0-4d97-854f-bc31ffda2ebb</title>
+				</line>
+				<line class="link backbone" x1="53.459299363030084" y1="98.62733262023994" x2="62.22202894269245" y2="86.37345121260088" link_type="backbone" pointer-events="all">
+					<title>6ef1c36b-fdb0-4d97-854f-bc31ffda2ebb6b36b597-497d-4ba2-bdda-9923e282a304</title>
+				</line>
+				<line class="link backbone" x1="62.22202894269245" y1="86.37345121260088" x2="75.75549756976417" y2="81.05846717567582" link_type="backbone" pointer-events="all">
+					<title>6b36b597-497d-4ba2-bdda-9923e282a304fd4996b5-34bf-4e69-9ace-60d66e6613fa</title>
+				</line>
+				<line class="link basepair" x1="90.63037073927327" y1="84.10061765886113" x2="100.25098683512593" y2="95.54306662161035" link_type="basepair" pointer-events="all">
+					<title>c26faa0f-5b54-4842-8935-70326e37b166d755ebdf-e5c3-4681-abde-b3e5f300820b</title>
+				</line>
+				<line class="link backbone" x1="75.75549756976417" y1="81.05846717567582" x2="90.63037073927327" y2="84.10061765886113" link_type="backbone" pointer-events="all">
+					<title>fd4996b5-34bf-4e69-9ace-60d66e6613fac26faa0f-5b54-4842-8935-70326e37b166</title>
+				</line>
+				<line class="link basepair" x1="101.80672992643" y1="73.3237720422021" x2="112.3813841818039" y2="83.52667703621817" link_type="basepair" pointer-events="all">
+					<title>68b9546f-9a8d-48f1-9cd6-d37c2770c7ee76f5e9a9-7ec1-4547-99f7-459518a421e3</title>
+				</line>
+				<line class="link backbone" x1="90.63037073927327" y1="84.10061765886113" x2="101.80672992643" y2="73.3237720422021" link_type="backbone" pointer-events="all">
+					<title>c26faa0f-5b54-4842-8935-70326e37b16668b9546f-9a8d-48f1-9cd6-d37c2770c7ee</title>
+				</line>
+				<line class="link backbone" x1="101.80672992643" y1="73.3237720422021" x2="105.32131421303477" y2="58.13689173289378" link_type="backbone" pointer-events="all">
+					<title>68b9546f-9a8d-48f1-9cd6-d37c2770c7ee37a83bd7-35be-4a8d-81b5-6411d337a2d1</title>
+				</line>
+				<line class="link backbone" x1="105.32131421303477" y1="58.13689173289378" x2="119.58066125654003" y2="54.006501758489804" link_type="backbone" pointer-events="all">
+					<title>37a83bd7-35be-4a8d-81b5-6411d337a2d1ccd6e19c-5ab1-4b8a-a572-3f4e1300d864</title>
+				</line>
+				<line class="link backbone" x1="119.58066125654003" y1="54.006501758489804" x2="130.55200099473578" y2="64.14068905669261" link_type="backbone" pointer-events="all">
+					<title>ccd6e19c-5ab1-4b8a-a572-3f4e1300d8645ff59e25-bf95-4df1-a5b6-1f73af00d1e9</title>
+				</line>
+				<line class="link backbone" x1="130.55200099473578" y1="64.14068905669261" x2="127.50323300319658" y2="78.74552954801908" link_type="backbone" pointer-events="all">
+					<title>5ff59e25-bf95-4df1-a5b6-1f73af00d1e9b2b17d54-e9b9-46d9-82bb-0b08c2365ddb</title>
+				</line>
+				<line class="link basepair" x1="112.3813841818039" y1="83.52667703621817" x2="101.80672992643" y2="73.3237720422021" link_type="basepair" pointer-events="all">
+					<title>76f5e9a9-7ec1-4547-99f7-459518a421e368b9546f-9a8d-48f1-9cd6-d37c2770c7ee</title>
+				</line>
+				<line class="link backbone" x1="127.50323300319658" y1="78.74552954801908" x2="112.3813841818039" y2="83.52667703621817" link_type="backbone" pointer-events="all">
+					<title>b2b17d54-e9b9-46d9-82bb-0b08c2365ddb76f5e9a9-7ec1-4547-99f7-459518a421e3</title>
+				</line>
+				<line class="link basepair" x1="100.25098683512593" y1="95.54306662161035" x2="90.63037073927327" y2="84.10061765886113" link_type="basepair" pointer-events="all">
+					<title>d755ebdf-e5c3-4681-abde-b3e5f300820bc26faa0f-5b54-4842-8935-70326e37b166</title>
+				</line>
+				<line class="link backbone" x1="112.3813841818039" y1="83.52667703621817" x2="100.25098683512593" y2="95.54306662161035" link_type="backbone" pointer-events="all">
+					<title>76f5e9a9-7ec1-4547-99f7-459518a421e3d755ebdf-e5c3-4681-abde-b3e5f300820b</title>
+				</line>
+				<line class="link backbone" x1="100.25098683512593" y1="95.54306662161035" x2="100.74074132156996" y2="111.11167136177545" link_type="backbone" pointer-events="all">
+					<title>d755ebdf-e5c3-4681-abde-b3e5f300820b750b1078-ecf1-4870-b479-1eb8284da0c8</title>
+				</line>
+				<line class="link basepair" x1="92.9040352029921" y1="124.67038856563434" x2="78.86222805208885" y2="129.90542736764849" link_type="basepair" pointer-events="all">
+					<title>ef5f8d4c-2216-4dba-8776-8701d60646f68788dbce-b17e-46c8-9b0d-a9d3bf3d6ad7</title>
+				</line>
+				<line class="link backbone" x1="100.74074132156996" y1="111.11167136177545" x2="92.9040352029921" y2="124.67038856563434" link_type="backbone" pointer-events="all">
+					<title>750b1078-ecf1-4870-b479-1eb8284da0c8ef5f8d4c-2216-4dba-8776-8701d60646f6</title>
+				</line>
+				<line class="link basepair" x1="97.79891161438329" y1="141.0814053970173" x2="84.31771296377144" y2="145.25447645380513" link_type="basepair" pointer-events="all">
+					<title>d4fbd13f-086f-423d-a9c7-a16727e5cd59addd85c2-3b34-4b23-a5bd-89c1784cb9e0</title>
+				</line>
+				<line class="link backbone" x1="92.9040352029921" y1="124.67038856563434" x2="97.79891161438329" y2="141.0814053970173" link_type="backbone" pointer-events="all">
+					<title>ef5f8d4c-2216-4dba-8776-8701d60646f6d4fbd13f-086f-423d-a9c7-a16727e5cd59</title>
+				</line>
+				<line class="link basepair" x1="103.0031301774186" y1="156.528303698199" x2="88.97920284392913" y2="161.11778679057812" link_type="basepair" pointer-events="all">
+					<title>fce9cedc-f5c1-4da9-a4c4-003efb8fcc6b8da8c84b-ddf7-49ac-a958-59c0020b9508</title>
+				</line>
+				<line class="link backbone" x1="97.79891161438329" y1="141.0814053970173" x2="103.0031301774186" y2="156.528303698199" link_type="backbone" pointer-events="all">
+					<title>d4fbd13f-086f-423d-a9c7-a16727e5cd59fce9cedc-f5c1-4da9-a4c4-003efb8fcc6b</title>
+				</line>
+				<line class="link backbone" x1="103.0031301774186" y1="156.528303698199" x2="114.64965035630291" y2="166.89408881521967" link_type="backbone" pointer-events="all">
+					<title>fce9cedc-f5c1-4da9-a4c4-003efb8fcc6b4904add0-b688-4f64-a0c8-11d99006264f</title>
+				</line>
+				<line class="link backbone" x1="114.64965035630291" y1="166.89408881521967" x2="111.56024673770523" y2="181.38266628137563" link_type="backbone" pointer-events="all">
+					<title>4904add0-b688-4f64-a0c8-11d99006264fe2c82196-1a32-45e8-a82a-3f20b7d9bc80</title>
+				</line>
+				<line class="link backbone" x1="111.56024673770523" y1="181.38266628137563" x2="97.41247105638814" y2="186.21535104368948" link_type="backbone" pointer-events="all">
+					<title>e2c82196-1a32-45e8-a82a-3f20b7d9bc802cac8c79-0b87-4688-8f5b-04fa1c979960</title>
+				</line>
+				<line class="link backbone" x1="97.41247105638814" y1="186.21535104368948" x2="85.97355449168032" y2="176.58097093661644" link_type="backbone" pointer-events="all">
+					<title>2cac8c79-0b87-4688-8f5b-04fa1c979960caee25ce-fac2-462e-8793-62ce57a74c0d</title>
+				</line>
+				<line class="link basepair" x1="88.97920284392913" y1="161.11778679057812" x2="103.0031301774186" y2="156.528303698199" link_type="basepair" pointer-events="all">
+					<title>8da8c84b-ddf7-49ac-a958-59c0020b9508fce9cedc-f5c1-4da9-a4c4-003efb8fcc6b</title>
+				</line>
+				<line class="link backbone" x1="85.97355449168032" y1="176.58097093661644" x2="88.97920284392913" y2="161.11778679057812" link_type="backbone" pointer-events="all">
+					<title>caee25ce-fac2-462e-8793-62ce57a74c0d8da8c84b-ddf7-49ac-a958-59c0020b9508</title>
+				</line>
+				<line class="link basepair" x1="84.31771296377144" y1="145.25447645380513" x2="97.79891161438329" y2="141.0814053970173" link_type="basepair" pointer-events="all">
+					<title>addd85c2-3b34-4b23-a5bd-89c1784cb9e0d4fbd13f-086f-423d-a9c7-a16727e5cd59</title>
+				</line>
+				<line class="link backbone" x1="88.97920284392913" y1="161.11778679057812" x2="84.31771296377144" y2="145.25447645380513" link_type="backbone" pointer-events="all">
+					<title>8da8c84b-ddf7-49ac-a958-59c0020b9508addd85c2-3b34-4b23-a5bd-89c1784cb9e0</title>
+				</line>
+				<line class="link basepair" x1="78.86222805208885" y1="129.90542736764849" x2="92.9040352029921" y2="124.67038856563434" link_type="basepair" pointer-events="all">
+					<title>8788dbce-b17e-46c8-9b0d-a9d3bf3d6ad7ef5f8d4c-2216-4dba-8776-8701d60646f6</title>
+				</line>
+				<line class="link backbone" x1="84.31771296377144" y1="145.25447645380513" x2="78.86222805208885" y2="129.90542736764849" link_type="backbone" pointer-events="all">
+					<title>addd85c2-3b34-4b23-a5bd-89c1784cb9e08788dbce-b17e-46c8-9b0d-a9d3bf3d6ad7</title>
+				</line>
+				<line class="link backbone" x1="78.86222805208885" y1="129.90542736764849" x2="64.18748378010571" y2="125.25003905913339" link_type="backbone" pointer-events="all">
+					<title>8788dbce-b17e-46c8-9b0d-a9d3bf3d6ad72a7db770-aa64-4d32-a566-7197883cbb58</title>
+				</line>
+				<line class="link basepair" x1="54.69904949265833" y1="113.65286795529713" x2="53.459299363030084" y2="98.62733262023994" link_type="basepair" pointer-events="all">
+					<title>fe8c57e5-3289-4058-a6c4-95c4a87575dd6ef1c36b-fdb0-4d97-854f-bc31ffda2ebb</title>
+				</line>
+				<line class="link backbone" x1="64.18748378010571" y1="125.25003905913339" x2="54.69904949265833" y2="113.65286795529713" link_type="backbone" pointer-events="all">
+					<title>2a7db770-aa64-4d32-a566-7197883cbb58fe8c57e5-3289-4058-a6c4-95c4a87575dd</title>
+				</line>
+				<line class="link basepair" x1="38.85283716929146" y1="114.48031939306986" x2="38.02489323699663" y2="99.57706844955419" link_type="basepair" pointer-events="all">
+					<title>0cb3c2a0-c767-4046-afc7-cf56952eef718ed3e8bf-cd27-4014-aab9-466607419f3f</title>
+				</line>
+				<line class="link backbone" x1="54.69904949265833" y1="113.65286795529713" x2="38.85283716929146" y2="114.48031939306986" link_type="backbone" pointer-events="all">
+					<title>fe8c57e5-3289-4058-a6c4-95c4a87575dd0cb3c2a0-c767-4046-afc7-cf56952eef71</title>
+				</line>
+				<line class="link label_link" x1="127.50323300319658" y1="78.74552954801908" x2="143.063474626894" y2="76.31040895340524" link_type="label_link" pointer-events="all">
+					<title>b2b17d54-e9b9-46d9-82bb-0b08c2365ddb82bd10d3-61c2-4fde-a4ba-006f9e54ef09</title>
+				</line>
+				<line class="link label_link" x1="85.97355449168032" y1="176.58097093661644" x2="79.51699641752373" y2="190.9279928619863" link_type="label_link" pointer-events="all">
+					<title>caee25ce-fac2-462e-8793-62ce57a74c0d317b4702-096b-41f6-aa42-92b47a5eb19a</title>
+				</line>
+			</g><g>
+				<g class="noselect gnode" struct_name="empty" transform="translate(38.02489323699663,99.57706844955419)" num="n1" rnum="n26">
+					<circle class="outline_node" r="6"/>
+					<circle class="node" node_type="nucleotide" node_num="1" r="5" style="fill: #90ee90;">
+						<title>empty:1</title>
+					</circle>
+					<path class="node" node_type="nucleotide" node_num="1">
+						<title>empty:1</title>
+					</path>
+					<text text-anchor="middle" font-size="8" font-weight="bold" y="2.5" class="node-label" label_type="nucleotide">C<title>empty:1</title>
+					</text>
+				</g><g class="noselect gnode" struct_name="empty" transform="translate(53.459299363030084,98.62733262023994)" num="n2" rnum="n25">
+					<circle class="outline_node" r="6"/>
+					<circle class="node" node_type="nucleotide" node_num="2" r="5" style="fill: #90ee90;">
+						<title>empty:2</title>
+					</circle>
+					<path class="node" node_type="nucleotide" node_num="2" d="M-8.169149846722263,-2.502996360724008L-4.9905608120513785,0.3070875790667619L-7.800644751842148,3.4856766137376463">
+						<title>empty:2</title>
+					</path>
+					<text text-anchor="middle" font-size="8" font-weight="bold" y="2.5" class="node-label" label_type="nucleotide">G<title>empty:2</title>
+					</text>
+				</g><g class="noselect gnode" struct_name="empty" transform="translate(62.22202894269245,86.37345121260088)" num="n3" rnum="n24">
+					<circle class="outline_node" r="6"/>
+					<circle class="node" node_type="nucleotide" node_num="3" r="5" style="fill: #ff9896;">
+						<title>empty:3</title>
+					</circle>
+					<path class="node" node_type="nucleotide" node_num="3" d="M-7.093668398059041,4.762338570322198L-2.908378868048338,4.067103681969501L-2.2131439796956407,8.252393211980204">
+						<title>empty:3</title>
+					</path>
+					<text text-anchor="middle" font-size="8" font-weight="bold" y="2.5" class="node-label" label_type="nucleotide">C<title>empty:3</title>
+					</text>
+				</g><g class="noselect gnode" struct_name="empty" transform="translate(75.75549756976417,81.05846717567582)" num="n4" rnum="n23">
+					<circle class="outline_node" r="6"/>
+					<circle class="node" node_type="nucleotide" node_num="4" r="5" style="fill: #ff9896;">
+						<title>empty:4</title>
+					</circle>
+					<path class="node" node_type="nucleotide" node_num="4" d="M-8.542983786387813,0.13201524728207548L-4.653960585565499,1.8277447491383592L-6.3496900874217825,5.716767949960674">
+						<title>empty:4</title>
+					</path>
+					<text text-anchor="middle" font-size="8" font-weight="bold" y="2.5" class="node-label" label_type="nucleotide">U<title>empty:4</title>
+					</text>
+				</g><g class="noselect gnode" struct_name="empty" transform="translate(90.63037073927327,84.10061765886113)" num="n5" rnum="n22">
+					<circle class="outline_node" r="6"/>
+					<circle class="node" node_type="nucleotide" node_num="5" r="5" style="fill: #90ee90;">
+						<title>empty:5</title>
+					</circle>
+					<path class="node" node_type="nucleotide" node_num="5" d="M-7.236658896331927,-4.542110524650406L-4.898602927712783,-1.0018429800142101L-8.43887047234898,1.3362129886049336">
+						<title>empty:5</title>
+					</path>
+					<text text-anchor="middle" font-size="8" font-weight="bold" y="2.5" class="node-label" label_type="nucleotide">U<title>empty:5</title>
+					</text>
+				</g><g class="noselect gnode" struct_name="empty" transform="translate(101.80672992643,73.3237720422021)" num="n6" rnum="n21">
+					<circle class="outline_node" r="6"/>
+					<circle class="node" node_type="nucleotide" node_num="6" r="5" style="fill: #90ee90;">
+						<title>empty:6</title>
+					</circle>
+					<path class="node" node_type="nucleotide" node_num="6" d="M-7.841217383580066,3.393421568777121L-3.599279065911587,3.4706181302025456L-3.6764756273370116,7.712556447871025">
+						<title>empty:6</title>
+					</path>
+					<text text-anchor="middle" font-size="8" font-weight="bold" y="2.5" class="node-label" label_type="nucleotide">C<title>empty:6</title>
+					</text>
+				</g><g class="noselect gnode" struct_name="empty" transform="translate(105.32131421303477,58.13689173289378)" num="n7" rnum="n20">
+					<circle class="outline_node" r="6"/>
+					<circle class="node" node_type="nucleotide" node_num="7" r="5" style="fill: #add8e6;">
+						<title>empty:7</title>
+					</circle>
+					<path class="node" node_type="nucleotide" node_num="7" d="M-4.726463864589641,7.1176217472361065L-1.1273181969184112,4.871257915866971L1.1190456344507247,8.4704035835382">
+						<title>empty:7</title>
+					</path>
+					<text text-anchor="middle" font-size="8" font-weight="bold" y="2.5" class="node-label" label_type="nucleotide">A<title>empty:7</title>
+					</text>
+				</g><g class="noselect gnode" struct_name="empty" transform="translate(119.58066125654003,54.006501758489804)" num="n8" rnum="n19">
+					<circle class="outline_node" r="6"/>
+					<circle class="node" node_type="nucleotide" node_num="8" r="5" style="fill: #add8e6;">
+						<title>empty:8</title>
+					</circle>
+					<path class="node" node_type="nucleotide" node_num="8" d="M-8.518802365088415,-0.6557486290980845L-4.802579781369971,1.3911245248274364L-6.849452935295492,5.107347108545881">
+						<title>empty:8</title>
+					</path>
+					<text text-anchor="middle" font-size="8" font-weight="bold" y="2.5" class="node-label" label_type="nucleotide">U<title>empty:8</title>
+					</text>
+				</g><g class="noselect gnode" struct_name="empty" transform="translate(130.55200099473578,64.14068905669261)" num="n9" rnum="n18">
+					<circle class="outline_node" r="6"/>
+					<circle class="node" node_type="nucleotide" node_num="9" r="5" style="fill: #add8e6;">
+						<title>empty:9</title>
+					</circle>
+					<path class="node" node_type="nucleotide" node_num="9" d="M-3.8410354325991585,-7.63193598017684L-3.67288297269341,-3.3926288728504956L-7.912190080019753,-3.224476412944747">
+						<title>empty:9</title>
+					</path>
+					<text text-anchor="middle" font-size="8" font-weight="bold" y="2.5" class="node-label" label_type="nucleotide">A<title>empty:9</title>
+					</text>
+				</g><g class="noselect gnode" struct_name="empty" transform="translate(127.50323300319658,78.74552954801908)" num="n10" rnum="n17">
+					<circle class="outline_node" r="6"/>
+					<circle class="node" node_type="nucleotide" node_num="10" r="5" style="fill: #add8e6;">
+						<title>empty:10</title>
+					</circle>
+					<path class="node" node_type="nucleotide" node_num="10" d="M4.571461445153155,-7.218153521190738L1.0217281505241798,-4.8944940071907785L-1.3019313634757794,-8.444227301819755">
+						<title>empty:10</title>
+					</path>
+					<text text-anchor="middle" font-size="8" font-weight="bold" y="2.5" class="node-label" label_type="nucleotide">U<title>empty:10</title>
+					</text>
+				</g><g class="noselect gnode" struct_name="empty" transform="translate(112.3813841818039,83.52667703621817)" num="n11" rnum="n16">
+					<circle class="outline_node" r="6"/>
+					<circle class="node" node_type="nucleotide" node_num="11" r="5" style="fill: #90ee90;">
+						<title>empty:11</title>
+					</circle>
+					<path class="node" node_type="nucleotide" node_num="11" d="M8.532213150523011,0.44870787160712755L4.76738553554832,-1.5073271560761654L6.723420563231613,-5.2721547710508565">
+						<title>empty:11</title>
+					</path>
+					<text text-anchor="middle" font-size="8" font-weight="bold" y="2.5" class="node-label" label_type="nucleotide">A<title>empty:11</title>
+					</text>
+				</g><g class="noselect gnode" struct_name="empty" transform="translate(100.25098683512593,95.54306662161035)" num="n12" rnum="n15">
+					<circle class="outline_node" r="6"/>
+					<circle class="node" node_type="nucleotide" node_num="12" r="5" style="fill: #90ee90;">
+						<title>empty:12</title>
+					</circle>
+					<path class="node" node_type="nucleotide" node_num="12" d="M7.794780546678492,-3.498770673982873L3.5521871473615967,-3.5188018514998944L3.572218324878618,-7.76139525081679">
+						<title>empty:12</title>
+					</path>
+					<text text-anchor="middle" font-size="8" font-weight="bold" y="2.5" class="node-label" label_type="nucleotide">A<title>empty:12</title>
+					</text>
+				</g><g class="noselect gnode" struct_name="empty" transform="translate(100.74074132156996,111.11167136177545)" num="n13" rnum="n14">
+					<circle class="outline_node" r="6"/>
+					<circle class="node" node_type="nucleotide" node_num="13" r="5" style="fill: #ff9896;">
+						<title>empty:13</title>
+					</circle>
+					<path class="node" node_type="nucleotide" node_num="13" d="M2.7469785159816205,-8.090371377924217L-0.15721137026847215,-4.997527847351959L-3.2500549008407305,-7.901717733602052">
+						<title>empty:13</title>
+					</path>
+					<text text-anchor="middle" font-size="8" font-weight="bold" y="2.5" class="node-label" label_type="nucleotide">U<title>empty:13</title>
+					</text>
+				</g><g class="noselect gnode" struct_name="empty" transform="translate(92.9040352029921,124.67038856563434)" num="n14" rnum="n13">
+					<circle class="outline_node" r="6"/>
+					<circle class="node" node_type="nucleotide" node_num="14" r="5" style="fill: #90ee90;">
+						<title>empty:14</title>
+					</circle>
+					<path class="node" node_type="nucleotide" node_num="14" d="M6.600650128577085,-5.425073076016147L2.502053547984126,-4.328940753004139L1.4059212249721185,-8.427537333597098">
+						<title>empty:14</title>
+					</path>
+					<text text-anchor="middle" font-size="8" font-weight="bold" y="2.5" class="node-label" label_type="nucleotide">C<title>empty:14</title>
+					</text>
+				</g><g class="noselect gnode" struct_name="empty" transform="translate(97.79891161438329,141.0814053970173)" num="n15" rnum="n12">
+					<circle class="outline_node" r="6"/>
+					<circle class="node" node_type="nucleotide" node_num="15" r="5" style="fill: #90ee90;">
+						<title>empty:15</title>
+					</circle>
+					<path class="node" node_type="nucleotide" node_num="15" d="M0.5882493537545059,-8.523729389053093L-1.4291228313098103,-4.791409806417004L-5.161442413945899,-6.80878199148132">
+						<title>empty:15</title>
+					</path>
+					<text text-anchor="middle" font-size="8" font-weight="bold" y="2.5" class="node-label" label_type="nucleotide">C<title>empty:15</title>
+					</text>
+				</g><g class="noselect gnode" struct_name="empty" transform="translate(103.0031301774186,156.528303698199)" num="n16" rnum="n11">
+					<circle class="outline_node" r="6"/>
+					<circle class="node" node_type="nucleotide" node_num="16" r="5" style="fill: #90ee90;">
+						<title>empty:16</title>
+					</circle>
+					<path class="node" node_type="nucleotide" node_num="16" d="M0.28876941452220306,-8.53912245053533L-1.5963843859882445,-4.73830738683899L-5.397199449684585,-6.623461187349438">
+						<title>empty:16</title>
+					</path>
+					<text text-anchor="middle" font-size="8" font-weight="bold" y="2.5" class="node-label" label_type="nucleotide">U<title>empty:16</title>
+					</text>
+				</g><g class="noselect gnode" struct_name="empty" transform="translate(114.64965035630291,166.89408881521967)" num="n17" rnum="n10">
+					<circle class="outline_node" r="6"/>
+					<circle class="node" node_type="nucleotide" node_num="17" r="5" style="fill: #add8e6;">
+						<title>empty:17</title>
+					</circle>
+					<path class="node" node_type="nucleotide" node_num="17" d="M-3.9813558020075828,-7.559682928391941L-3.734924328851814,-3.324205206925533L-7.9704020503182225,-3.077773733769764">
+						<title>empty:17</title>
+					</path>
+					<text text-anchor="middle" font-size="8" font-weight="bold" y="2.5" class="node-label" label_type="nucleotide">A<title>empty:17</title>
+					</text>
+				</g><g class="noselect gnode" struct_name="empty" transform="translate(111.56024673770523,181.38266628137563)" num="n18" rnum="n9">
+					<circle class="outline_node" r="6"/>
+					<circle class="node" node_type="nucleotide" node_num="18" r="5" style="fill: #add8e6;">
+						<title>empty:18</title>
+					</circle>
+					<path class="node" node_type="nucleotide" node_num="18" d="M4.602376844848394,-7.198480907664015L1.0427104134106238,-4.890066972318993L-1.265703521934398,-8.449733403756763">
+						<title>empty:18</title>
+					</path>
+					<text text-anchor="middle" font-size="8" font-weight="bold" y="2.5" class="node-label" label_type="nucleotide">A<title>empty:18</title>
+					</text>
+				</g><g class="noselect gnode" struct_name="empty" transform="translate(97.41247105638814,186.21535104368948)" num="n19" rnum="n8">
+					<circle class="outline_node" r="6"/>
+					<circle class="node" node_type="nucleotide" node_num="19" r="5" style="fill: #add8e6;">
+						<title>empty:19</title>
+					</circle>
+					<path class="node" node_type="nucleotide" node_num="19" d="M8.540258272689941,0.2529597512471329L4.731571605154858,-1.6162395074036138L6.6007708638056055,-5.424926174938697">
+						<title>empty:19</title>
+					</path>
+					<text text-anchor="middle" font-size="8" font-weight="bold" y="2.5" class="node-label" label_type="nucleotide">U<title>empty:19</title>
+					</text>
+				</g><g class="noselect gnode" struct_name="empty" transform="translate(85.97355449168032,176.58097093661644)" num="n20" rnum="n7">
+					<circle class="outline_node" r="6"/>
+					<circle class="node" node_type="nucleotide" node_num="20" r="5" style="fill: #add8e6;">
+						<title>empty:20</title>
+					</circle>
+					<path class="node" node_type="nucleotide" node_num="20" d="M4.186269710411089,7.448163928895138L3.824291059587269,3.220993308214235L8.051461680268172,2.8590146573904143">
+						<title>empty:20</title>
+					</path>
+					<text text-anchor="middle" font-size="8" font-weight="bold" y="2.5" class="node-label" label_type="nucleotide">G<title>empty:20</title>
+					</text>
+				</g><g class="noselect gnode" struct_name="empty" transform="translate(88.97920284392913,161.11778679057812)" num="n21" rnum="n6">
+					<circle class="outline_node" r="6"/>
+					<circle class="node" node_type="nucleotide" node_num="21" r="5" style="fill: #90ee90;">
+						<title>empty:21</title>
+					</circle>
+					<path class="node" node_type="nucleotide" node_num="21" d="M-4.471312607348201,7.280615603598985L-0.9540174005471684,4.908141277454554L1.418456925597263,8.425436484255588">
+						<title>empty:21</title>
+					</path>
+					<text text-anchor="middle" font-size="8" font-weight="bold" y="2.5" class="node-label" label_type="nucleotide">A<title>empty:21</title>
+					</text>
+				</g><g class="noselect gnode" struct_name="empty" transform="translate(84.31771296377144,145.25447645380513)" num="n22" rnum="n5">
+					<circle class="outline_node" r="6"/>
+					<circle class="node" node_type="nucleotide" node_num="22" r="5" style="fill: #90ee90;">
+						<title>empty:22</title>
+					</circle>
+					<path class="node" node_type="nucleotide" node_num="22" d="M-0.6228374342028671,8.521271825881133L1.4096654797274288,4.797170336277922L5.13376696933064,6.829673250208218">
+						<title>empty:22</title>
+					</path>
+					<text text-anchor="middle" font-size="8" font-weight="bold" y="2.5" class="node-label" label_type="nucleotide">C<title>empty:22</title>
+					</text>
+				</g><g class="noselect gnode" struct_name="empty" transform="translate(78.86222805208885,129.90542736764849)" num="n23" rnum="n4">
+					<circle class="outline_node" r="6"/>
+					<circle class="node" node_type="nucleotide" node_num="23" r="5" style="fill: #90ee90;">
+						<title>empty:23</title>
+					</circle>
+					<path class="node" node_type="nucleotide" node_num="23" d="M-0.14753261815469032,8.542729898959724L1.674515667920661,4.71126281137958L5.505982755500806,6.5333110974549315">
+						<title>empty:23</title>
+					</path>
+					<text text-anchor="middle" font-size="8" font-weight="bold" y="2.5" class="node-label" label_type="nucleotide">C<title>empty:23</title>
+					</text>
+				</g><g class="noselect gnode" struct_name="empty" transform="translate(64.18748378010571,125.25003905913339)" num="n24" rnum="n3">
+					<circle class="outline_node" r="6"/>
+					<circle class="node" node_type="nucleotide" node_num="24" r="5" style="fill: #ff9896;">
+						<title>empty:24</title>
+					</circle>
+					<path class="node" node_type="nucleotide" node_num="24" d="M6.718322455613315,5.278649768871002L4.765926640515036,1.511933615351238L8.5326427940348,-0.4404621997470408">
+						<title>empty:24</title>
+					</path>
+					<text text-anchor="middle" font-size="8" font-weight="bold" y="2.5" class="node-label" label_type="nucleotide">U<title>empty:24</title>
+					</text>
+				</g><g class="noselect gnode" struct_name="empty" transform="translate(54.69904949265833,113.65286795529713)" num="n25" rnum="n2">
+					<circle class="outline_node" r="6"/>
+					<circle class="node" node_type="nucleotide" node_num="25" r="5" style="fill: #90ee90;">
+						<title>empty:25</title>
+					</circle>
+					<path class="node" node_type="nucleotide" node_num="25" d="M2.743963449675198,8.091394477273159L3.1661569198096617,3.8698127033671015L7.38773869371572,4.292006173501566">
+						<title>empty:25</title>
+					</path>
+					<text text-anchor="middle" font-size="8" font-weight="bold" y="2.5" class="node-label" label_type="nucleotide">A<title>empty:25</title>
+					</text>
+				</g><g class="noselect gnode" struct_name="empty" transform="translate(38.85283716929146,114.48031939306986)" num="n26" rnum="n1">
+					<circle class="outline_node" r="6"/>
+					<circle class="node" node_type="nucleotide" node_num="26" r="5" style="fill: #90ee90;">
+						<title>empty:26</title>
+					</circle>
+					<path class="node" node_type="nucleotide" node_num="26" d="M8.145555250051567,2.578745754888866L4.993197209936927,-0.26073285692080617L7.8326758217466,-3.413090897035446">
+						<title>empty:26</title>
+					</path>
+					<text text-anchor="middle" font-size="8" font-weight="bold" y="2.5" class="node-label" label_type="nucleotide">U<title>empty:26</title>
+					</text>
+				</g><g class="noselect gnode" struct_name="empty" transform="translate(143.063474626894,76.31040895340524)" num="n-1" rnum="n28">
+					<circle class="outline_node" r="7"/>
+					<circle class="node label" r="6" node_type="label" node_num="-1"/>
+					<text text-anchor="middle" font-size="8" font-weight="bold" y="2.5" class="node-label" label_type="label">10<title/>
+					</text>
+				</g><g class="noselect gnode" struct_name="empty" transform="translate(79.51699641752373,190.9279928619863)" num="n-1" rnum="n28">
+					<circle class="outline_node" r="7"/>
+					<circle class="node label" r="6" node_type="label" node_num="-1"/>
+					<text text-anchor="middle" font-size="8" font-weight="bold" y="2.5" class="node-label" label_type="label">20<title/>
+					</text>
+				</g><g class="noselect gnode" transform="translate(46.33615001876292,106.56692366519432)" num="n-1" rnum="n28">
+					<text text-anchor="middle" font-size="8" font-weight="bold" y="2.5" class="node-label" label_type="middle">
+						<title/>
+					</text>
+				</g><g class="noselect gnode" transform="translate(101.35986298484492,84.3194614702667)" num="n-1" rnum="n28">
+					<text text-anchor="middle" font-size="8" font-weight="bold" y="2.5" class="node-label" label_type="middle">
+						<title/>
+					</text>
+				</g><g class="noselect gnode" transform="translate(88.56971560168589,135.09131130181942)" num="n-1" rnum="n28">
+					<text text-anchor="middle" font-size="8" font-weight="bold" y="2.5" class="node-label" label_type="middle">
+						<title/>
+					</text>
+				</g><g class="noselect gnode" transform="translate(93.48935158436564,151.0717571169206)" num="n-1" rnum="n28">
+					<text text-anchor="middle" font-size="8" font-weight="bold" y="2.5" class="node-label" label_type="middle">
+						<title/>
+					</text>
+				</g><g class="noselect gnode" transform="translate(116.10558646663401,68.77619610937373)" num="n-1" rnum="n28">
+					<text text-anchor="middle" font-size="8" font-weight="bold" y="2.5" class="node-label" label_type="middle">
+						<title/>
+					</text>
+				</g><g class="noselect gnode" transform="translate(100.15338222679631,171.31789557873896)" num="n-1" rnum="n28">
+					<text text-anchor="middle" font-size="8" font-weight="bold" y="2.5" class="node-label" label_type="middle">
+						<title/>
+					</text>
+				</g><g class="noselect gnode" transform="translate(77.6999046510031,105.25873023561854)" num="n-1" rnum="n28">
+					<text text-anchor="middle" font-size="8" font-weight="bold" y="2.5" class="node-label" label_type="middle">
+						<title/>
+					</text>
+				</g>
+			</g>
+			<line class="drag_line" x1="0" y1="0" x2="0" y2="0"/>
+		</g>
+	</g>
+</svg>
