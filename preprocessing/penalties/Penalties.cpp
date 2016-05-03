@@ -1,7 +1,9 @@
 #include "Penalties.h"
+#include <cstdlib>
 #include <iostream>
 #include <vector>
-#include <string.h>
+#include <cstring>
+#include <string>
 
 using namespace std;
 using namespace pugi;
@@ -10,6 +12,10 @@ int main(int argc, const char* argv[])
 {
 	const char* xml_file;
 	vector<Line> lines;
+	double translate_x=0;
+	double translate_y=0;
+	double scale_x=1;
+	double scale_y=1;
 	
 	if (argc>1)
 		xml_file=argv[1];
@@ -41,6 +47,63 @@ int main(int argc, const char* argv[])
 		if (g_xml)
 		{
 			g_xml = g_xml.next_sibling();
+
+			string transform = g_xml.attribute("transform").value();
+
+			string translate;
+			unsigned tr_index=transform.find("translate(");
+			
+			if(tr_index!=string::npos)
+			{
+				unsigned end_index=transform.find(")",tr_index+1);
+
+				if(end_index!=string::npos)
+				{
+					translate=transform.substr(tr_index+10,end_index-(tr_index+10));
+					
+					unsigned comma_index=translate.find(",");
+
+					if(comma_index!=string::npos)
+					{
+						translate_x=strtod((translate.substr(0,comma_index-1)).c_str(),NULL);
+						translate_y=strtod((translate.substr(comma_index+1)).c_str(),NULL);
+					}
+
+				}
+				else
+				{
+					cout << "Fehler bei Einlesen der Transformation!" << endl;
+					return 0;
+				}
+			}
+
+
+			string scale;
+                        unsigned sc_index=transform.find("scale(");
+
+                        if(sc_index!=string::npos)
+                        {
+                                unsigned end_index=transform.find(")",sc_index+1);
+
+                                if(end_index!=string::npos)
+                                {
+                                        scale=transform.substr(sc_index+6,end_index-(sc_index+6));
+
+                                        unsigned comma_index=scale.find(",");
+
+                                        if(comma_index!=string::npos)
+                                        {
+                                                scale_x=strtod((scale.substr(0,comma_index-1)).c_str(),NULL);
+                                                scale_y=strtod((scale.substr(comma_index+1)).c_str(),NULL);
+	                                }
+
+                                }
+                                else
+                                {
+                                        cout << "Fehler bei Einlesen der Transformation!" << endl;
+                                        return 0;
+                                }
+			}
 
 			if (g_xml)
 				g_xml = g_xml.child("g");
