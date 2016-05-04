@@ -8,6 +8,8 @@
 using namespace std;
 using namespace pugi;
 
+int getPositionPenalty(vector<Line>*,double,double,double,double);
+
 int main(int argc, const char* argv[])
 {
 	const char* xml_file;
@@ -173,5 +175,65 @@ int main(int argc, const char* argv[])
 
 	//TODO Position
 
+	double position = getPositionPenalty(&lines,translate_x,translate_y,scale_x,scale_y);
+
+	cout << "PositionPenalty:" << position << endl;
+
 	return 0;
+}
+
+int getPositionPenalty(vector<Line>* p_lines,double translate_x,double translate_y,double scale_x,double scale_y)
+{
+	double min_x=250,min_y=250,max_x=250,max_y=250;
+
+	for(vector<Line>::iterator it=p_lines->begin();it!=p_lines->end();it++)
+	{
+		double x1=(*it).getX1();
+		double x2=(*it).getX2();
+		double y1=(*it).getY1();
+		double y2=(*it).getY2();
+
+		x1*=scale_x;
+                x2*=scale_x;
+                y1*=scale_y;
+                y2*=scale_y;
+
+		x1+=translate_x;
+		x2+=translate_x;
+		y1+=translate_y;
+		y2+=translate_y;
+
+		if(x1>max_x)
+			max_x=x1;
+		if(x1<min_x)
+			min_x=x1;
+		if(x2>max_x)
+                        max_x=x2;
+                if(x2<min_x)
+                        min_x=x2;
+		if(y1>max_y)
+                        max_y=y1;
+                if(y1<min_y)
+                        min_y=y1;
+                if(y2>max_y)
+                        max_y=y2;
+		if(y2<min_y)
+                        min_y=y2;
+	}	
+
+	if(max_x<=500 && max_y<=500 && min_x>=0 && min_y>=0)
+		return 0;
+
+	int penalty=1;
+
+	if(max_x>500)
+		penalty+=(max_x-500)/100;
+	if(max_y>500)
+                penalty+=(max_y-500)/100;
+	if(min_x<0)
+                penalty+=(min_x*(-1))/100;
+	if(min_y<0)
+                penalty+=(min_y*(-1))/100;
+
+	return penalty;
 }
