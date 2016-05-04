@@ -91,8 +91,8 @@ bool Line::intersect(Line line)
 
 	if(lambda > 15 && lambda < length-15)
 	{
-		cout << lambda << endl;
-		cout << length << endl << endl;
+		//cout << lambda << endl;
+		//cout << length << endl << endl;
 		return true;
 	}
 

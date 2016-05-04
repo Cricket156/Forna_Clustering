@@ -140,7 +140,7 @@ int main(int argc, const char* argv[])
 	//unsigned helix=0;
 	//TODO wie wird ideal Laenge berechnet??
 	//double average_length=0;
-	double min_length=lines[0].getLength();
+	double average_length=lines[0].getLength();
 	unsigned stretches=0;
 
 	for(unsigned i=0;i<lines.size();++i)
@@ -157,23 +157,20 @@ int main(int argc, const char* argv[])
 	//cout << "Helix: " << helix << endl;	
 
 	for(unsigned i=1;i<lines.size();++i)
-		if(lines[i].getLength()<min_length)
-			min_length=lines[i].getLength();
-			
-		//average_length+=lines[i].getLength();
+		//if(lines[i].getLength()<min_length)
+		//	min_length=lines[i].getLength();
+		average_length+=lines[i].getLength();
 
-	//average_length/=lines.size();
+	average_length/=lines.size();
 
 	//cout << "Durchschnittliche Laenge: " << average_length << endl;
 	//cout << "Kleinste Laenge: " << min_length << endl;
 
 	for(unsigned i=0;i<lines.size();++i)
-		if(lines[i].getLength()>3*min_length)
+		if(lines[i].getLength()>5*average_length)
 			++stretches;
 
 	cout << stretches << ";";
-
-	//TODO Position
 
 	int position = getPositionPenalty(&lines,translate_x,translate_y,scale_x,scale_y);
 
