@@ -133,7 +133,7 @@ int main(int argc, const char* argv[])
 		lines[lines.size()-1]=Line(x1,y1,x2,y2,type);
 	}
 
-	cout << "Anzahl lines: " << lines.size() << endl;	
+	cout << lines.size() << ";";	
 
 	//TODO sehr große Toleranz??
 	unsigned overlaps=0;
@@ -153,7 +153,7 @@ int main(int argc, const char* argv[])
 					++overlaps;
 			}
 
-	cout << "Overlaps: " << overlaps << endl;
+	cout << overlaps << ";";
 	//cout << "Helix: " << helix << endl;	
 
 	for(unsigned i=1;i<lines.size();++i)
@@ -171,13 +171,13 @@ int main(int argc, const char* argv[])
 		if(lines[i].getLength()>3*min_length)
 			++stretches;
 
-	cout << "Stretches: " << stretches << endl;
+	cout << stretches << ";";
 
 	//TODO Position
 
-	double position = getPositionPenalty(&lines,translate_x,translate_y,scale_x,scale_y);
+	int position = getPositionPenalty(&lines,translate_x,translate_y,scale_x,scale_y);
 
-	cout << "PositionPenalty:" << position << endl;
+	cout << position << endl;
 
 	return 0;
 }
