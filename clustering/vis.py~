@@ -9,7 +9,7 @@ from sklearn import svm
 #DBScan
 from sklearn.cluster import DBSCAN
 from sklearn import metrics
-
+path = "/home/trummelbummel/Desktop/github/Forna_Clustering/clustering"
 
 #uebergabeparameter von website
 
@@ -94,7 +94,7 @@ framelist = [pd.DataFrame(x) for x in output]
 
 dftotaloutput = pd.concat(framelist)
 print(dftotaloutput)
-path = "/home/trummelbummel/Desktop/github/Forna_Clustering/clustering"
+
 
 # save to csv
 dftotaloutput.to_csv(path + "/results.csv")
