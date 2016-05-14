@@ -8,6 +8,9 @@
 using namespace std;
 using namespace pugi;
 
+bool readXMLData(const char*,vector<Line>*,double*,double*,double*,double*);
+int getOverlapPenalty(vector<Line>*);
+int getStretchPenalty(vector<Line>*);
 int getPositionPenalty(vector<Line>*,double,double,double,double);
 
 int main(int argc, const char* argv[])
@@ -24,12 +27,37 @@ int main(int argc, const char* argv[])
 	else
 		xml_file="example.xml";
 
+	if(!readXMLData(xml_file,&lines,&translate_x,&translate_y,&scale_x,&scale_y))
+		return 0;
+
+	cout << lines.size() << ";";	
+
+	//TODO sehr große Toleranz??
+	unsigned overlaps=getOverlapPenalty(&lines);
+	//unsigned helix=0;
+	//TODO wie wird ideal Laenge berechnet??
+	//double average_length=0;
+	unsigned stretches=getStretchPenalty(&lines);
+	int position = getPositionPenalty(&lines,translate_x,translate_y,scale_x,scale_y);
+
+	cout << overlaps << ";";
+	//cout << "Helix: " << helix << endl;	
+
+	cout << stretches << ";";
+
+	cout << position << endl;
+
+	return 0;
+}
+
+bool readXMLData(const char* xml_file,vector<Line>* p_lines,double* translate_x,double* translate_y,double* scale_x,double* scale_y)
+{
 	xml_document doc;
 
 	if (!doc.load_file(xml_file))
 	{
 		cout << "Could not find xml file!" << endl;
-		return 0;
+		return false;
 	}
 
 	xml_node svg_xml = doc.child("svg");
@@ -37,7 +65,7 @@ int main(int argc, const char* argv[])
 	if (!svg_xml)
 	{
 		cout << "No svg specified in xml" << endl;
-		return 0;
+		return false;
 	}
 
 	xml_node g_xml = svg_xml.child("g");
@@ -67,15 +95,15 @@ int main(int argc, const char* argv[])
 
 					if(comma_index!=string::npos)
 					{
-						translate_x=strtod((translate.substr(0,comma_index-1)).c_str(),NULL);
-						translate_y=strtod((translate.substr(comma_index+1)).c_str(),NULL);
+						*translate_x=strtod((translate.substr(0,comma_index-1)).c_str(),NULL);
+						*translate_y=strtod((translate.substr(comma_index+1)).c_str(),NULL);
 					}
 
 				}
 				else
 				{
 					cout << "Fehler bei Einlesen der Transformation!" << endl;
-					return 0;
+					return false;
 				}
 			}
 
@@ -95,15 +123,15 @@ int main(int argc, const char* argv[])
 
                                         if(comma_index!=string::npos)
                                         {
-                                                scale_x=strtod((scale.substr(0,comma_index-1)).c_str(),NULL);
-                                                scale_y=strtod((scale.substr(comma_index+1)).c_str(),NULL);
+                                                *scale_x=strtod((scale.substr(0,comma_index-1)).c_str(),NULL);
+                                                *scale_y=strtod((scale.substr(comma_index+1)).c_str(),NULL);
 	                                }
 
                                 }
                                 else
                                 {
                                         cout << "Fehler bei Einlesen der Transformation!" << endl;
-                                        return 0;
+                                        return false;
                                 }
 			}
 
@@ -115,7 +143,7 @@ int main(int argc, const char* argv[])
 	if (!g_xml)
         {
 		cout << "Fehler beim Einlesen der Daten (falsche Struktur)!" << endl;
-                return 0;
+                return false;
         }
 
 	for (xml_node line_xml=g_xml.first_child(); line_xml; line_xml=line_xml.next_sibling())	
@@ -129,54 +157,49 @@ int main(int argc, const char* argv[])
 		if(strcmp("backbone",line_xml.attribute("link_type").value()))
 			type = BACKBONE;
 
-		lines.resize(lines.size()+1);
-		lines[lines.size()-1]=Line(x1,y1,x2,y2,type);
+		p_lines->resize(p_lines->size()+1);
+		(*p_lines)[p_lines->size()-1]=Line(x1,y1,x2,y2,type);
 	}
 
-	cout << lines.size() << ";";	
+	return true;
+}
 
-	//TODO sehr große Toleranz??
-	unsigned overlaps=0;
-	//unsigned helix=0;
-	//TODO wie wird ideal Laenge berechnet??
-	//double average_length=0;
-	double average_length=lines[0].getLength();
-	unsigned stretches=0;
+int getOverlapPenalty(vector<Line>* p_lines)
+{
+	int overlaps=0;
 
-	for(unsigned i=0;i<lines.size();++i)
-		for(unsigned j=i+1;j<lines.size();++j)
-			if(lines[i].intersect(lines[j]))
+	for(unsigned i=0;i<p_lines->size();++i)
+		for(unsigned j=i+1;j<p_lines->size();++j)
+			if((*p_lines)[i].intersect((*p_lines)[j]))
 			{
 				//if(lines[i].getType()==BACKBONE && lines[j].getType()==BACKBONE)
 				//	++helix;
 				//else
 					++overlaps;
 			}
+	return overlaps;
+}
 
-	cout << overlaps << ";";
-	//cout << "Helix: " << helix << endl;	
+int getStretchPenalty(vector<Line>* p_lines)
+{
+	int stretches=0;
 
-	for(unsigned i=1;i<lines.size();++i)
+	double average_length=(*p_lines)[0].getLength();
+
+	for(unsigned i=1;i<p_lines->size();++i)
 		//if(lines[i].getLength()<min_length)
 		//	min_length=lines[i].getLength();
-		average_length+=lines[i].getLength();
+		average_length+=(*p_lines)[i].getLength();
 
-	average_length/=lines.size();
+	average_length/=p_lines->size();
 
 	//cout << "Durchschnittliche Laenge: " << average_length << endl;
 	//cout << "Kleinste Laenge: " << min_length << endl;
 
-	for(unsigned i=0;i<lines.size();++i)
-		if(lines[i].getLength()>5*average_length)
+	for(unsigned i=0;i<p_lines->size();++i)
+		if((*p_lines)[i].getLength()>5*average_length)
 			++stretches;
-
-	cout << stretches << ";";
-
-	int position = getPositionPenalty(&lines,translate_x,translate_y,scale_x,scale_y);
-
-	cout << position << endl;
-
-	return 0;
+	return stretches;
 }
 
 int getPositionPenalty(vector<Line>* p_lines,double translate_x,double translate_y,double scale_x,double scale_y)
