@@ -1,0 +1,9 @@
+handler.js:
+
+loadCSV:
+http://mounirmesselmeni.github.io/2012/11/20/reading-csv-file-with-javascript-and-html5-file-api/
+
+parallelCoordinates:
+
+library:
+https://syntagmatic.github.io/parallel-coordinates/
