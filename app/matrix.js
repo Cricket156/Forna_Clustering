@@ -4,20 +4,19 @@ function doMatrix() {
 
 	var gewichtungen = [1,1,1];
 
-	/*var getColor = function(x,y,z) {
+	var getAvgPenalty = function(d) {
 		var result=0;
 		for(var i=0;i<gewichtungen.length;++i)
-			result+=gewichtungen[i]*x
-
-
-	}*/
+			result+=gewichtungen[i]*d[2+i];
+		return result;
+	}
 
 	var colorRange=d3.scale.linear().
-			domain([d3.min(results,function(d){return gewichtungen[0]*d[2]+gewichtungen[1]*d[3]+gewichtungen[2]*d[4];}),
-				d3.max(results,function(d){return gewichtungen[0]*d[2]+gewichtungen[1]*d[3]+gewichtungen[2]*d[4];})])
+			domain([d3.min(results,function(d){return getAvgPenalty(d);}),
+				d3.max(results,function(d){return getAvgPenalty(d);})])
 			.range(["green","red"]);	
 
-	//Iwo muss gespeichert sein, wie die StepSize beim Generieren war (oder iwie ausrechnen
+	//Iwo muss gespeichert sein, wie die StepSize beim Generieren war (oder iwie ausrechnen)
 	var stepSizes = [0.2,6.0,6.0];
 
 	for(var i=0;i<3;++i)
@@ -45,7 +44,7 @@ function doMatrix() {
 					if(visible[l][5+i]==results[k][5+i] && visible[l][5+j]==results[k][5+j])
 					{
 						v=true;
-						if(gewichtungen[0]*results[k][2]+gewichtungen[1]*results[k][3]+gewichtungen[2]*results[k][4]<gewichtungen[0]*visible[l][2]+gewichtungen[1]*visible[l][3]+gewichtungen[2]*visible[l][4])
+						if(getAvgPenalty(results[k])<getAvgPenalty(visible[l]))
 							visible[l]=results[k];
 						break;
 					}
@@ -54,8 +53,6 @@ function doMatrix() {
 				if(!v)
 					visible.push(results[k]);
 			}
-
-			console.log(visible.length);
 
 			var group1 = svg.append("g");
 
@@ -79,7 +76,7 @@ function doMatrix() {
 				.attr("width",iStepSize)
 				.attr("height",jStepSize)
 				.style("fill",function(d){
-                       	        		return colorRange(gewichtungen[0]*d[2]+gewichtungen[1]*d[3]+gewichtungen[2]*d[4]);
+                       	        		return colorRange(getAvgPenalty(d));
 					});
 
 			group1.attr("transform","translate(" + i*130 + "," + (j-1)*130 + ")");
