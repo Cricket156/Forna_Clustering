@@ -1,7 +1,16 @@
 function doMatrix() {
+
 	var svg = d3.select("#matrix");
 
 	var gewichtungen = [1,1,1];
+
+	/*var getColor = function(x,y,z) {
+		var result=0;
+		for(var i=0;i<gewichtungen.length;++i)
+			result+=gewichtungen[i]*x
+
+
+	}*/
 
 	var colorRange=d3.scale.linear().
 			domain([d3.min(results,function(d){return gewichtungen[0]*d[2]+gewichtungen[1]*d[3]+gewichtungen[2]*d[4];}),
@@ -24,10 +33,34 @@ function doMatrix() {
 
 		for(var j=i+1;j<3;++j)
 		{
+			var visible = [];
+			visible.push(results[0]);
+	
+			for(var k=1;k<results.length;++k)
+			{
+				var v=false;
+
+				for(var l=0;l<visible.length;++l)
+				{
+					if(visible[l][5+i]==results[k][5+i] && visible[l][5+j]==results[k][5+j])
+					{
+						v=true;
+						if(gewichtungen[0]*results[k][2]+gewichtungen[1]*results[k][3]+gewichtungen[2]*results[k][4]<gewichtungen[0]*visible[l][2]+gewichtungen[1]*visible[l][3]+gewichtungen[2]*visible[l][4])
+							visible[l]=results[k];
+						break;
+					}
+				}
+
+				if(!v)
+					visible.push(results[k]);
+			}
+
+			console.log(visible.length);
+
 			var group1 = svg.append("g");
 
-			var jLowerRange=d3.min(results,function(d){return parseFloat(d[5+j]);});
-                	var jUpperRange=parseFloat(d3.max(results,function(d){return d[5+j];}))+stepSizes[j];
+			var jLowerRange=d3.min(visible,function(d){return parseFloat(d[5+j]);});
+                	var jUpperRange=parseFloat(d3.max(visible,function(d){return d[5+j];}))+stepSizes[j];
         	        var jRange=d3.scale.linear().domain([jLowerRange,jUpperRange]).range([0,100]);
 	                var jStepSize=jRange(jLowerRange+stepSizes[j]);
 
@@ -35,7 +68,7 @@ function doMatrix() {
 //			console.log(jUpperRange);
 
 			var squares = group1.selectAll("rect")
-				.data(results)
+				.data(visible)
 				.enter().append("rect")
 				.attr("x",function(d){
 						return iRange(d[5+i]);
