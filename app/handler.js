@@ -13,14 +13,22 @@ function loadCSV(evt) {
 			var csv = e.target.result;
 			var allTextLines = csv.split(/\r\n|\n/);
 
-			for (var i=1; i<allTextLines.length; i++) {
+			for (var i=1; i<allTextLines.length-1; i++) {
 				var data = allTextLines[i].split(',');
 					var line = [];
 					for (var j=0; j<data.length; j++) {
-						line.push(data[j]);
+						line.push(parseFloat(data[j]));
 					}
 					results.push(line);
+
 			}
+
+	//TODO vorlaeufige Festlegung der Groesse des svgs
+	var svg = d3.select("#matrix");
+	svg.attr("width",500)
+		.attr("height",500);
+		
+
 //TODO: nur eine Übergangslösung, sollte eine bessere Stelle zum Aufruf gefunden werden..
 			extractClusters();
 			doBarchart();

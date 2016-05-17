@@ -144,6 +144,6 @@ function doMatrix() {
 		.attr("cx", 100)
 		.attr("cy", 100)
 		.attr("r", 20);
-
-	console.log("Matrix done");*/
+*/
+	console.log("Matrix done");
 }
