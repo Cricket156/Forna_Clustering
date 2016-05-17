@@ -1,6 +1,10 @@
 function doMatrix() {
 
 	var svg = d3.select("#matrix");
+
+	//TODO Bessere Moeglichkeit? (button wird dadurch nicht geloescht, vl eher im handler.js?)
+	//svg.selectAll("*").remove();
+
 	var avgType=true;
 
 	var gewichtungen = [1,1,1];
@@ -76,8 +80,16 @@ function doMatrix() {
 
 				var group1 = svg.selectAll(".c"+i+"-"+j);
 
+/*				group1.append('image')
+					.attr('xlink:href','max.png')
+					.attr('height', '100')
+					.attr('width', '100')
+*/
 				var squares = group1.selectAll("rect").data(visible);
 				squares.enter().append("rect")
+					.attr("class",function(d){
+							return "r"+d[0];
+						})
 					.attr("x",function(d){
 							return iRange(d[5+i]);
 						})
@@ -85,12 +97,29 @@ function doMatrix() {
        		       	                		return jRange(d[5+j]);
 			                       	})
 					.attr("width",iStepSize)
-					.attr("height",jStepSize);
+					.attr("height",jStepSize)
+					.style("fill","white");
 
 				squares.transition().duration(1000)
 					.style("fill",function(d){
         	               	        		return colorRange(getAvgPenalty(d));
 						});
+				squares/*.on("click",function(d) {
+						console.log("hallo");
+						svg.append("image")
+							.attr("xlink:href","svg1.svg")
+						//	.attr('height', '100')
+                                        	//	.attr('width', '100');
+						d3.event.stopPropagation();
+					})*/
+					.on("mouseover",function(d) {
+						d3.selectAll(".r"+d[0]).style("stroke", "white");
+						d3.event.stopPropagation();
+					})
+					.on("mouseout",function(d) {
+                                                d3.selectAll(".r"+d[0]).style("stroke", "none");
+                                                d3.event.stopPropagation();
+                                        });
 
 				group1.attr("transform","translate(" + i*130 + "," + (j-1)*130 + ")");
 
