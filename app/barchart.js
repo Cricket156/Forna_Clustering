@@ -54,7 +54,11 @@ function doBarchart() {
 		.text("Frequency");
 */
 	var overlaps_scale = d3.scale.linear()
-                .domain([0, d3.max( clusters, function (d) { return d[0][2];})])
+                .domain([0, d3.max( clusters, function(d) {
+				return d3.mean(d, function(d) {
+					return d[2];
+				})
+			})])
                 .range([0, height]);
 
 	//TODO weitere scales fuer die anderen Penalties
@@ -68,7 +72,9 @@ function doBarchart() {
 			})
 		.attr("width", x_scale(1.0/5.0))
 		.attr("y", function(d) {
-				return height + axis_distance - overlaps_scale(d[0][2]);
+				return height + axis_distance - overlaps_scale(d3.mean(d, function(d) {
+                                				        		return d[2];
+                                						}));
 			})
 		.attr("height", function(d) {
 				return overlaps_scale(d[0][2]);
