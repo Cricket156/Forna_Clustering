@@ -24,10 +24,14 @@ function doMatrix() {
 	//Iwo muss gespeichert sein, wie die StepSize beim Generieren war (oder iwie ausrechnen)
 	var stepSizes = [0.2,6.0,6.0];
 
-	for(var i=0;i<3;++i)
-		for(var j=i+1;j<3;++j)
-			var group1 = svg.append("g")
-                		.attr("class","c"+i+"-"+j);	
+	if(!matrixloaded)
+	{
+		for(var i=0;i<3;++i)
+			for(var j=i+1;j<3;++j)
+				var group1 = svg.append("g")
+                			.attr("class","c"+i+"-"+j);	
+		matrixloaded=true;
+	}
 
 	var drawHeatmaps = function()
 	{
