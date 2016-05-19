@@ -2,6 +2,8 @@ document.getElementById('file').addEventListener('change', loadCSV, false);
 
 var results = [];		//2d array, that holds all nodes
 var clusters = [];		//3d array; 1st D: cluster, 2nd D: single node, 3rd D: node info
+var matrixloaded = false;
+var matrixfilter = -1;
 
 //reads the csv File from the input to the results array
 function loadCSV(evt) {
