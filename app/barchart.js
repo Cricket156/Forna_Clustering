@@ -125,9 +125,35 @@ function doBarchart() {
                                 return height + axis_distance - y_scale(d.length);
                         })
                 .attr("height", function(d) {
-                                console.log(d.length);
-                                console.log(y_scale(d.length))
                                 return y_scale(d.length);
+                        })
+		.on("click", function(d,i) {
+				//d3.select("#matrix").selectAll("rect").style("fill", );
+				if(i==matrixfilter)
+				{
+					matrixfilter=-1;
+					doMatrix();
+				}				
+				else if(-1==matrixfilter)
+				{
+					matrixfilter=i;
+					doMatrix();
+				}
+				d3.event.stopPropagation();
+			})
+		.on("mouseover", function(d) {
+				cluster=d[0][1];
+				d3.select("#matrix").selectAll("rect").each( function(d, i){
+					if(cluster!=d[1])
+						d3.select(this).style("opacity",0.5);
+				});
+				d3.event.stopPropagation();
+			})
+		.on("mouseout", function(d) {
+				d3.select("#matrix").selectAll("rect").each( function(d, i){
+                                        d3.select(this).style("opacity",1.0);
+                                });
+				d3.event.stopPropagation();
                         });
 
 	console.log("Barchart done");

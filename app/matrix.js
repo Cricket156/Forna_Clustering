@@ -33,12 +33,12 @@ function doMatrix() {
 		matrixloaded=true;
 	}
 
-	var drawHeatmaps = function()
+	var drawHeatmaps = function(data)
 	{
 		for(var i=0;i<3;++i)
 		{
-			var iLowerRange=d3.min(results,function(d){return parseFloat(d[5+i]);});
-			var iUpperRange=parseFloat(d3.max(results,function(d){return d[5+i];}))+stepSizes[i];
+			var iLowerRange=d3.min(data,function(d){return parseFloat(d[5+i]);});
+			var iUpperRange=parseFloat(d3.max(data,function(d){return d[5+i];}))+stepSizes[i];
 			var iRange=d3.scale.linear().domain([iLowerRange,iUpperRange]).range([0,100]);
 			var iStepSize=iRange(iLowerRange+stepSizes[i]);
 
@@ -48,30 +48,30 @@ function doMatrix() {
 			for(var j=i+1;j<3;++j)
 			{
 				var visible = [];
-				visible.push(results[0]);
+				visible.push(data[0]);
 	
-				for(var k=1;k<results.length;++k)
+				for(var k=1;k<data.length;++k)
 				{
 					var v=false;
 
 					for(var l=0;l<visible.length;++l)
 					{
-						if(visible[l][5+i]==results[k][5+i] && visible[l][5+j]==results[k][5+j])
+						if(visible[l][5+i]==data[k][5+i] && visible[l][5+j]==data[k][5+j])
 						{
 							v=true;
 
 							if(avgType)
-								if(getAvgPenalty(results[k])<getAvgPenalty(visible[l]))
-									visible[l]=results[k];
+								if(getAvgPenalty(data[k])<getAvgPenalty(visible[l]))
+									visible[l]=data[k];
 							else
-								if(getAvgPenalty(results[k])>getAvgPenalty(visible[l]))
-                	                                                visible[l]=results[k];
+								if(getAvgPenalty(data[k])>getAvgPenalty(visible[l]))
+                	                                                visible[l]=data[k];
 							break;
 						}
 					}
 
 					if(!v)
-						visible.push(results[k]);
+						visible.push(data[k]);
 				}
 
 				var jLowerRange=d3.min(visible,function(d){return parseFloat(d[5+j]);});
@@ -106,6 +106,7 @@ function doMatrix() {
 
 				squares.transition().duration(1000)
 					.style("fill",function(d){
+							//console.log(getAvgPenalty(d))
         	               	        		return colorRange(getAvgPenalty(d));
 						});
 				squares/*.on("click",function(d) {
@@ -133,7 +134,10 @@ function doMatrix() {
 		}
 	};
 
-	drawHeatmaps();
+	if(-1==matrixfilter)
+		drawHeatmaps(results);
+	else
+		drawHeatmaps(clusters[matrixfilter]);
 
 	d3.select("body").append("input")
         .attr("value", "Change AvgPenalty")
@@ -141,7 +145,10 @@ function doMatrix() {
         .attr("class", "dataset-button")
         .on("click", function(d) {
                 avgType=!avgType;
-		drawHeatmaps();
+		if(-1==matrixfilter)
+	                drawHeatmaps(results);
+        	else
+                	drawHeatmaps(clusters[matrixfilter]);
         });
 	
 	/*svg.append("circle")
