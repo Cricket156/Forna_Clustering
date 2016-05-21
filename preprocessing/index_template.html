@@ -1,0 +1,46 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <meta charset="utf-8">
+
+    <link rel='stylesheet' type='text/css' href='css/fornac.css' />
+    <script type='text/javascript' src='js/jquery.js'></script>
+    <script type='text/javascript' src='js/d3.js'></script>
+</head>
+<body>
+
+This is an RNA container.
+<div id='rna_ss'> </div>
+This after the RNA container.
+
+    <script type='text/javascript' src='js/fornac.js'></script>
+    <script type='text/javascript'>
+        var container = new fornac.FornaContainer("#rna_ss", 
+            {'applyForce': true, 'allowPanningAndZooming': true, 'initialSize':[500,500],
+                  'friction': parameter1,
+                  'middleCharge': parameter2,
+                  'otherCharge': parameter3,
+                  'linkDistanceMultiplier': parameter4,
+                  'chargeDistance': parameter5
+            } 
+        );
+
+/*        var options = {'structure': '((..((....)).(((....))).))',
+                        'sequence': 'CGCUUCAUAUAAUCCUAAUGACCUAU'
+        };*/
+	var options = {'structure': '....(((((...(((((((((((...(((.......)))..(((((.............)))))(.(((...(((..((((.((((((....)))))))))).......)))...))).).(((((((((((.(.....)...(((((......(((..(.(..(((((((..((((........))))...))))...........)))..).)..)))...))))))))))...))))))...)))))))))))....)))))(...((((....))))...).......(((.(....(((........)))...))))....(((((..(((.(..).)))...))))).(((((((((((((....)))..))))))))))....',
+                        'sequence': 'UGUGCCCGGCAUGGGUGCAGUCUAUAGGGUGAGAGUCCCGAACUGUGAAGGCAGAAGUAACAGUUAGCCUAACGCAAGGGUGUCCGUGGCGACAUGGAAUCUGAAGGAAGCGGACGGCAAACCUUCGGUCUGAGGAACACGAACUUCAUAUGAGGCUAGGUAUCAAUGGAUGAGUUUGCAUAACAAAACAAAGUCCUUUCUGCCAAAGUUGGUACAGAGUAAAUGAAGCAGAUUGAUGAAGGGAAAGACUGCAUUCUUACCCGGGGAGGUCUGGAAACAGAAGUCAGCAGAAGUCAUAGUACCCUGUUCGCAGGGGAAGGACGGAACAAGUAUGGCGUUCGCGCCUAAGCUUGAACCGCCGUAUACCGAACGGUACGUACGGUGGUGUGG'
+        };
+
+        container.addRNA(options.structure, options);
+
+	setTimeout(function() {
+		var svg = document.getElementById('plotting-area');
+	        var svg_string = new XMLSerializer().serializeToString(svg);
+		console.log(svg_string);
+		console.log("All tests completed!");
+	}, 2500);
+	
+    </script>
+</body>
+</html>
