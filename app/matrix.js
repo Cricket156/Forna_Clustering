@@ -37,101 +37,114 @@ function doMatrix() {
 	{
 		for(var i=0;i<3;++i)
 		{
-			var iLowerRange=d3.min(data,function(d){return parseFloat(d[5+i]);});
-			var iUpperRange=parseFloat(d3.max(data,function(d){return d[5+i];}))+stepSizes[i];
-			var iRange=d3.scale.linear().domain([iLowerRange,iUpperRange]).range([0,100]);
-			var iStepSize=iRange(iLowerRange+stepSizes[i]);
-
-//			console.log(iLowerRange);
-//			console.log(iUpperRange);
-
-			for(var j=i+1;j<3;++j)
+			if(-1==heatmapfilteri || i==heatmapfilteri)
 			{
-				var visible = [];
-				visible.push(data[0]);
-	
-				for(var k=1;k<data.length;++k)
+				var iLowerRange=d3.min(data,function(d){return parseFloat(d[5+i]);});
+				var iUpperRange=parseFloat(d3.max(data,function(d){return d[5+i];}))+stepSizes[i];
+				var iRange=d3.scale.linear().domain([iLowerRange,iUpperRange]).range([0,100]);
+				var iStepSize=iRange(iLowerRange+stepSizes[i]);
+
+//				console.log(iLowerRange);
+//				console.log(iUpperRange);
+
+				for(var j=i+1;j<3;++j)
 				{
-					var v=false;
-
-					for(var l=0;l<visible.length;++l)
+					if(-1==heatmapfilterj || j==heatmapfilterj)
 					{
-						if(visible[l][5+i]==data[k][5+i] && visible[l][5+j]==data[k][5+j])
+						var visible = [];
+						visible.push(data[0]);
+	
+						for(var k=1;k<data.length;++k)
 						{
-							v=true;
+							var v=false;
 
-							if(avgType)
-								if(getAvgPenalty(data[k])<getAvgPenalty(visible[l]))
-									visible[l]=data[k];
-							else
-								if(getAvgPenalty(data[k])>getAvgPenalty(visible[l]))
-                	                                                visible[l]=data[k];
-							break;
+							for(var l=0;l<visible.length;++l)
+							{
+								if(visible[l][5+i]==data[k][5+i] && visible[l][5+j]==data[k][5+j])
+								{
+									v=true;
+
+									if(avgType)
+										if(getAvgPenalty(data[k])<getAvgPenalty(visible[l]))
+											visible[l]=data[k];
+									else
+										if(getAvgPenalty(data[k])>getAvgPenalty(visible[l]))
+                	        		                                        visible[l]=data[k];
+									break;
+								}
+							}
+
+							if(!v)
+								visible.push(data[k]);
 						}
-					}
 
-					if(!v)
-						visible.push(data[k]);
-				}
+						var jLowerRange=d3.min(visible,function(d){return parseFloat(d[5+j]);});
+		        	        	var jUpperRange=parseFloat(d3.max(visible,function(d){return d[5+j];}))+stepSizes[j];
+        				        var jRange=d3.scale.linear().domain([jLowerRange,jUpperRange]).range([0,100]);
+	                			var jStepSize=jRange(jLowerRange+stepSizes[j]);
 
-				var jLowerRange=d3.min(visible,function(d){return parseFloat(d[5+j]);});
-        	        	var jUpperRange=parseFloat(d3.max(visible,function(d){return d[5+j];}))+stepSizes[j];
-        		        var jRange=d3.scale.linear().domain([jLowerRange,jUpperRange]).range([0,100]);
-	                	var jStepSize=jRange(jLowerRange+stepSizes[j]);
+//						console.log(jLowerRange);
+//						console.log(jUpperRange);
 
-//				console.log(jLowerRange);
-//				console.log(jUpperRange);
+						var group1 = svg.selectAll(".c"+i+"-"+j);
 
-				var group1 = svg.selectAll(".c"+i+"-"+j);
-
-/*				group1.append('image')
-					.attr('xlink:href','max.png')
-					.attr('height', '100')
-					.attr('width', '100')
+/*						group1.append('image')
+							.attr('xlink:href','max.png')
+							.attr('height', '100')
+							.attr('width', '100')
 */
-				var squares = group1.selectAll("rect").data(visible);
-				squares.enter().append("rect")
-					.attr("class",function(d){
-							return "r"+d[0];
-						})
-					.attr("x",function(d){
-							return iRange(d[5+i]);
-						})
-					.attr("y",function(d){
-       		       	                		return jRange(d[5+j]);
-			                       	})
-					.attr("width",iStepSize)
-					.attr("height",jStepSize)
-					.style("fill","white");
+						var squares = group1.selectAll("rect").data(visible);
+						squares.enter().append("rect")
+							.attr("class",function(d){
+									return "r"+d[0];
+								})
+							.attr("x",function(d){
+									return iRange(d[5+i]);
+								})
+							.attr("y",function(d){
+       		       	        		        		return jRange(d[5+j]);
+					                       	})
+							.attr("width",iStepSize)
+							.attr("height",jStepSize)
+							.style("fill","white");
 
-				squares.transition().duration(1000)
-					.style("fill",function(d){
-							//console.log(getAvgPenalty(d))
-        	               	        		return colorRange(getAvgPenalty(d));
-						});
-				squares/*.on("click",function(d) {
-						console.log("hallo");
-						svg.append("image")
-							.attr("xlink:href","svg1.svg")
-						//	.attr('height', '100')
-                                        	//	.attr('width', '100');
-						d3.event.stopPropagation();
-					})*/
-					.on("mouseover",function(d) {
-						d3.selectAll(".r"+d[0]).style("stroke", "white");
-						d3.event.stopPropagation();
-					})
-					.on("mouseout",function(d) {
-                                                d3.selectAll(".r"+d[0]).style("stroke", "none");
-                                                d3.event.stopPropagation();
-                                        });
+						squares.transition().duration(1000)
+							.style("fill",function(d){
+									//console.log(getAvgPenalty(d))
+        	               	        				return colorRange(getAvgPenalty(d));
+								});
+						squares/*.on("click",function(d) {
+								console.log("hallo");
+								svg.append("image")
+									.attr("xlink:href","svg1.svg")
+								//	.attr('height', '100')
+                                		        	//	.attr('width', '100');
+								d3.event.stopPropagation();
+							})*/
+							.on("mouseover",function(d) {
+									d3.selectAll(".r"+d[0]).style("stroke", "white");
+								d3.event.stopPropagation();
+							})
+							.on("mouseout",function(d) {
+		                                                d3.selectAll(".r"+d[0]).style("stroke", "none");
+                		                                d3.event.stopPropagation();
+                                		        });
 
-				group1.attr("transform","translate(" + i*130 + "," + (j-1)*130 + ")");
+						group1.attr("transform","translate(" + i*130 + "," + (j-1)*130 + ")");
 
-				squares.exit().remove();
+						squares.exit().remove();
 
+					}
+				}
 			}
 		}
+		
+		if(-1!=heatmapfilteri && -1!=heatmapfilterj)
+		{
+			var group = svg.selectAll(".c"+heatmapfilteri+"-"+heatmapfilterj);
+			group.transition().duration(1000).attr("transform","scale(4,4)");
+		}
+
 	};
 
 	if(-1==matrixfilter)

@@ -4,7 +4,8 @@ var results = [];		//2d array, that holds all nodes
 var clusters = [];		//3d array; 1st D: cluster, 2nd D: single node, 3rd D: node info
 var matrixloaded = false;
 var matrixfilter = -1;
-
+var heatmapfilteri = -1;
+var heatmapfilterj = -1;
 //reads the csv File from the input to the results array
 function loadCSV(evt) {
 	var file = evt.target.files[0];
