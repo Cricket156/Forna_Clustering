@@ -27,22 +27,24 @@ function doBarchart() {
 
 	var y_axis = d3.svg.axis()
  		.scale(y_scale)
-		.orient("left");
-		//.ticks(10, "%");
+		.orient("left")
+		.ticks(10, "%");
 
 	var canvas = svg.attr("width", width)
-			.attr("height", height + axis_distance)
+			.attr("height", height + axis_distance +20)
 			.append("g")
 			.attr("transform", "translate(20,0)");
 
 //	x_scale.domain(results.map(function(d) { return d[1]; }));
 //	y_scale.domain([0, d3.max(data, function(d) { return d.frequency; })]);
 
-/*	svg.append("g")
-		.attr("class", "xaxis")
-		.attr("transform", "translate(0," + height + ")")
-		.call(x_axis);
+	var height2=height+axis_distance;
 
+	svg.append("g")
+		.attr("class", "xaxis")
+		.attr("transform", "translate(0," + height2 + ")")
+		.call(x_axis);
+/*
 	svg.append("g")
 		.attr("class", "yaxis")
 		.call(y_axis)
