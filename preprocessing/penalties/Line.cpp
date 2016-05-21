@@ -76,25 +76,32 @@ bool Line::intersect(Line line)
 
 	double nenner = n*d;
 
-	//cout << nenner << endl;
-
 	if(nenner < 0.000001 && nenner > -0.000001)
 		return false;
 
 	double lambda = (n*N+n*(-1)*P)/nenner;
 
-	//cout << lambda << endl;
-
 	double length = getLength();
 
-	//cout << length << endl;
+	if(!(lambda > 0.001 && lambda < length-0.001))
+		return false;
+	
+	n=getVector().getNormal();
+        d=line.getVector();
+        N=getP1();
+        P=line.getP1();
 
-	if(lambda > 15 && lambda < length-15)
-	{
-		//cout << lambda << endl;
-		//cout << length << endl << endl;
-		return true;
-	}
+        nenner = n*d;
+
+        if(nenner < 0.000001 && nenner > -0.000001)
+                return false;
+
+        lambda = (n*N+n*(-1)*P)/nenner;
+
+        length = line.getLength();
+
+	if(lambda > 0.001 && lambda < length-0.001)
+                return true;
 
 	return false;
 }
