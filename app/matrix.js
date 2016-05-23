@@ -113,14 +113,92 @@ function doMatrix() {
 									//console.log(getAvgPenalty(d))
         	               	        				return colorRange(getAvgPenalty(d));
 								});
-						squares/*.on("click",function(d) {
-								console.log("hallo");
-								svg.append("image")
-									.attr("xlink:href","svg1.svg")
-								//	.attr('height', '100')
-                                		        	//	.attr('width', '100');
+						squares.on("click",function(d) {
+								var group = svg.append("g").attr("class","vis");
+
+								//console.log("hallo");
+								group.append("rect")
+									.attr("class","details")
+									.attr("x",0)
+									.attr("y",0)
+									.attr("width",400)
+									.attr("height",300)
+									.attr("fill","yellow");
+
+								/*d3.xml("close.svg", "image/svg+xml", function(error, xml) {
+										if (error) throw error;
+
+										var svgNode = xml
+                                                                                .getElementsByTagName("svg")[0];
+
+                                                                        	svg.node().appendChild(svgNode);
+
+                                                                        	svg.select("#Capa_1")
+											.attr("transform","translate(365,10),scale(0.05,0.05)")
+											.select("path").on("click",function(d){
+													console.log("test");
+												});
+									});*/
+
+								d3.xml("svg1.svg", "image/svg+xml", function(error, xml) {
+										if (error) throw error;
+
+										var svgNode = xml
+                                                                                .getElementsByTagName("svg")[0];
+
+                                                                        	svg.node().appendChild(svgNode);
+
+                                                                        	svg.select("#plotting-area").select("g")
+											.attr("transform","scale(0.5,0.5)")
+											.on("click",function(d) {
+                                                                                 		window.open("./svg1.svg");
+                                                                                });
+									});
+
+								var group_new_window = group.append("g").attr("class","new_window");
+
+								group_new_window.append("rect")
+									.attr("class","vis_rect")
+									.attr("x",10)
+									.attr("y",10)
+									.attr("width",200)
+									.attr("height",280)
+									.attr("fill","white")
+									.on("click",function(d) {
+											console.log("test");
+											window.open("./svg1.svg");
+										});
+
+								var group_close = group.append("g").attr("class","close");
+
+								group_close.append('image')
+									.attr('xlink:href','close.jpg')
+									.attr('height', 20)
+									.attr('width', 20)
+									.on("click",function(d) {
+											svg.select("#plotting-area").remove();
+											svg.selectAll(".vis").remove();
+										});
+
+								group_close.attr("transform","translate(370,7)");
+
+								group.append("text")
+									.attr("x",250)
+									.attr("y",50)
+									.text("Overlaps: " + d[2]);
+
+								group.append("text")
+									.attr("x",250)
+									.attr("y",65)
+									.text("Stretches: " + d[3]);
+
+								group.append("text")
+									.attr("x",250)
+									.attr("y",80)
+									.text("Position: " + d[4]);
+
 								d3.event.stopPropagation();
-							})*/
+							})
 							.on("mouseover",function(d) {
 									d3.selectAll(".r"+d[0]).style("stroke", "white");
 								d3.event.stopPropagation();
