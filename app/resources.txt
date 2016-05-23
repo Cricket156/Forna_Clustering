@@ -7,3 +7,6 @@ parallelCoordinates:
 
 library:
 https://syntagmatic.github.io/parallel-coordinates/
+
+andere parallel Coordinates (mehr zum selbermachen)
+https://bl.ocks.org/jasondavies/1341281
