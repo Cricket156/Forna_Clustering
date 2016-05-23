@@ -129,16 +129,18 @@ function doBarchart() {
                 .attr("height", function(d) {
                                 return y_scale(d.length);
                         })
-		.on("click", function(d,i) {
+		.on("click", function(d) {
 				//d3.select("#matrix").selectAll("rect").style("fill", );
-				if(i==matrixfilter)
+				cluster=d[0][1];
+
+				if(cluster==matrixfilter)
 				{
 					matrixfilter=-1;
 					doMatrix();
 				}				
 				else if(-1==matrixfilter)
 				{
-					matrixfilter=i;
+					matrixfilter=cluster;
 					doMatrix();
 				}
 				d3.event.stopPropagation();
