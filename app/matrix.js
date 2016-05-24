@@ -256,10 +256,7 @@ function doMatrix() {
 	else
 		drawHeatmaps(clusters[matrixfilter]);
 
-	d3.select("body").append("input")
-        .attr("value", "Change AvgPenalty")
-        .attr("type", "button")
-        .attr("class", "dataset-button")
+	d3.select("body").select("#ChangeMatrix")
         .on("click", function(d) {
                 avgType=!avgType;
 		if(-1==matrixfilter)
