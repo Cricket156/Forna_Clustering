@@ -78,21 +78,19 @@ function doMatrix() {
 								visible.push(data[k]);
 						}
 
-						var jLowerRange=d3.min(visible,function(d){return parseFloat(d[5+j]);});
-		        	        	var jUpperRange=parseFloat(d3.max(visible,function(d){return d[5+j];}))+stepSizes[j];
+						var jLowerRange=d3.min(data,function(d){return parseFloat(d[5+j]);});
+		        	        	var jUpperRange=parseFloat(d3.max(data,function(d){return d[5+j];}))+stepSizes[j];
         				        var jRange=d3.scale.linear().domain([jLowerRange,jUpperRange]).range([0,100]);
 	                			var jStepSize=jRange(jLowerRange+stepSizes[j]);
 
-//						console.log(jLowerRange);
-//						console.log(jUpperRange);
+						console.log(iStepSize);
+						console.log(jStepSize);
 
 						var group1 = svg.selectAll(".c"+i+"-"+j);
 
-/*						group1.append('image')
-							.attr('xlink:href','max.png')
-							.attr('height', '100')
-							.attr('width', '100')
-*/
+						if(rangeschanged)
+							group1.selectAll("rect").remove();
+
 						var squares = group1.selectAll("rect").data(visible);
 						squares.enter().append("rect")
 							.attr("class",function(d){
@@ -196,6 +194,31 @@ function doMatrix() {
 									.attr("x",250)
 									.attr("y",80)
 									.text("Position: " + d[4]);
+
+								group.append("text")
+                                                                        .attr("x",250)
+                                                                        .attr("y",95)
+                                                                        .text("Cluster: " + d[1]);
+
+								group.append("text")
+                                                                        .attr("x",250)
+                                                                        .attr("y",120)
+                                                                        .text("parameter1: " + d[5]);
+
+								group.append("text")
+                                                                        .attr("x",250)
+                                                                        .attr("y",135)
+                                                                        .text("parameter2: " + d[6]);
+
+								group.append("text")
+                                                                        .attr("x",250)
+                                                                        .attr("y",150)
+                                                                        .text("parameter3: " + d[7]);
+
+								group.append("text")
+                                                                        .attr("x",250)
+                                                                        .attr("y",180)
+                                                                        .text("Nummer: " + d[0]);
 
 								d3.event.stopPropagation();
 							})

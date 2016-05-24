@@ -135,14 +135,19 @@ function doBarchart() {
 
 				if(cluster==matrixfilter)
 				{
+					rangeschanged=true;
 					matrixfilter=-1;
 					doMatrix();
+					rangeschanged=false;
 				}				
-				else if(-1==matrixfilter)
+				else// if(-1==matrixfilter)
 				{
+					rangeschanged=true;
 					matrixfilter=cluster;
 					doMatrix();
+					rangeschanged=false;
 				}
+
 				d3.event.stopPropagation();
 			})
 		.on("mouseover", function(d) {
