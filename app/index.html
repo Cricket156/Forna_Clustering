@@ -7,17 +7,53 @@
 	<link href="css/bootstrap.css" type="text/css" rel="stylesheet" />
 	<link href="css/font-awesome.min.css" type="text/css" rel="stylesheet" />
 	<link href="css/style.css" type="text/css" rel="stylesheet" />
-	<link href="css/d3.parcoords.css" type="text/css" rel="stylesheet" />
+	<!--<link href="css/d3.parcoords.css" type="text/css" rel="stylesheet" />-->
 	
 	<link href='http://fonts.googleapis.com/css?family=Ruluko' rel='stylesheet' type='text/css' />
 	
 	<script src="include/d3.js"></script>
-	<script src="include/d3.parcoords.js"></script>
+	<!--<script src="include/d3.parcoords.js"></script>-->
 	
 	<script src="barchart.js"></script>
 	<script src="parallelCoordinates.js"></script>
 	<script src="matrix.js"></script>
 	<script src="barchart.js"></script>
+	<style>
+
+svg {
+  font: 10px sans-serif;
+}
+
+.background path {
+  fill: none;
+  stroke: #ddd;
+  shape-rendering: crispEdges;
+}
+
+.foreground path {
+  fill: none;
+  stroke: steelblue;
+}
+
+.brush .extent {
+  fill-opacity: .3;
+  stroke: #fff;
+  shape-rendering: crispEdges;
+}
+
+.axis line,
+.axis path {
+  fill: none;
+  stroke: #000;
+  shape-rendering: crispEdges;
+}
+
+.axis text {
+  text-shadow: 0 1px 0 #fff, 1px 0 0 #fff, 0 -1px 0 #fff, -1px 0 0 #fff;
+  cursor: move;
+}
+
+</style>
 </head>
 <body>
 	<nav class="navbar navbar-inverse navbar-fixed-top" role="navigation">
@@ -32,22 +68,26 @@
 	</nav>
 	<section>
 		<div class="col-md-2">
-			<div class="row" style="margin-top: 40px; margin-left: 10px">
+			<h5>Load Data</h5>
+			<div class="row" style="margin-left: 10px">
 				<input type="file" id="file" accept=".csv"/>
+			</div>
+			<h5>Change Matrix View</h5>
+			<div class="row" style="margin-left: 10px">
+				<input type="button" id="ChangeMatrix" onClick="f" value="Change to Average Penalty"/>
 			</div>
 		</div>
 		<div class="col-md-10">
 			<div class="row">
-				<div class="col-md-9">
+				<div class="col-md-10">
 					<svg id="barchart" height="250px" width="100%"></svg>
 				</div>
 			</div>
 			<div class="row">
-				<div class="col-md-3">
-					<div id="example" class="parcoords" style="width:360px;height:150px"></div>
-					<!--<svg id="parallelCoordinates" width="100%"></svg>-->
+				<div class="col-md-5">
+					<svg id="parallelCoordinates" width="100%"></svg>
 				</div>
-				<div class="col-md-6">
+				<div class="col-md-5">
 					<svg id="matrix" width="100%"></svg>
 				</div>
 			</div>
