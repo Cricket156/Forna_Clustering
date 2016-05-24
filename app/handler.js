@@ -38,8 +38,6 @@ function loadCSV(evt) {
 			doBarchart();
 			doParallelCoordinates();
 			doMatrix();
-
-			console.log(clusters);
 		}
 	}
 	else { 

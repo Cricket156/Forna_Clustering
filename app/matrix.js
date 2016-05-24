@@ -83,17 +83,25 @@ function doMatrix() {
         				        var jRange=d3.scale.linear().domain([jLowerRange,jUpperRange]).range([0,100]);
 	                			var jStepSize=jRange(jLowerRange+stepSizes[j]);
 
-						console.log(iStepSize);
-						console.log(jStepSize);
+//						console.log(iStepSize);
+//						console.log(jStepSize);
 
 						var group1 = svg.selectAll(".c"+i+"-"+j);
 
-						if(rangeschanged)
-							group1.selectAll("rect").remove();
+//						if(rangeschanged)
+//							group1.selectAll("rect").remove();
 
 						var squares = group1.selectAll("rect").data(visible);
+						squares.style("fill",function(d){
+                                                                        //console.log(getAvgPenalty(d))
+                                                                        return colorRange(getAvgPenalty(d));
+                                                                });
 						squares.enter().append("rect")
-							.attr("class",function(d){
+							.style("fill",function(d){
+                                                                        //console.log(getAvgPenalty(d))
+                                                                        return colorRange(getAvgPenalty(d));
+								});
+						squares.attr("class",function(d){
 									return "r"+d[0];
 								})
 							.attr("x",function(d){
@@ -103,14 +111,9 @@ function doMatrix() {
        		       	        		        		return jRange(d[5+j]);
 					                       	})
 							.attr("width",iStepSize)
-							.attr("height",jStepSize)
-							.style("fill","white");
+							.attr("height",jStepSize);
+                                                                
 
-						squares.transition().duration(1000)
-							.style("fill",function(d){
-									//console.log(getAvgPenalty(d))
-        	               	        				return colorRange(getAvgPenalty(d));
-								});
 						squares.on("click",function(d) {
 								var group = svg.append("g").attr("class","vis");
 
