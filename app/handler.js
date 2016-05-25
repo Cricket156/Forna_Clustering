@@ -2,6 +2,7 @@ document.getElementById('file').addEventListener('change', loadCSV, false);
 
 var results = [];		//2d array, that holds all nodes
 var clusters = [];		//3d array; 1st D: cluster, 2nd D: single node, 3rd D: node info
+var columnnames = [];
 var matrixloaded = false;
 var matrixfilter = -1;
 var rangeschanged = false;
@@ -17,6 +18,11 @@ function loadCSV(evt) {
 			var csv = e.target.result;
 			var allTextLines = csv.split(/\r\n|\n/);
 
+			var line1 = allTextLines[0].split(',');
+                        for (var j=0; j<line1.length; j++) {
+                        	columnnames.push(line1[j]);
+			}
+                                
 			for (var i=1; i<allTextLines.length-1; i++) {
 				var data = allTextLines[i].split(',');
 					var line = [];
@@ -38,6 +44,8 @@ function loadCSV(evt) {
 			doBarchart();
 			doParallelCoordinates();
 			doMatrix();
+
+			initDropdown();
 		}
 	}
 	else { 
@@ -59,4 +67,35 @@ function extractClusters() {
 			cluster.push(results[i]);
 		}
 	}
+}
+
+function initDropdown() {
+        var dropdown_x=d3.select("#filterxaxis");
+	var dropdown_y=d3.select("#filteryaxis");
+
+        for(var i=5;i<columnnames.length-1;++i)
+        {
+                dropdown_x.append("option")
+                        .attr("value",i)
+                        .text(columnnames[i]);
+		dropdown_x.on("change",function(d) {
+				var index = dropdown_x.property("selectedIndex"),
+                                s = dropdown_x.selectAll("option").filter(function (d, i) { return i === index }),
+                                heatmapfilteri = s.attr("value")-5;
+
+				console.log(heatmapfilteri);
+                                doMatrix();
+			});
+
+		dropdown_y.append("option")
+                        .attr("value",i)
+                        .text(columnnames[i]);
+                dropdown_y.on("change",function(d) {
+				var index = dropdown_y.property("selectedIndex"),
+			        s = dropdown_y.selectAll("option").filter(function (d, i) { return i === index }),
+        			heatmapfilterj = s.attr("value")-5;
+				console.log(heatmapfilterj);
+                                doMatrix();
+                        });
+        }
 }
