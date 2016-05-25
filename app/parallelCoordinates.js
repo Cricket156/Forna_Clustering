@@ -7,9 +7,9 @@ var x, y, dragging, line, axis, background, foreground;
 function doParallelCoordinates() {
 	var marginTop = 30,
 		marginBottom = 10,
-		marginSide = 10,
-		width = 400,
-		height = 300;
+		marginSide = 10;
+		width = parseFloat(d3.select("#parallelCoordinates").style("width")),
+		height = parseFloat(d3.select("#parallelCoordinates").style("height"));
 	
 	var svg = d3.select("#parallelCoordinates")
 		.attr("width", width + 2*marginSide)
@@ -64,7 +64,11 @@ function doParallelCoordinates() {
 		.selectAll("path")
 		.data(data)
 		.enter().append("path")
-		.attr("d", path);
+		.attr("d", path)
+		.on("click", function(d, i) {
+			console.log(d);
+			console.log(data[i]);
+		});
 
 	// Add a group element for each dimension.
 	var g = svg.selectAll(".dimension")
@@ -84,7 +88,7 @@ function doParallelCoordinates() {
 		.append("text")
 		.style("text-anchor", "middle")
 		.attr("y", -9)
-		.text(function(d) { return d; });
+		.text(function(d) { return data[0][d]; });
 
 	// Add and store a brush for each axis.
 	g.append("g")
@@ -132,7 +136,7 @@ function brush() {
 function cutData(data) {
 	var newData = [];
 
-	var line = ["friction", "middleCharge", "otherCharge"];
+	var line = ["friction", "middleCharge", "otherCharge", "parameter4", "parameter5"];
 	newData.push(line);
 	for (var i = 0; i < data.length; i++) {
 		var line = [];
