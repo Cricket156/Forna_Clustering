@@ -10,31 +10,22 @@ function doParallelCoordinates() {
 	var marginTop = 30,
 		marginBottom = 10,
 		marginSide = 10;
-		width = parseFloat(d3.select("#parallelCoordinates").style("width")) - 2*marginSide,
-		height = parseFloat(d3.select("#parallelCoordinates").style("height")) - marginBottom - marginTop;
+		
+	var width = document.getElementById('parallelCoordinatesDiv').clientWidth - 2*marginSide;
+	var height = (window.innerHeight-60)*(2/3) - marginBottom - marginTop;
+	
+	//	width = parseFloat(d3.select("#parallelCoordinates").style("width")) - 2*marginSide,
+	//	height = parseFloat(d3.select("#parallelCoordinates").style("height")) - marginBottom - marginTop;
 	
 	var svg = d3.select("#parallelCoordinates")
 		.attr("width", width + 2*marginSide)
-		.attr("height", height + marginBottom + marginTop)
-		.append("g")
-		.attr("transform", "translate(" + marginSide + "," +marginTop + ")");
+		.attr("height", height + marginBottom + marginTop);
 	
-	/*
-	var svg = d3.select("#parallelCoordinates");
-	
-	svg.attr("width", parseFloat(svg.style("width")) + 2*marginSide)
-		.attr("height", parseFloat(svg.style("height")) - marginBottom - marginTop);
+	var wrapper = svg.append('g');
 
-	svg.append("g")
-		.attr("transform", "translate(" + marginSide + "," +marginTop + ")");
-	
-	*/
-	/*
-	var svg = d3.select("#parallelCoordinates")
-		.append("g")
-		.attr("transform", "translate(" + 10 + "," + 30 + ")");;
-	*/
 	if (matrixfilter != -1) {
+		wrapper.append("g")
+			.attr("transform", "translate(" + marginSide + "," + marginTop + ")");
 		
 		data = cutData(clusters[matrixfilter]);
 
@@ -53,16 +44,15 @@ function doParallelCoordinates() {
 		}));
 
 		// Add grey background lines for context.
-		background = svg.append("g")
+		background = wrapper.select("g").append("g")
 			.attr("class", "background")
 			.selectAll("path")
 			.data(data)
 			.enter().append("path")
 			.attr("d", path);
 
-
 		// Add blue foreground lines for focus.
-		foreground = svg.append("g")
+		foreground = wrapper.select("g").append("g")
 			.attr("class", "foreground")
 			.selectAll("path")
 			.data(data)
@@ -75,7 +65,7 @@ function doParallelCoordinates() {
 			});
 
 		// Add a group element for each dimension.
-		var g = svg.selectAll(".dimension")
+		var g = wrapper.select("g").selectAll(".dimension")
 			.data(dimensions)
 			.enter().append("g")
 			.attr("class", "dimension")
@@ -98,7 +88,9 @@ function doParallelCoordinates() {
 		g.append("g")
 			.attr("class", "brush")
 			.each(function(d) {
-				d3.select(this).call(y[d].brush = d3.svg.brush().y(y[d]).on("brushstart", brushstart).on("brush", brush));
+				d3.select(this).call(y[d].brush = d3.svg.brush().y(y[d]).on("brushstart", function() {
+						d3.event.sourceEvent.stopPropagation();
+					}).on("brush", brush));
 			})
 			.selectAll("rect")
 			.attr("x", -8)
@@ -111,19 +103,11 @@ function position(d) {
 	return v == null ? x(d) : v;
 }
 
-function transition(g) {
-	return g.transition().duration(500);
-}
-
 // Returns the path for a given data point.
 function path(d) {
 	return line(dimensions.map(function(p) { 
 		return [position(p), y[p](d[p])]; 
 	}));
-}
-
-function brushstart() {
-	d3.event.sourceEvent.stopPropagation();
 }
 
 // Handles a brush event, toggling the display of foreground lines.

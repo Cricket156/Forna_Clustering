@@ -1,16 +1,15 @@
 function doBarchart() {
 	var svg = d3.select("#barchart");
 	
-	var height = 250;
-	var width = 500;
+	var marginSide = 10,
+		marginBottom = 30,
+		marginTop = 10;
+	
+	var width = document.getElementById('barchartDiv').clientWidth - 2*marginSide;
+	var height = (window.innerHeight-60)*(1/3) - marginBottom - marginTop;
+	
 	var axis_distance=30;
 	
-/*	svg.append("circle")
-		.attr("cx", 100)
-		.attr("cy", 100)
-		.attr("r", 20);
-*/
-
 	var cluster_count=clusters.length;
 
 	var x_scale = d3.scale.linear()

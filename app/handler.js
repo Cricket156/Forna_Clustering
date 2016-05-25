@@ -1,4 +1,5 @@
 document.getElementById('file').addEventListener('change', loadCSV, false);
+window.addEventListener('resize', doAll);
 
 var results = [];		//2d array, that holds all nodes
 var clusters = [];		//3d array; 1st D: cluster, 2nd D: single node, 3rd D: node info
@@ -10,10 +11,6 @@ var heatmapfilteri = -1;
 var heatmapfilterj = -1;
 //reads the csv File from the input to the results array
 function loadCSV(evt) {
-	d3.select("#barchart").selectAll("*").remove();
-	d3.select("#parallelCoordinates").selectAll("*").remove();
-	d3.select("#matrix").selectAll("*").remove();
-	
 	var file = evt.target.files[0];
 	if (file) {
 		var reader = new FileReader();
@@ -52,10 +49,7 @@ function loadCSV(evt) {
 //TODO: nur eine Übergangslösung, sollte eine bessere Stelle zum Aufruf gefunden werden..
 			initDropdown();
 			extractClusters();
-			doBarchart();
-			doParallelCoordinates();
-			doMatrix();
-
+			doAll();
 		}
 	}
 	else { 
@@ -107,4 +101,14 @@ function initDropdown() {
                                 doMatrix();
                         });
         }
+}
+
+function doAll() {
+	d3.select("#barchart").selectAll("*").remove();
+	d3.select("#parallelCoordinates").selectAll("*").remove();
+//	d3.select("#matrix").selectAll("*").remove();
+	
+	doBarchart();
+	doParallelCoordinates();
+	doMatrix();
 }
