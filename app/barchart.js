@@ -129,32 +129,41 @@ function doBarchart() {
                 .attr("height", function(d) {
                                 return y_scale(d.length);
                         })
-		.on("click", function(d,i) {
+		.on("click", function(d) {
 				//d3.select("#matrix").selectAll("rect").style("fill", );
-				if(i==matrixfilter)
+				cluster=d[0][1];
+
+				if(cluster==matrixfilter)
 				{
+					rangeschanged=true;
 					matrixfilter=-1;
 					doMatrix();
+					rangeschanged=false;
 				}				
-				else if(-1==matrixfilter)
+				else// if(-1==matrixfilter)
 				{
-					matrixfilter=i;
+					rangeschanged=true;
+					matrixfilter=cluster;
 					doMatrix();
+					rangeschanged=false;
+
+					d3.select("#matrix").selectAll("rect").style("opacity",1.0);
 				}
+
+				d3.select("#matrix").selectAll("rect").style("opacity",1.0);
+
 				d3.event.stopPropagation();
 			})
 		.on("mouseover", function(d) {
 				cluster=d[0][1];
-				d3.select("#matrix").selectAll("rect").each( function(d, i){
+				d3.select("#matrix").selectAll("rect").each( function(d){
 					if(cluster!=d[1])
 						d3.select(this).style("opacity",0.5);
 				});
 				d3.event.stopPropagation();
 			})
 		.on("mouseout", function(d) {
-				d3.select("#matrix").selectAll("rect").each( function(d, i){
-                                        d3.select(this).style("opacity",1.0);
-                                });
+				d3.select("#matrix").selectAll("rect").style("opacity",1.0);
 				d3.event.stopPropagation();
                         });
 

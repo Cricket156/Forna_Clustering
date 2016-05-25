@@ -184,20 +184,20 @@ int getStretchPenalty(vector<Line>* p_lines)
 {
 	int stretches=0;
 
-	double average_length=(*p_lines)[0].getLength();
+	double min_length=(*p_lines)[0].getLength();
 
 	for(unsigned i=1;i<p_lines->size();++i)
-		//if(lines[i].getLength()<min_length)
-		//	min_length=lines[i].getLength();
-		average_length+=(*p_lines)[i].getLength();
+		if((*p_lines)[i].getLength()<min_length)
+			min_length=(*p_lines)[i].getLength();
+		//average_length+=(*p_lines)[i].getLength();
 
-	average_length/=p_lines->size();
+	//average_length/=p_lines->size();
 
 	//cout << "Durchschnittliche Laenge: " << average_length << endl;
 	//cout << "Kleinste Laenge: " << min_length << endl;
 
 	for(unsigned i=0;i<p_lines->size();++i)
-		if((*p_lines)[i].getLength()>5*average_length)
+		if((*p_lines)[i].getLength()>3*min_length)
 			++stretches;
 	return stretches;
 }
