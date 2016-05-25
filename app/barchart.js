@@ -138,6 +138,7 @@ function doBarchart() {
 					rangeschanged=true;
 					matrixfilter=-1;
 					doMatrix();
+					doParallelCoordinates();
 					rangeschanged=false;
 				}				
 				else// if(-1==matrixfilter)
@@ -145,6 +146,7 @@ function doBarchart() {
 					rangeschanged=true;
 					matrixfilter=cluster;
 					doMatrix();
+					doParallelCoordinates();
 					rangeschanged=false;
 
 					d3.select("#matrix").selectAll("rect").style("opacity",1.0);
@@ -165,7 +167,7 @@ function doBarchart() {
 		.on("mouseout", function(d) {
 				d3.select("#matrix").selectAll("rect").style("opacity",1.0);
 				d3.event.stopPropagation();
-                        });
+                });
 
 	console.log("Barchart done");
 }
