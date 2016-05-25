@@ -102,7 +102,7 @@ function doMatrix() {
                                                                         return colorRange(getAvgPenalty(d));
 								});
 						squares.attr("class",function(d){
-									return "r"+d[0];
+									return "r"+d[0]+" i"+i+" j"+j;
 								})
 							.attr("x",function(d){
 									return iRange(d[5+i]);
