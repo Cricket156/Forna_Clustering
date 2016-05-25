@@ -10,6 +10,10 @@ var heatmapfilteri = -1;
 var heatmapfilterj = -1;
 //reads the csv File from the input to the results array
 function loadCSV(evt) {
+	d3.select("#barchart").selectAll("*").remove();
+	d3.select("#parallelCoordinates").selectAll("*").remove();
+	d3.select("#matrix").selectAll("*").remove();
+	
 	var file = evt.target.files[0];
 	if (file) {
 		var reader = new FileReader();
@@ -30,15 +34,21 @@ function loadCSV(evt) {
 						line.push(parseFloat(data[j]));
 					}
 					results.push(line);
-
 			}
 
 	//TODO vorlaeufige Festlegung der Groesse des svgs
-	var svg = d3.select("#matrix");
-	svg.attr("width",500)
+	d3.select("#matrix")
+		.attr("width",500)
 		.attr("height",500);
-		
 
+	d3.select("#parallelCoordinates")
+		.attr("width", 300)
+		.attr("height", 400);
+		
+	d3.select("barchart")
+		.attr("width", 800)
+		.attr("height", 200);
+		
 //TODO: nur eine Übergangslösung, sollte eine bessere Stelle zum Aufruf gefunden werden..
 			initDropdown();
 			extractClusters();
