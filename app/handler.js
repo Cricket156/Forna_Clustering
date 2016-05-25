@@ -40,12 +40,12 @@ function loadCSV(evt) {
 		
 
 //TODO: nur eine Übergangslösung, sollte eine bessere Stelle zum Aufruf gefunden werden..
+			initDropdown();
 			extractClusters();
 			doBarchart();
 			doParallelCoordinates();
 			doMatrix();
 
-			initDropdown();
 		}
 	}
 	else { 
@@ -80,9 +80,8 @@ function initDropdown() {
                         .text(columnnames[i]);
 		dropdown_x.on("change",function(d) {
 				var index = dropdown_x.property("selectedIndex"),
-                                s = dropdown_x.selectAll("option").filter(function (d, i) { return i === index }),
-                                heatmapfilteri = s.attr("value")-5;
-
+                                s = dropdown_x.selectAll("option").filter(function (d, i) { return i === index });
+                                heatmapfilteri  = s.attr("value")-5;
 				console.log(heatmapfilteri);
                                 doMatrix();
 			});
@@ -92,7 +91,7 @@ function initDropdown() {
                         .text(columnnames[i]);
                 dropdown_y.on("change",function(d) {
 				var index = dropdown_y.property("selectedIndex"),
-			        s = dropdown_y.selectAll("option").filter(function (d, i) { return i === index }),
+			        s = dropdown_y.selectAll("option").filter(function (d, i) { return i === index });
         			heatmapfilterj = s.attr("value")-5;
 				console.log(heatmapfilterj);
                                 doMatrix();

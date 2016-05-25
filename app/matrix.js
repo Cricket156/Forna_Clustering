@@ -242,7 +242,9 @@ function doMatrix() {
 				}
 			}
 		}
-		
+
+		console.log(heatmapfilteri);	
+	
 		if(-1!=heatmapfilteri && -1!=heatmapfilterj)
 		{
 			var group = svg.selectAll(".c"+heatmapfilteri+"-"+heatmapfilterj);
