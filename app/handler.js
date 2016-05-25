@@ -23,8 +23,8 @@ function loadCSV(evt) {
 			var allTextLines = csv.split(/\r\n|\n/);
 
 			var line1 = allTextLines[0].split(',');
-                        for (var j=0; j<line1.length; j++) {
-                        	columnnames.push(line1[j]);
+			for (var j=0; j<line1.length; j++) {
+				columnnames.push(line1[j]);
 			}
                                 
 			for (var i=1; i<allTextLines.length-1; i++) {

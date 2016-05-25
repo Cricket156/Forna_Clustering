@@ -10,8 +10,8 @@ function doParallelCoordinates() {
 	var marginTop = 30,
 		marginBottom = 10,
 		marginSide = 10;
-		width = parseFloat(d3.select("#parallelCoordinates").style("width")),
-		height = parseFloat(d3.select("#parallelCoordinates").style("height"));
+		width = parseFloat(d3.select("#parallelCoordinates").style("width")) - 2*marginSide,
+		height = parseFloat(d3.select("#parallelCoordinates").style("height")) - marginBottom - marginTop;
 	
 	var svg = d3.select("#parallelCoordinates")
 		.attr("width", width + 2*marginSide)
@@ -70,7 +70,8 @@ function doParallelCoordinates() {
 			.attr("d", path)
 			.on("click", function(d, i) {
 				console.log(d);
-				console.log(results[i+1]);
+				console.log(i);
+				console.log(data[i]);
 			});
 
 		// Add a group element for each dimension.
@@ -140,7 +141,11 @@ function brush() {
 function cutData(data) {
 	var newData = [];
 
-	var line = ["friction", "middleCharge", "otherCharge", "multiplier", "chargeDistance"];
+	var line = [];
+	for (var i = 5; i < columnnames.length-1; i++) {
+		line.push(columnnames[i]);
+	}
+	
 	newData.push(line);
 	for (var i = 0; i < data.length; i++) {
 		var line = [];
