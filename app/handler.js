@@ -124,7 +124,7 @@ function initDropdown() {
 function doAll() {
 	d3.select("#barchart").selectAll("*").remove();
 	d3.select("#parallelCoordinates").selectAll("*").remove();
-	d3.select("#matrix").selectAll("*").remove();
+	d3.select("#matrix").select("g").selectAll("g").selectAll("*").remove();
 	
 	doBarchart();
 	doParallelCoordinates();

@@ -1,11 +1,42 @@
 function doMatrix() {
 
 	var svg = d3.select("#matrix");
+	var svg_direct = svg;
 	
 	svg.select(".new").remove();
-
-	//TODO Bessere Moeglichkeit? (button wird dadurch nicht geloescht, vl eher im handler.js?)
-	//svg.selectAll("*").remove();
+	
+	if(!matrixloaded)
+	{
+		svg = svg.append("g");
+		for(var i=5;i<8;++i)
+			for(var j=i+1;j<8;++j)
+				var group1 = svg.append("g")
+                			.attr("class","c"+i+"-"+j);	
+		matrixloaded=true;
+	}
+	else
+		svg = svg.select("g");
+	
+	var marginSide = 10,
+		marginBottom = 10,
+		marginTop = 10;
+	
+	var width = document.getElementById('matrixDiv').clientWidth;
+	var height = (window.innerHeight-60)*(2/3);
+	
+	
+	var wh;
+	
+	if(width<height)
+		wh=width;
+	else
+		wh=height;
+	
+	svg_direct.attr("width", wh)
+		.attr("height", wh);
+		
+	svg.attr("transform", "scale("+wh/500+","+wh/500+")");
+	//svg.attr("transform","scale("+width/500+","+height/500+")");
 
 	//Iwo muss gespeichert sein, wie die StepSize beim Generieren war (oder iwie ausrechnen)
 	var stepSizes = [0,0,1,1,1,0.2,6.0,6.0];
@@ -243,16 +274,7 @@ function doMatrix() {
 	var colorRange=d3.scale.linear().
 			domain([d3.min(results,function(d){return getAvgPenalty(d);}),
 				d3.max(results,function(d){return getAvgPenalty(d);})])
-			.range(["green","red"]);	
-
-	if(!matrixloaded)
-	{
-		for(var i=5;i<8;++i)
-			for(var j=i+1;j<8;++j)
-				var group1 = svg.append("g")
-                			.attr("class","c"+i+"-"+j);	
-		matrixloaded=true;
-	}
+			.range(["green","red"]);
 
 	var drawHeatmaps = function(data)
 	{
