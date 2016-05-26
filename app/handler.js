@@ -6,11 +6,18 @@ var clusters = [];		//3d array; 1st D: cluster, 2nd D: single node, 3rd D: node 
 var columnnames = [];
 var matrixloaded = false;
 var matrixfilter = -1;
-var rangeschanged = false;
 var heatmapfilteri = -1;
 var heatmapfilterj = -1;
 //reads the csv File from the input to the results array
 function loadCSV(evt) {
+	results = [];
+	clusters = [];
+	columnnames = [];
+	matrixloaded = false;
+	matrixfilter = -1;
+	heatmapfilteri = -1;
+	heatmapfilterj = -1;
+
 	var file = evt.target.files[0];
 	if (file) {
 		var reader = new FileReader();
@@ -117,7 +124,7 @@ function initDropdown() {
 function doAll() {
 	d3.select("#barchart").selectAll("*").remove();
 	d3.select("#parallelCoordinates").selectAll("*").remove();
-//	d3.select("#matrix").selectAll("*").remove();
+	d3.select("#matrix").selectAll("*").remove();
 	
 	doBarchart();
 	doParallelCoordinates();
