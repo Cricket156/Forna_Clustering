@@ -74,9 +74,17 @@ function extractClusters() {
 }
 
 function initDropdown() {
-        var dropdown_x=d3.select("#filterxaxis");
+	var dropdown_x=d3.select("#filterxaxis");
 	var dropdown_y=d3.select("#filteryaxis");
 
+	dropdown_x.append("option")
+		.attr("value",-1)
+		.text("no selection");
+		
+	dropdown_y.append("option")
+		.attr("value",-1)
+		.text("no selection");
+	
         for(var i=5;i<columnnames.length-1;++i)
         {
                 dropdown_x.append("option")
@@ -85,8 +93,7 @@ function initDropdown() {
 		dropdown_x.on("change",function(d) {
 				var index = dropdown_x.property("selectedIndex"),
                                 s = dropdown_x.selectAll("option").filter(function (d, i) { return i === index });
-                                heatmapfilteri  = s.attr("value")-5;
-				console.log(heatmapfilteri);
+                                heatmapfilteri  = s.attr("value");
                                 doMatrix();
 			});
 
@@ -96,11 +103,15 @@ function initDropdown() {
                 dropdown_y.on("change",function(d) {
 				var index = dropdown_y.property("selectedIndex"),
 			        s = dropdown_y.selectAll("option").filter(function (d, i) { return i === index });
-        			heatmapfilterj = s.attr("value")-5;
-				console.log(heatmapfilterj);
+        			heatmapfilterj = s.attr("value");
                                 doMatrix();
                         });
         }
+		
+		/*for(var i=2;i<5;++i)
+		dropdown_y.append("option")
+				.attr("value",i)
+                .text(columnnames[i]);*/
 }
 
 function doAll() {
