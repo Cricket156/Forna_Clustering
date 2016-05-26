@@ -75,137 +75,171 @@ function doMatrix() {
 			group1 = svg.select(".c"+i+"-"+j);
 		}
 
-		var squares = group1.selectAll("rect").data(visible);
-		squares.style("fill",function(d){
-				return colorRange(getAvgPenalty(d));
-			});
-		squares.enter().append("rect")
-			.style("fill",function(d){
+		if(j>=5)
+		{
+		
+			var squares = group1.selectAll("rect").data(visible);
+			squares.style("fill",function(d){
 					return colorRange(getAvgPenalty(d));
 				});
-		squares.attr("class",function(d){
-					return "r"+d[0]+" i"+i+" j"+j;
-				})
-			.attr("x",function(d){
-					return iRange(d[i]);
-				})
-			.attr("y",function(d){
-									return jRange(d[j]);
-							})
-			.attr("width",iStepSize)
-			.attr("height",jStepSize);
-												
-
-		squares.on("click",function(d) {
-				var group = svg.append("g").attr("class","vis");
-
-				group.append("rect")
-					.attr("class","details")
-					.attr("x",0)
-					.attr("y",0)
-					.attr("width",400)
-					.attr("height",300)
-					.attr("fill","yellow");
-
-				d3.xml("svg1.svg", "image/svg+xml", function(error, xml) {
-						if (error) throw error;
-
-						var svgNode = xml
-																.getElementsByTagName("svg")[0];
-
-															svg.node().appendChild(svgNode);
-
-															svg.select("#plotting-area").select("g")
-							.attr("transform","scale(0.5,0.5)")
-							.on("click",function(d) {
-																		window.open("./svg1.svg");
-																});
+			squares.enter().append("rect")
+				.style("fill",function(d){
+						return colorRange(getAvgPenalty(d));
 					});
+			squares.attr("class",function(d){
+						return "r"+d[0]+" i"+i+" j"+j;
+					})
+				.attr("x",function(d){
+						return iRange(d[i]);
+					})
+				.attr("y",function(d){
+										return jRange(d[j]);
+								})
+				.attr("width",iStepSize)
+				.attr("height",jStepSize);
+													
 
-				var group_new_window = group.append("g").attr("class","new_window");
+			squares.on("click",function(d) {
+					var group = svg.append("g").attr("class","vis");
 
-				group_new_window.append("rect")
-					.attr("class","vis_rect")
-					.attr("x",10)
-					.attr("y",10)
-					.attr("width",200)
-					.attr("height",280)
-					.attr("fill","white")
-					.on("click",function(d) {
-							window.open("./svg1.svg");
+					group.append("rect")
+						.attr("class","details")
+						.attr("x",0)
+						.attr("y",0)
+						.attr("width",400)
+						.attr("height",300)
+						.attr("fill","yellow");
+
+					d3.xml("svg1.svg", "image/svg+xml", function(error, xml) {
+							if (error) throw error;
+
+							var svgNode = xml
+																	.getElementsByTagName("svg")[0];
+
+																svg.node().appendChild(svgNode);
+
+																svg.select("#plotting-area").select("g")
+								.attr("transform","scale(0.5,0.5)")
+								.on("click",function(d) {
+																			window.open("./svg1.svg");
+																	});
 						});
 
-				var group_close = group.append("g").attr("class","close");
+					var group_new_window = group.append("g").attr("class","new_window");
 
-				group_close.append('image')
-					.attr('xlink:href','close.jpg')
-					.attr('height', 20)
-					.attr('width', 20)
-					.on("click",function(d) {
-							svg.select("#plotting-area").remove();
-							svg.selectAll(".vis").remove();
-						});
+					group_new_window.append("rect")
+						.attr("class","vis_rect")
+						.attr("x",10)
+						.attr("y",10)
+						.attr("width",200)
+						.attr("height",280)
+						.attr("fill","white")
+						.on("click",function(d) {
+								window.open("./svg1.svg");
+							});
 
-				group_close.attr("transform","translate(370,7)");
+					var group_close = group.append("g").attr("class","close");
 
-				group.append("text")
-					.attr("x",250)
-					.attr("y",50)
-					.text("Overlaps: " + d[2]);
+					group_close.append('image')
+						.attr('xlink:href','close.jpg')
+						.attr('height', 20)
+						.attr('width', 20)
+						.on("click",function(d) {
+								svg.select("#plotting-area").remove();
+								svg.selectAll(".vis").remove();
+							});
 
-				group.append("text")
-					.attr("x",250)
-					.attr("y",65)
-					.text("Stretches: " + d[3]);
+					group_close.attr("transform","translate(370,7)");
 
-				group.append("text")
-					.attr("x",250)
-					.attr("y",80)
-					.text("Position: " + d[4]);
+					group.append("text")
+						.attr("x",250)
+						.attr("y",50)
+						.text("Overlaps: " + d[2]);
 
-				group.append("text")
-														.attr("x",250)
-														.attr("y",95)
-														.text("Cluster: " + d[1]);
+					group.append("text")
+						.attr("x",250)
+						.attr("y",65)
+						.text("Stretches: " + d[3]);
 
-				group.append("text")
-														.attr("x",250)
-														.attr("y",120)
-														.text("parameter1: " + d[5]);
+					group.append("text")
+						.attr("x",250)
+						.attr("y",80)
+						.text("Position: " + d[4]);
 
-				group.append("text")
-														.attr("x",250)
-														.attr("y",135)
-														.text("parameter2: " + d[6]);
+					group.append("text")
+															.attr("x",250)
+															.attr("y",95)
+															.text("Cluster: " + d[1]);
 
-				group.append("text")
-														.attr("x",250)
-														.attr("y",150)
-														.text("parameter3: " + d[7]);
+					group.append("text")
+															.attr("x",250)
+															.attr("y",120)
+															.text("parameter1: " + d[5]);
 
-				group.append("text")
-														.attr("x",250)
-														.attr("y",180)
-														.text("Nummer: " + d[0]);
+					group.append("text")
+															.attr("x",250)
+															.attr("y",135)
+															.text("parameter2: " + d[6]);
 
-				d3.event.stopPropagation();
-			})
+					group.append("text")
+															.attr("x",250)
+															.attr("y",150)
+															.text("parameter3: " + d[7]);
+
+					group.append("text")
+															.attr("x",250)
+															.attr("y",180)
+															.text("Nummer: " + d[0]);
+
+					d3.event.stopPropagation();
+				})
 			.on("mouseover",function(d) {
 					d3.selectAll(".r"+d[0]).style("stroke", "white");
-				d3.event.stopPropagation();
-			})
+					d3.event.stopPropagation();
+				})
 			.on("mouseout",function(d) {
-										d3.selectAll(".r"+d[0]).style("stroke", "none");
-										d3.event.stopPropagation();
-								});
+					d3.selectAll(".r"+d[0]).style("stroke", "none");
+					d3.event.stopPropagation();
+				});
+
+			squares.exit().remove();
+									
+		}
+		else
+		{
+			console.log("test");
+			var circles = group1.selectAll("circle").data(visible);
+			circles.style("fill",function(d){
+					return colorRange(getAvgPenalty(d));
+				});
+			circles.enter().append("circle")
+				.style("fill",function(d){
+						return colorRange(getAvgPenalty(d));
+					});
+			circles.attr("class",function(d){
+						return "r"+d[0]+" i"+i+" j"+j;
+					})
+				.attr("cx",function(d){
+						return iRange(d[i]);
+					})
+				.attr("cy",function(d){
+						return jRange(d[j]);
+					})
+				.attr("r",function(d) {
+							if(jStepSize<iStepSize)
+								return jStepSize/4;
+							else
+								return iStepSize/4;
+					});
+				
+			circles.exit().remove();
+		}
 
 		if(!new_group)
 			group1.attr("transform","translate(" + (i-5)*130 + "," + (j-1-5)*130 + ")");
-
-		squares.exit().remove();
 		
 	}
-
+	
 	var colorRange=d3.scale.linear().
 			domain([d3.min(results,function(d){return getAvgPenalty(d);}),
 				d3.max(results,function(d){return getAvgPenalty(d);})])
@@ -248,17 +282,11 @@ function doMatrix() {
 		{
 			if(new_heatmap)
 			{
-				//if(heatmapfilterj>=5)
-				{
-					svg.selectAll("*").selectAll("rect").remove();
-					drawRectangles(data,heatmapfilteri,heatmapfilterj,true);
-					var group = svg.select(".new");
-					group.attr("transform","scale(4,4)");
-				}
-				//else
-				{
-					
-				}
+				svg.selectAll("*").selectAll("rect").remove();
+				
+				drawRectangles(data,heatmapfilteri,heatmapfilterj,true);
+				var group = svg.select(".new");
+				group.attr("transform","scale(4,4)");
 				
 			}
 			else

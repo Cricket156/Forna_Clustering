@@ -108,10 +108,10 @@ function initDropdown() {
                         });
         }
 		
-		/*for(var i=2;i<5;++i)
+		for(var i=2;i<5;++i)
 		dropdown_y.append("option")
 				.attr("value",i)
-                .text(columnnames[i]);*/
+                .text(columnnames[i]);
 }
 
 function doAll() {
