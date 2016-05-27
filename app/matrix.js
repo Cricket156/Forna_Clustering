@@ -24,20 +24,11 @@ function doMatrix() {
 	var width = document.getElementById('matrixDiv').clientWidth;
 	var height = (window.innerHeight-60)*(2/3);
 	
-	
-	var wh;
-	
-	if(width<height)
-		wh=width;
-	else
-		wh=height;
-	
-	svg_direct.attr("width", wh)
-		.attr("height", wh);
+	svg_direct.attr("width", width)
+		.attr("height", width);
 		
-	svg.attr("transform", "scale("+wh/500+","+wh/500+")");
-	//svg.attr("transform","scale("+width/500+","+height/500+")");
-
+	svg.attr("transform", "scale("+width/((130*(columnnames.length-1-5-1)))+","+width/((130*(columnnames.length-1-5-1)))+")");
+	
 	//Iwo muss gespeichert sein, wie die StepSize beim Generieren war (oder iwie ausrechnen)
 	var stepSizes = [0,0,1,1,1,0.2,6.0,6.0];
 	
