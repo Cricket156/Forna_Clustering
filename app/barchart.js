@@ -1,17 +1,15 @@
 function doBarchart() {
 	var svg = d3.select("#barchart");
 	
-	var marginSide = 10,
-		marginBottom = 30,
-		marginTop = 10;
+	var m = [40, 40, 40, 40];
 	
-	var width = document.getElementById('barchartDiv').clientWidth - 2*marginSide;
-	var height = (window.innerHeight-60)*(1/3) - marginBottom - marginTop;
+	var width = document.getElementById('barchartDiv').clientWidth - m[1] - m[3];
+	var height = (window.innerHeight-60)*(1/3) - m[0] - m[2];
 	
 	var axis_distance=30;
-	
-	var cluster_count=clusters.length;
 
+	var cluster_count=clusters.length;
+	
 	var x_scale = d3.scale.linear()
                 .domain([0, cluster_count])
                 .range([0, width]);
@@ -24,36 +22,56 @@ function doBarchart() {
 		.scale(x_scale)
 		.orient("bottom");
 
-	var y_axis = d3.svg.axis()
- 		.scale(y_scale)
-		.orient("left")
-		.ticks(10, "%");
+//ticks y axis
+	var y_axisleft = d3.svg.axis()
+		.orient("left");
 
-	var canvas = svg.attr("width", width)
-			.attr("height", height + axis_distance +20)
-			.append("g")
-			.attr("transform", "translate(20,0)");
+		var y_axisright = d3.svg.axis()
+	 		.scale(y_scale)
+			.orient("right")
+			.ticks(10);
+
+
+	var canvas = svg.attr("width", width + m[3] + m[1])
+	    .attr("height", height + m[0] + m[2])
+	    .append("g")
+	    .attr("transform", "translate(" + m[3] + "," + m[0] + ")");
 
 //	x_scale.domain(results.map(function(d) { return d[1]; }));
 //	y_scale.domain([0, d3.max(data, function(d) { return d.frequency; })]);
 
 	var height2=height+axis_distance;
+	var width2 = width-m[0]
 
 	svg.append("g")
 		.attr("class", "xaxis")
 		.attr("transform", "translate(0," + height2 + ")")
 		.call(x_axis);
-/*
+
+
 	svg.append("g")
-		.attr("class", "yaxis")
-		.call(y_axis)
-		.append("text")
-		.attr("transform", "rotate(-90)")
-		.attr("y", 6)
-		.attr("dy", ".71em")
-		.style("text-anchor", "end")
-		.text("Frequency");
-*/
+		.attr("class", "yaxisright")
+		// .attr("transform", "translate(0," + height/2 + ")")
+		.call(y_axisright)
+		.select("text")
+		.attr("y", width-20)
+		.attr("dy", 6)
+		.attr("font-size","15px")
+		.attr("transform", "rotate(-90)");
+
+		svg.append("g")
+			.attr("class", "yaxisleft")
+			.attr("transform", "translate(0," + height/2 + ")")
+			.call(y_axisleft)
+			.select("text")
+			.attr("y", width+20)
+			.attr("dy", 6)
+			.attr("font-size","15px")
+			.attr("transform", "rotate(-90)")
+			.text("Frequency");
+
+
+
 	var overlaps_scale = d3.scale.linear()
                 .domain([0, d3.max( clusters, function(d) {
 				return d3.mean(d, function(d) {
@@ -139,7 +157,7 @@ function doBarchart() {
 					doMatrix();
 					doParallelCoordinates();
 					rangeschanged=false;
-				}				
+				}
 				else// if(-1==matrixfilter)
 				{
 					rangeschanged=true;
@@ -166,7 +184,7 @@ function doBarchart() {
 		.on("mouseout", function(d) {
 				d3.select("#matrix").selectAll("rect").style("opacity",1.0);
 				d3.event.stopPropagation();
-                });
+                        });
 
 	console.log("Barchart done");
 }
