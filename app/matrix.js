@@ -30,7 +30,19 @@ function doMatrix() {
 	svg.attr("transform", "scale("+width/((130*(columnnames.length-1-5-1)))+","+width/((130*(columnnames.length-1-5-1)))+")");
 	
 	//Iwo muss gespeichert sein, wie die StepSize beim Generieren war (oder iwie ausrechnen)
-	var stepSizes = [0,0,1,1,1,0.2,6.0,6.0];
+	var stepSizes = [0,0,1,1,1];
+	
+	for(var i=0;i<3;++i)
+	{
+		min1 = d3.min(results,function(d) {
+				return d[5+i];
+			});
+		min2 = d3.min(results,function(d) {
+				if(d[5+i]>min1)
+					return d[5+i];
+			});
+		stepSizes.push(min2-min1);
+	}
 	
 	var avgType=true;
 
