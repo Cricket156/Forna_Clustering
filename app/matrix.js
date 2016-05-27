@@ -134,7 +134,7 @@ function doMatrix() {
 													
 
 			squares.on("click",function(d) {
-					var group = svg.append("g").attr("class","vis");
+					var group = svg_direct.append("g").attr("class","vis");
 
 					group.append("rect")
 						.attr("class","details")
@@ -150,9 +150,9 @@ function doMatrix() {
 							var svgNode = xml
 																	.getElementsByTagName("svg")[0];
 
-																svg.node().appendChild(svgNode);
+																svg_direct.node().appendChild(svgNode);
 
-																svg.select("#plotting-area").select("g")
+																svg_direct.select("#plotting-area").select("g")
 								.attr("transform","scale(0.5,0.5)")
 								.on("click",function(d) {
 																			window.open("./svg1.svg");
@@ -179,8 +179,8 @@ function doMatrix() {
 						.attr('height', 20)
 						.attr('width', 20)
 						.on("click",function(d) {
-								svg.select("#plotting-area").remove();
-								svg.selectAll(".vis").remove();
+								svg_direct.select("#plotting-area").remove();
+								svg_direct.selectAll(".vis").remove();
 							});
 
 					group_close.attr("transform","translate(370,7)");
