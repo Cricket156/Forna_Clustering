@@ -59,9 +59,7 @@ function doParallelCoordinates() {
 			.enter().append("path")
 			.attr("d", path)
 			.on("click", function(d, i) {
-				console.log(d);
-				console.log(i);
-				console.log(data[i]);
+				showSVG(data[i], wrapper);
 			});
 
 		// Add a group element for each dimension.
