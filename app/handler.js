@@ -233,21 +233,9 @@ function showSVG(d, svg_direct) {
 		.attr("width",400)
 		.attr("height",300)
 		.attr("fill","khaki");
-
-	d3.xml("svg1.svg", "image/svg+xml", function(error, xml) {
-			if (error) throw error;
-
-			var svgNode = xml.getElementsByTagName("svg")[0];
-			svg_direct.node().appendChild(svgNode);
-			svg_direct.select("#plotting-area").select("g")
-				.attr("transform","scale(0.5,0.5)")
-				.on("click",function(d) {
-					window.open("./svg1.svg");
-				});
-			});
-
+		
 	var group_new_window = group.append("g").attr("class","new_window");
-
+		
 	group_new_window.append("rect")
 		.attr("class","vis_rect")
 		.attr("x",10)
@@ -258,6 +246,27 @@ function showSVG(d, svg_direct) {
 		.on("click",function(d) {
 			window.open("./svg1.svg");
 		});
+		
+	try {
+		d3.xml("svg1.svg", "image/svg+xml", function(error, xml) {
+				if (error) throw error;
+
+				var svgNode = xml.getElementsByTagName("svg")[0];
+				svg_direct.node().appendChild(svgNode);
+				svg_direct.select("#plotting-area").select("g")
+					.attr("transform","scale(0.5,0.5)")
+					.on("click",function(d) {
+						window.open("./svg1.svg");
+					});
+				});
+	}
+	catch(err)
+	{
+		group.append("text")
+		.attr("x",20)
+		.attr("y",50)
+		.text("Konnete nicht gezeichnet werden");
+	}
 
 	var group_close = group.append("g").attr("class","close");
 
