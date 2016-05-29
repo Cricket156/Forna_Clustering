@@ -59,7 +59,7 @@ function doParallelCoordinates() {
 			.enter().append("path")
 			.attr("d", path)
 			.on("click", function(d, i) {
-				showSVG(data[i], wrapper);
+				showSVG(clusters[matrixfilter][i-1], wrapper);
 			});
 
 		// Add a group element for each dimension.
