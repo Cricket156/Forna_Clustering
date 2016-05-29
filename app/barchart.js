@@ -96,7 +96,9 @@ function doBarchart() {
                                 						}));
 			})
 		.attr("height", function(d) {
-				return overlaps_scale(d[0][2]);
+				return overlaps_scale(d3.mean(d, function(d) {
+													return d[2];
+												}));
 			})
 		.style("fill","green");
 
@@ -109,10 +111,14 @@ function doBarchart() {
                         })
                 .attr("width", x_scale(1.0/5.0))
                 .attr("y", function(d) {
-                                return height + axis_distance - overlaps_scale(d[0][3]);
+                                return height + axis_distance - overlaps_scale(d3.mean(d, function(d) {
+                                				        		return d[3];
+                                						}));
                         })
                 .attr("height", function(d) {
-                                return overlaps_scale(d[0][3]);
+                                return overlaps_scale(d3.mean(d, function(d) {
+                                				        		return d[3];
+                                						}));
                         })
 		.style("fill","red");
 
@@ -125,10 +131,14 @@ function doBarchart() {
                         })
                 .attr("width", x_scale(1.0/5.0))
                 .attr("y", function(d) {
-                                return height + axis_distance - overlaps_scale(d[0][4]);
+                                return height + axis_distance - overlaps_scale(d3.mean(d, function(d) {
+                                				        		return d[4];
+                                						}));
                         })
                 .attr("height", function(d) {
-                                return overlaps_scale(d[0][4]);
+                                return overlaps_scale(d3.mean(d, function(d) {
+                                				        		return d[4];
+                                						}));
                         })
 		.style("fill","blue");
 
