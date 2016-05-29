@@ -232,7 +232,7 @@ function showSVG(d, svg_direct) {
 		.attr("y",0)
 		.attr("width",400)
 		.attr("height",300)
-		.attr("fill","yellow");
+		.attr("fill","khaki");
 
 	d3.xml("svg1.svg", "image/svg+xml", function(error, xml) {
 			if (error) throw error;
