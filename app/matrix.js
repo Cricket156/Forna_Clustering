@@ -8,8 +8,8 @@ function doMatrix() {
 	if(!matrixloaded)
 	{
 		svg = svg.append("g");
-		for(var i=5;i<8;++i)
-			for(var j=i+1;j<8;++j)
+		for(var i=5;i<columnnames.length-1;++i)
+			for(var j=i+1;j<columnnames.length-1;++j)
 				var group1 = svg.append("g")
                 			.attr("class","c"+i+"-"+j);	
 		matrixloaded=true;
@@ -32,7 +32,7 @@ function doMatrix() {
 	//Iwo muss gespeichert sein, wie die StepSize beim Generieren war (oder iwie ausrechnen)
 	var stepSizes = [0,0,1,1,1];
 	
-	for(var i=0;i<3;++i)
+	for(var i=0;i<columnnames.length-1;++i)
 	{
 		min1 = d3.min(results,function(d) {
 				return d[5+i];
@@ -283,7 +283,7 @@ function doMatrix() {
 	{
 		var new_heatmap=true;
 		
-		for(var i=5;i<8;++i)
+		for(var i=5;i<columnnames.length-1;++i)
 		{
 			if((-1==heatmapfilteri || -1==heatmapfilterj) || i==heatmapfilteri)
 			{
@@ -291,7 +291,7 @@ function doMatrix() {
 //				console.log(iLowerRange);
 //				console.log(iUpperRange);
 
-				for(var j=i+1;j<8;++j)
+				for(var j=i+1;j<columnnames.length-1;++j)
 				{
 					if((-1==heatmapfilteri || -1==heatmapfilterj) || j==heatmapfilterj)
 					{
