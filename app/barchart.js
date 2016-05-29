@@ -155,9 +155,20 @@ function doBarchart() {
                         })
                 .attr("height", function(d) {
                                 return y_scale(d.length);
-                        })
+                        });
+		
+	svg.selectAll(".count")
 		.on("click", function(d) {
 				//d3.select("#matrix").selectAll("rect").style("fill", );
+				
+					/*
+				d3.select(this).each(function(d) {
+					console.log(cluster);
+					if(cluster != d) {
+						d3.select(this).style("opacity", 0.5);
+					}
+				});
+				*/
 				cluster=d[0][1];
 
 				if(cluster==matrixfilter)
@@ -167,6 +178,24 @@ function doBarchart() {
 					doMatrix();
 					doParallelCoordinates();
 					rangeschanged=false;
+				
+				svg.selectAll(".overlaps").each(function(d) {
+						if(cluster != d[0][1]) {
+							d3.select(this).style("opacity", 1.0);
+						}
+					});
+					
+				svg.selectAll(".stretches").each(function(d) {
+						if(cluster != d[0][1]) {
+							d3.select(this).style("opacity", 1.0);
+						}
+					});
+					
+				svg.selectAll(".position").each(function(d) {
+						if(cluster != d[0][1]) {
+							d3.select(this).style("opacity", 1.0);
+						}
+					});
 				}
 				else// if(-1==matrixfilter)
 				{
@@ -177,6 +206,24 @@ function doBarchart() {
 					rangeschanged=false;
 
 					d3.select("#matrix").selectAll("rect").style("opacity",1.0);
+					
+				svg.selectAll(".overlaps").each(function(d) {
+						if(cluster != d[0][1]) {
+							d3.select(this).style("opacity", 0.5);
+						}
+					});
+					
+				svg.selectAll(".stretches").each(function(d) {
+						if(cluster != d[0][1]) {
+							d3.select(this).style("opacity", 0.5);
+						}
+					});
+					
+				svg.selectAll(".position").each(function(d) {
+						if(cluster != d[0][1]) {
+							d3.select(this).style("opacity", 0.5);
+						}
+					});
 				}
 
 				d3.select("#matrix").selectAll("rect").style("opacity",1.0);
