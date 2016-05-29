@@ -168,22 +168,10 @@ function doBarchart() {
 					doMatrix();
 					doParallelCoordinates();
 					rangeschanged=false;
-				
-				svg.selectAll(".overlaps").each(function(d) {
-						if(cluster != d[0][1]) {
-							d3.select(this).style("opacity", 1.0);
-						}
-					});
 					
-				svg.selectAll(".stretches").each(function(d) {
+					svg.selectAll("rect").each(function(d) {
 						if(cluster != d[0][1]) {
-							d3.select(this).style("opacity", 1.0);
-						}
-					});
-					
-				svg.selectAll(".position").each(function(d) {
-						if(cluster != d[0][1]) {
-							d3.select(this).style("opacity", 1.0);
+								d3.select(this).style("opacity", 1.0);
 						}
 					});
 				}
@@ -197,25 +185,13 @@ function doBarchart() {
 
 					d3.select("#matrix").selectAll("rect").style("opacity",1.0);
 					
-				svg.selectAll(".overlaps").each(function(d) {
+					svg.selectAll("rect").each(function(d) {
 						if(cluster != d[0][1]) {
-							d3.select(this).style("opacity", 0.5);
-						}
-					});
-					
-				svg.selectAll(".stretches").each(function(d) {
-						if(cluster != d[0][1]) {
-							d3.select(this).style("opacity", 0.5);
-						}
-					});
-					
-				svg.selectAll(".position").each(function(d) {
-						if(cluster != d[0][1]) {
-							d3.select(this).style("opacity", 0.5);
+								d3.select(this).style("opacity", 0.5);
 						}
 					});
 				}
-
+							
 				d3.select("#matrix").selectAll("rect").style("opacity",1.0);
 
 				d3.event.stopPropagation();
@@ -226,12 +202,30 @@ function doBarchart() {
 					if(cluster!=d[1])
 						d3.select(this).style("opacity",0.5);
 				});
+				if(cluster!=matrixfilter)
+				{
+					svg.selectAll("rect").each(function(d) {
+							if(cluster != d[0][1]) {
+									d3.select(this).style("opacity", 0.5);
+							}
+					});
+				}
+					
 				d3.event.stopPropagation();
 			})
 		.on("mouseout", function(d) {
 				d3.select("#matrix").selectAll("rect").style("opacity",1.0);
+				if(cluster!=matrixfilter)
+				{
+					svg.selectAll("rect").each(function(d) {
+							if(cluster != d[0][1]) {
+									d3.select(this).style("opacity", 1.0);
+							}
+						});
+				}
+					
 				d3.event.stopPropagation();
-                        });
+			});
 
 	console.log("Barchart done");
 }
