@@ -1,6 +1,16 @@
 function doBarchart() {
 	var svg = d3.select("#barchart");
 	
+	var clusters_filtered=[];
+	
+	var grenze=10;
+	if(clusters.length<10)
+		grenze=clusters.length;
+	
+	for(var i=0;i<grenze;++i)
+		clusters_filtered.push(clusters[i]);
+	
+	
 	var m = [40, 40, 40, 40];
 	
 	var width = document.getElementById('barchartDiv').clientWidth - m[1] - m[3];
@@ -8,14 +18,14 @@ function doBarchart() {
 	
 	var axis_distance=30;
 
-	var cluster_count=clusters.length;
+	var cluster_count=clusters_filtered.length;
 	
 	var x_scale = d3.scale.linear()
                 .domain([0, cluster_count])
                 .range([0, width]);
 
 	var y_scale = d3.scale.linear()
-		.domain([0, d3.max( clusters, function (d) { return d.length;})])
+		.domain([0, d3.max( clusters_filtered, function (d) { return d.length;})])
 		.range([0, height]);
 
 	var x_axis = d3.svg.axis()
@@ -73,7 +83,7 @@ function doBarchart() {
 
 
 	var overlaps_scale = d3.scale.linear()
-                .domain([0, d3.max( clusters, function(d) {
+                .domain([0, d3.max( clusters_filtered, function(d) {
 				return d3.mean(d, function(d) {
 					return d[2];
 				})
@@ -83,7 +93,7 @@ function doBarchart() {
 	//TODO weitere scales fuer die anderen Penalties
 
 	svg.selectAll(".overlaps")
-		.data(clusters)
+		.data(clusters_filtered)
 		.enter().append("rect")
 		.attr("class", "overlaps")
 		.attr("x", function(d,i) {
@@ -103,7 +113,7 @@ function doBarchart() {
 		.style("fill","green");
 
 	svg.selectAll(".stretches")
-                .data(clusters)
+                .data(clusters_filtered)
                 .enter().append("rect")
                 .attr("class", "stretches")
                 .attr("x", function(d,i) {
@@ -123,7 +133,7 @@ function doBarchart() {
 		.style("fill","red");
 
 	svg.selectAll(".position")
-                .data(clusters)
+                .data(clusters_filtered)
                 .enter().append("rect")
                 .attr("class", "position")
                 .attr("x", function(d,i) {
@@ -143,7 +153,7 @@ function doBarchart() {
 		.style("fill","blue");
 
 	svg.selectAll(".count")
-                .data(clusters)
+                .data(clusters_filtered)
                 .enter().append("rect")
                 .attr("class", "count")
                 .attr("x", function(d,i) {
