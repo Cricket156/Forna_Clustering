@@ -157,7 +157,7 @@ function doBarchart() {
                                 return y_scale(d.length);
                         });
 		
-	svg.selectAll(".count")
+	svg.selectAll("rect")
 		.on("click", function(d) {
 				//d3.select("#matrix").selectAll("rect").style("fill", );
 				
@@ -179,19 +179,7 @@ function doBarchart() {
 					doParallelCoordinates();
 					rangeschanged=false;
 				
-				svg.selectAll(".overlaps").each(function(d) {
-						if(cluster != d[0][1]) {
-							d3.select(this).style("opacity", 1.0);
-						}
-					});
-					
-				svg.selectAll(".stretches").each(function(d) {
-						if(cluster != d[0][1]) {
-							d3.select(this).style("opacity", 1.0);
-						}
-					});
-					
-				svg.selectAll(".position").each(function(d) {
+				svg.selectAll("rect").each(function(d) {
 						if(cluster != d[0][1]) {
 							d3.select(this).style("opacity", 1.0);
 						}
@@ -207,19 +195,7 @@ function doBarchart() {
 
 					d3.select("#matrix").selectAll("rect").style("opacity",1.0);
 					
-				svg.selectAll(".overlaps").each(function(d) {
-						if(cluster != d[0][1]) {
-							d3.select(this).style("opacity", 0.5);
-						}
-					});
-					
-				svg.selectAll(".stretches").each(function(d) {
-						if(cluster != d[0][1]) {
-							d3.select(this).style("opacity", 0.5);
-						}
-					});
-					
-				svg.selectAll(".position").each(function(d) {
+				svg.selectAll("rect").each(function(d) {
 						if(cluster != d[0][1]) {
 							d3.select(this).style("opacity", 0.5);
 						}
