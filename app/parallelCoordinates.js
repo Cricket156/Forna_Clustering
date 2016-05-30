@@ -94,6 +94,8 @@ function doParallelCoordinates() {
 			.attr("x", -8)
 			.attr("width", 16);
 	}
+	
+	console.log("ParallelCoordinates done");
 }
 
 function position(d) {

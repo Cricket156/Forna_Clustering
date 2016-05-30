@@ -182,12 +182,6 @@ function doBarchart() {
 					doMatrix();
 					doParallelCoordinates();
 					rangeschanged=false;
-					
-					svg.selectAll("rect").each(function(d) {
-						if(cluster != d[0][1]) {
-								d3.select(this).style("opacity", 1.0);
-						}
-					});
 				}
 				else// if(-1==matrixfilter)
 				{
@@ -198,12 +192,29 @@ function doBarchart() {
 					rangeschanged=false;
 
 					d3.select("#matrix").selectAll("rect").style("opacity",1.0);
-					
+				}
+				
+				// alle im Barchart auf Opacity 1 setzten
+				svg.selectAll("rect").each(function(d) {
+					d3.select(this).style("opacity", 1.0);
+				});
+				
+				// die andern Hell oder dunkel setzen (je nach filter)
+				if (-1 == matrixfilter) {
 					svg.selectAll("rect").each(function(d) {
-						if(cluster != d[0][1]) {
-								d3.select(this).style("opacity", 0.5);
+						if (cluster != d[0][1]) {
+							d3.select(this).style("opacity", 1.0);
 						}
 					});
+					barchartHover = true;
+				}
+				else {
+					svg.selectAll("rect").each(function(d) {
+						if(cluster != d[0][1]) {
+							d3.select(this).style("opacity", 0.5);
+						}
+					});
+					barchartHover = false;
 				}
 							
 				d3.select("#matrix").selectAll("rect").style("opacity",1.0);
@@ -216,28 +227,30 @@ function doBarchart() {
 					if(cluster!=d[1])
 						d3.select(this).style("opacity",0.5);
 				});
-				if(cluster!=matrixfilter)
+								
+				if(barchartHover)
 				{
 					svg.selectAll("rect").each(function(d) {
-							if(cluster != d[0][1]) {
-									d3.select(this).style("opacity", 0.5);
-							}
+						if(cluster != d[0][1]) {
+								d3.select(this).style("opacity", 0.5);
+						}
 					});
 				}
-					
+				
 				d3.event.stopPropagation();
 			})
 		.on("mouseout", function(d) {
 				d3.select("#matrix").selectAll("rect").style("opacity",1.0);
-				if(cluster!=matrixfilter)
+				
+				if(barchartHover)
 				{
 					svg.selectAll("rect").each(function(d) {
-							if(cluster != d[0][1]) {
-									d3.select(this).style("opacity", 1.0);
-							}
-						});
+						if(cluster != d[0][1]) {
+								d3.select(this).style("opacity", 1.0);
+						}
+					});
 				}
-					
+				
 				d3.event.stopPropagation();
 			});
 

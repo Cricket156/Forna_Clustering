@@ -8,6 +8,8 @@ var matrixloaded = false;
 var matrixfilter = -1;
 var heatmapfilteri = -1;
 var heatmapfilterj = -1;
+
+var barchartHover = true;
 //reads the csv File from the input to the results array
 function loadCSV(evt) {
 	results = [];
