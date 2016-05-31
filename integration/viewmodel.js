@@ -1,3 +1,7 @@
+// TODO: small change in the initial selection, all others
+// show the right parameter selection, then also maybe remove
+// options that have already been chosen
+
 document.getElementById('file').addEventListener('change', loadCSV, false);
 //file handler
 var headervalues = [];
@@ -12,7 +16,7 @@ function loadCSV(evt) {
       var lines=e.target.result.split("\n");
       headervalues=lines[0].split(";");
       for(var i=0;i<headervalues.length;i++){
-      var temp={ParameterName: headervalues[i]};
+      var temp={Parameter: headervalues[i]};
       columnnames.push(temp);
       // Non-editable catalog data - would come from the header of the penalties file
 }
@@ -22,9 +26,10 @@ ParameterViewModel();
 }
 }
 // Overall viewmodel for this screen, along with initial state
-function ParameterChoice() {
+function ParameterChoice(initialParameter) {
     var self = this;
-    self.Parameter = ko.observable('choose a Parameter');
+    // self.ParamName = ParamName;
+    self.Parameter = ko.observable(initialParameter);
 }
 
 // Overall viewmodel for this screen, along with initial state
@@ -36,12 +41,12 @@ function ParameterViewModel() {
     // Editable data
     self.Parameter = ko.observableArray([
         new ParameterChoice(self.availableParameters[0]),
-        new ParameterChoice(self.availableParameters[1])
+        // new ParameterChoice(self.availableParameters[1])
     ]);
 
     // Operations
     self.addParameter = function() {
-        self.Parameter.push(new ParameterChoice("", self.availableParameters[0]));
+        self.Parameter.push(new ParameterChoice(self.availableParameters[0]));
     }
     self.removeParameter = function(Parameter) { self.Parameter.remove(Parameter) }
 }
