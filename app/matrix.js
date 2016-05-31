@@ -22,7 +22,7 @@ function doMatrix() {
 		marginBottom = 10,
 		marginTop = 10;
 
-	var width = document.getElementById('matrixDiv').clientWidth;
+	var width = document.getElementById('matrixDiv').clientWidth *1.3;
 	var height = (window.innerHeight-60)*(2/3);
 
 	svg_direct.attr("width", width)
@@ -75,7 +75,7 @@ function doMatrix() {
 		var yRange=d3.scale.linear().domain([iLowerRange,iUpperRange]).range([100,0]);
 
 
-		var x_axis_mat = d3.svg.axis()
+		var xaxis = d3.svg.axis()
 			.scale(xRange)
 			.orient("top")
 			.ticks(5);
@@ -83,7 +83,7 @@ function doMatrix() {
 	//ticks y axis
 		// var y_axisleft = d3.svg.axis().orient("left");
 
-		var y_axisleft_mat = d3.svg.axis()
+		var yaxisleft = d3.svg.axis()
 			.scale(yRange)
 			.orient("left")
 			.ticks(5);
@@ -154,15 +154,15 @@ function doMatrix() {
 				.attr("height",jStepSize);
 
 				group1.append("g")
-					.attr("class", "x_axis_mat")
-					.attr("transform", "translate(0," + (marginTop-5) + ")")
-					.call(x_axis_mat);
+					.attr("class", "xaxis")
+					.attr("transform", "translate(0," + (marginTop-10) + ")")
+					.call(xaxis);
 				//
 				group1.append("g")
-						.attr("class", "y_axisleft_mat")
+						.attr("class", "yaxisleft")
 						// zweites argument darf nur zahl sein
-						.attr("transform", "translate(" + (marginSide-5) + ",0)")
-						.call(y_axisleft_mat);
+						.attr("transform", "translate(" + (marginSide-10) + ",0)")
+						.call(yaxisleft);
 
 
 			squares.on("click",function(d) {
@@ -178,6 +178,8 @@ function doMatrix() {
 				});
 
 			squares.exit().remove();
+			// xaxis.exit().remove();
+			// svg.selectAll("*").selectAll(".xaxis").exit().remove();
 
 		}
 		else
@@ -249,8 +251,8 @@ function doMatrix() {
 			if(new_heatmap)
 			{
 				svg.selectAll("*").selectAll("rect").remove();
-				// svg.selectAll("*").selectAll("axis").remove();
-				// svg.selectAll("*").selectAll("yaxisleft").remove();
+				svg.selectAll("*").selectAll(".xaxis").remove();
+				svg.selectAll("*").selectAll(".yaxisleft").remove();
 
 				drawRectangles(data,heatmapfilteri,heatmapfilterj,true);
 				var group = svg.select(".new");
@@ -260,7 +262,8 @@ function doMatrix() {
 			else
 			{
 				svg.selectAll("*:not(.c"+heatmapfilteri+"-"+heatmapfilterj+")").selectAll("rect").remove();
-				// svg.selectAll("*:not(.c"+heatmapfilteri+"-"+heatmapfilterj+")").selectAll("axis").remove();
+				svg.selectAll("*:not(.c"+heatmapfilteri+"-"+heatmapfilterj+")").selectAll(".xaxis").remove();
+				svg.selectAll("*:not(.c"+heatmapfilteri+"-"+heatmapfilterj+")").selectAll(".yaxisleft").remove();
 
 				var group = svg.selectAll(".c"+heatmapfilteri+"-"+heatmapfilterj);
 				group.attr("transform","scale(2.5,2.5)");
