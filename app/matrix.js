@@ -1,44 +1,37 @@
 function doMatrix() {
 
-
-	var m = [20, 30, 20, 30];
-
- 	var svg = d3.select("#matrix")
- 							.attr("width", width + m[3] + m[1])
- 							.attr("height", height + m[0] + m[2])
- 								.attr("transform", "translate(" + m[3] + "," + m[0] + ")");
-
+	var svg = d3.select("#matrix");
 	var svg_direct = svg;
-
+	
 	svg.select(".new").remove();
-
+	
 	if(!matrixloaded)
 	{
 		svg = svg.append("g");
 		for(var i=5;i<columnnames.length-1;++i)
 			for(var j=i+1;j<columnnames.length-1;++j)
 				var group1 = svg.append("g")
-                			.attr("class","c"+i+"-"+j);
+                			.attr("class","c"+i+"-"+j);	
 		matrixloaded=true;
 	}
 	else
 		svg = svg.select("g");
-
+	
 	var marginSide = 10,
 		marginBottom = 10,
 		marginTop = 10;
-
+	
 	var width = document.getElementById('matrixDiv').clientWidth;
 	var height = (window.innerHeight-60)*(2/3);
-
+	
 	svg_direct.attr("width", width)
 		.attr("height", width);
-
+		
 	svg.attr("transform", "scale("+width/((130*(columnnames.length-1-5-1)))+","+width/((130*(columnnames.length-1-5-1)))+")");
-
+	
 	//Iwo muss gespeichert sein, wie die StepSize beim Generieren war (oder iwie ausrechnen)
 	var stepSizes = [0,0,1,1,1];
-
+	
 	for(var i=0;i<columnnames.length-1;++i)
 	{
 		min1 = d3.min(results,function(d) {
@@ -50,7 +43,7 @@ function doMatrix() {
 			});
 		stepSizes.push(min2-min1);
 	}
-
+	
 	var avgType=true;
 
 	var gewichtungen = [1,1,1];
@@ -61,40 +54,19 @@ function doMatrix() {
 			result+=gewichtungen[i]*d[2+i];
 		return result;
 	}
-
+	
 	var drawRectangles = function(data,i,j,new_group) {
-
+		
 		var iLowerRange=d3.min(data,function(d){return parseFloat(d[i]);});
 		var iUpperRange=parseFloat(d3.max(data,function(d){return d[i];}))+stepSizes[i];
 		var iRange=d3.scale.linear().domain([iLowerRange,iUpperRange]).range([0,100]);
 		var iStepSize=iRange(iLowerRange+stepSizes[i]);
-
+			
 		var jLowerRange=d3.min(data,function(d){return parseFloat(d[j]);});
 		var jUpperRange=parseFloat(d3.max(data,function(d){return d[j];}))+stepSizes[j];
 		var jRange=d3.scale.linear().domain([jLowerRange,jUpperRange]).range([0,100]);
 		var jStepSize=jRange(jLowerRange+stepSizes[j]);
-
-		var xRange=d3.scale.linear().domain([iLowerRange,iUpperRange]).range([100,0]);
-		var yRange=d3.scale.linear().domain([iLowerRange,iUpperRange]).range([100,0]);
-
-
-		var x_axis_mat = d3.svg.axis()
-			.scale(xRange)
-			.orient("top")
-			.ticks(5);
-
-	//ticks y axis
-		// var y_axisleft = d3.svg.axis().orient("left");
-
-		var y_axisleft_mat = d3.svg.axis()
-			.scale(yRange)
-			.orient("left")
-			.ticks(5);
-
-
-
-
-
+	
 		var visible = [];
 		visible.push(data[0]);
 
@@ -139,7 +111,7 @@ function doMatrix() {
 
 		if(j>=5)
 		{
-
+		
 			var squares = group1.selectAll("rect").data(visible);
 			squares.style("fill",function(d){
 					return colorRange(getAvgPenalty(d));
@@ -159,18 +131,7 @@ function doMatrix() {
 								})
 				.attr("width",iStepSize)
 				.attr("height",jStepSize);
-
-				group1.append("g")
-					.attr("class", "xaxis")
-					.attr("transform", "translate(height," + marginBottom + ")")
-					.call(x_axis_mat);
-
-				group1.append("g")
-						.attr("class", "yaxisleft")
-						// zweites argument darf nur zahl sein
-						.attr("transform", "translate(" + marginSide-5 + ",0)")
-						.call(y_axisleft_mat);
-
+													
 
 			squares.on("click",function(d) {
 					showSVG(d, svg_direct);
@@ -185,7 +146,7 @@ function doMatrix() {
 				});
 
 			squares.exit().remove();
-
+									
 		}
 		else
 		{
@@ -213,15 +174,15 @@ function doMatrix() {
 							else
 								return iStepSize/4;
 					});
-
+				
 			circles.exit().remove();
 		}
 
 		if(!new_group)
 			group1.attr("transform","translate(" + (i-5)*130 + "," + (j-1-5)*130 + ")");
-
+		
 	}
-
+	
 	var colorRange=d3.scale.linear().
 			domain([d3.min(results,function(d){return getAvgPenalty(d);}),
 				d3.max(results,function(d){return getAvgPenalty(d);})])
@@ -230,7 +191,7 @@ function doMatrix() {
 	var drawHeatmaps = function(data)
 	{
 		var new_heatmap=true;
-
+		
 		for(var i=5;i<columnnames.length-1;++i)
 		{
 			if((-1==heatmapfilteri || -1==heatmapfilterj) || i==heatmapfilteri)
@@ -244,28 +205,28 @@ function doMatrix() {
 					if((-1==heatmapfilteri || -1==heatmapfilterj) || j==heatmapfilterj)
 					{
 						new_heatmap=false;
-
+						
 						drawRectangles(data,i,j,false)
 					}
 				}
 			}
 		}
-
+	
 		if(-1!=heatmapfilteri && -1!=heatmapfilterj)
 		{
 			if(new_heatmap)
 			{
 				svg.selectAll("*").selectAll("rect").remove();
-
+				
 				drawRectangles(data,heatmapfilteri,heatmapfilterj,true);
 				var group = svg.select(".new");
 				group.attr("transform","scale(2.5,2.5)");
-
+				
 			}
 			else
 			{
 				svg.selectAll("*:not(.c"+heatmapfilteri+"-"+heatmapfilterj+")").selectAll("rect").remove();
-
+				
 				var group = svg.selectAll(".c"+heatmapfilteri+"-"+heatmapfilterj);
 				group.attr("transform","scale(2.5,2.5)");
 				//group.transition().duration(1000).attr("transform","scale(2,2)");
