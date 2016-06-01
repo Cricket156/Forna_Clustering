@@ -62,7 +62,7 @@ function doBarchart() {
 	var width2 = width-m[0]
 
 	draw.append("g")
-		.attr("class", "xaxis")
+		.attr("class", "xaxis axis")
 		.attr("transform", "translate(0," + height + ")")
 		.call(x_axis)
 		.select("text")
@@ -73,12 +73,12 @@ function doBarchart() {
 		.text("Penalties");
 
 		draw.append("g")
-			.attr("class", "yaxisright")
+			.attr("class", "yaxisright axis")
 			.attr("transform", "translate(" + width + ",0)")
 			.call(y_axisright);
 
 	draw.append("g")
-		.attr("class", "yaxisleft")
+		.attr("class", "yaxisleft axis")
 		.call(y_axisleft);
 /*
 	svg.append("g")

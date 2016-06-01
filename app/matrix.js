@@ -146,11 +146,11 @@ function doMatrix() {
 				.attr("height",jStepSize);
 			
 			group1.append("g")
-				.attr("class", "xaxis")
+				.attr("class", "xaxis axis")
 				.call(xaxis);
 			
 			group1.append("g")
-				.attr("class", "yaxisleft")
+				.attr("class", "yaxisleft axis")
 				.call(yaxisleft);
 
 			squares.on("click",function(d) {
