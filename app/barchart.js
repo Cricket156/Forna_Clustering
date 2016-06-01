@@ -38,12 +38,12 @@ function doBarchart() {
 		.scale(y_scale)
 		// .style("stroke-width", '1')
 		.orient("left")
-		.ticks(10);
+		.ticks(5);
 
 	var y_axisright = d3.svg.axis()
 		.scale(y_scale)
 		.orient("right")
-		.ticks(10);
+		.ticks(5);
 
 
 	var svg = d3.select("#barchart")
