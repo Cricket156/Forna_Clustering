@@ -1,51 +1,57 @@
 function doBarchart() {
 	var svg = d3.select("#barchart");
-	
+
 	var clusters_filtered=[];
-	
+
 	var grenze=10;
 	if(clusters.length<10)
 		grenze=clusters.length;
-	
+
 	for(var i=0;i<grenze;++i)
 		clusters_filtered.push(clusters[i]);
-	
-	var m = [40, 40, 40, 40];
-	
+
+	var m = [40, 50, 40, 40];
+
 	var width = document.getElementById('barchartDiv').clientWidth - m[1] - m[3];
 	var height = (window.innerHeight-60)*(1/3) - m[0] - m[2];
-	
+
 	var axis_distance=30;
 
 	var cluster_count=clusters_filtered.length;
-	
+
 	var x_scale = d3.scale.linear()
-                .domain([0, cluster_count])
-                .range([0, width]);
+		.domain([0, cluster_count])
+		.range([0, width]);
 
 	var y_scale = d3.scale.linear()
 		.domain([0, d3.max( clusters_filtered, function (d) { return d.length;})])
-		.range([0, height]);
-		
+		.range([height, 0]);
+
 	var x_axis = d3.svg.axis()
 		.scale(x_scale)
 		.orient("bottom");
 
 //ticks y axis
-	var y_axisleft = d3.svg.axis().orient("left");
+	// var y_axisleft = d3.svg.axis().orient("left");
+
+	var y_axisleft = d3.svg.axis()
+		.scale(y_scale)
+		// .style("stroke-width", '1')
+		.orient("left")
+		.ticks(10);
 
 	var y_axisright = d3.svg.axis()
 		.scale(y_scale)
 		.orient("right")
 		.ticks(10);
 
-		
+
 	var svg = d3.select("#barchart")
 		.attr("width", width + m[3] + m[1])
 	    .attr("height", height + m[0] + m[2]);
-	
+
 	var wrapper = svg.append("g");
-	
+
 	var draw = wrapper.append("g")
 		.attr("transform", "translate(" + m[3] + "," + m[0] + ")");
 
@@ -58,18 +64,22 @@ function doBarchart() {
 	draw.append("g")
 		.attr("class", "xaxis")
 		.attr("transform", "translate(0," + height + ")")
-		.call(x_axis);
+		.call(x_axis)
+		.select("text")
+		.attr("y", width+36)
+		.attr("x", height/2)
+		.attr("font-size","15px")
+		.attr("transform", "rotate(-90)")
+		.text("Penalties");
 
+		draw.append("g")
+			.attr("class", "yaxisright")
+			.attr("transform", "translate(" + width + ",0)")
+			.call(y_axisright);
 
 	draw.append("g")
-		.attr("class", "yaxisright")
-		// .attr("transform", "translate(0," + height/2 + ")")
-		.call(y_axisright)
-		.select("text")
-			.attr("y", width-20)
-			.attr("dy", 6)
-			.attr("font-size","15px")
-			.attr("transform", "rotate(-90)");
+		.attr("class", "yaxisleft")
+		.call(y_axisleft);
 /*
 	svg.append("g")
 		.attr("class", "yaxisleft")
