@@ -67,6 +67,16 @@ function doMatrix() {
 		var jRange=d3.scale.linear().domain([jLowerRange,jUpperRange]).range([0,100]);
 		var jStepSize=jRange(jLowerRange+stepSizes[j]);
 	
+		var xaxis = d3.svg.axis()
+			.scale(iRange)
+			.orient("top")
+			.ticks(5);
+
+		var yaxisleft = d3.svg.axis()
+			.scale(jRange)
+			.orient("left")
+			.ticks(5);
+	
 		var visible = [];
 		visible.push(data[0]);
 
@@ -131,7 +141,17 @@ function doMatrix() {
 								})
 				.attr("width",iStepSize)
 				.attr("height",jStepSize);
-													
+			
+			group1.append("g")
+				.attr("class", "xaxis")
+				.attr("transform", "translate(0," + (marginTop-10) + ")")
+				.call(xaxis);
+			
+			group1.append("g")
+				.attr("class", "yaxisleft")
+				// zweites argument darf nur zahl sein
+				.attr("transform", "translate(" + (marginSide-10) + ",0)")
+				.call(yaxisleft);
 
 			squares.on("click",function(d) {
 					showSVG(d, svg_direct);
@@ -217,6 +237,8 @@ function doMatrix() {
 			if(new_heatmap)
 			{
 				svg.selectAll("*").selectAll("rect").remove();
+				svg.selectAll("*").selectAll(".xaxis").remove();
+				svg.selectAll("*").selectAll(".yaxisleft").remove();
 				
 				drawRectangles(data,heatmapfilteri,heatmapfilterj,true);
 				var group = svg.select(".new");
@@ -226,7 +248,9 @@ function doMatrix() {
 			else
 			{
 				svg.selectAll("*:not(.c"+heatmapfilteri+"-"+heatmapfilterj+")").selectAll("rect").remove();
-				
+				svg.selectAll("*:not(.c"+heatmapfilteri+"-"+heatmapfilterj+")").selectAll(".xaxis").remove();
+				svg.selectAll("*:not(.c"+heatmapfilteri+"-"+heatmapfilterj+")").selectAll(".yaxisleft").remove();
+
 				var group = svg.selectAll(".c"+heatmapfilteri+"-"+heatmapfilterj);
 				group.attr("transform","scale(" + (columnnames.length-1-5-1) + "," + (columnnames.length-1-5-1) + ")");
 				//group.transition().duration(1000).attr("transform","scale(2,2)");
