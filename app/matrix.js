@@ -16,6 +16,8 @@ function doMatrix() {
 	}
 	else
 		svg = svg.select("g");
+		
+	svg.selectAll("g").selectAll(".axis").remove();
 	
 	var marginSide = 10,
 		marginBottom = 10,
