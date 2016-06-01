@@ -27,7 +27,10 @@ function doMatrix() {
 	svg_direct.attr("width", width)
 		.attr("height", width);
 		
-	svg.attr("transform", "scale("+width/((130*(columnnames.length-1-5-1)))+","+width/((130*(columnnames.length-1-5-1)))+")");
+	width = width - marginSide - marginSide;
+	height = height - marginBottom - marginTop;
+		
+	svg.attr("transform", "translate(" + marginSide + "," + marginTop + "),scale("+width/((130*(columnnames.length-1-5-1)))+","+width/((130*(columnnames.length-1-5-1)))+")");
 	
 	//Iwo muss gespeichert sein, wie die StepSize beim Generieren war (oder iwie ausrechnen)
 	var stepSizes = [0,0,1,1,1];
@@ -144,13 +147,10 @@ function doMatrix() {
 			
 			group1.append("g")
 				.attr("class", "xaxis")
-				.attr("transform", "translate(0," + (marginTop-10) + ")")
 				.call(xaxis);
 			
 			group1.append("g")
 				.attr("class", "yaxisleft")
-				// zweites argument darf nur zahl sein
-				.attr("transform", "translate(" + (marginSide-10) + ",0)")
 				.call(yaxisleft);
 
 			squares.on("click",function(d) {
