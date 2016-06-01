@@ -220,7 +220,7 @@ function doMatrix() {
 				
 				drawRectangles(data,heatmapfilteri,heatmapfilterj,true);
 				var group = svg.select(".new");
-				group.attr("transform","scale(2.5,2.5)");
+				group.attr("transform","scale(" + (columnnames.length-1-5-1) + "," + (columnnames.length-1-5-1) + ")");
 				
 			}
 			else
@@ -228,7 +228,7 @@ function doMatrix() {
 				svg.selectAll("*:not(.c"+heatmapfilteri+"-"+heatmapfilterj+")").selectAll("rect").remove();
 				
 				var group = svg.selectAll(".c"+heatmapfilteri+"-"+heatmapfilterj);
-				group.attr("transform","scale(2.5,2.5)");
+				group.attr("transform","scale(" + (columnnames.length-1-5-1) + "," + (columnnames.length-1-5-1) + ")");
 				//group.transition().duration(1000).attr("transform","scale(2,2)");
 			}
 		}
