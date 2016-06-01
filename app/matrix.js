@@ -30,7 +30,7 @@ function doMatrix() {
 	width = width - marginSide - marginSide;
 	height = height - marginBottom - marginTop;
 		
-	svg.attr("transform", "translate(" + marginSide + "," + marginTop + "),scale("+width/((130*(columnnames.length-1-5-1)))+","+width/((130*(columnnames.length-1-5-1)))+")");
+	svg.attr("transform", "translate(" + marginSide + "," + marginTop + "),scale("+width/((20 + 130*(columnnames.length-1-5-1)))+","+width/((20 + 130*(columnnames.length-1-5-1)))+")");
 	
 	//Iwo muss gespeichert sein, wie die StepSize beim Generieren war (oder iwie ausrechnen)
 	var stepSizes = [0,0,1,1,1];
@@ -199,7 +199,7 @@ function doMatrix() {
 		}
 
 		if(!new_group)
-			group1.attr("transform","translate(" + (i-5)*130 + "," + (j-1-5)*130 + ")");
+			group1.attr("transform","translate(" + (20 + (i-5)*130) + "," + (20 + (j-1-5)*130) + ")");
 		
 	}
 	
@@ -252,7 +252,7 @@ function doMatrix() {
 				svg.selectAll("*:not(.c"+heatmapfilteri+"-"+heatmapfilterj+")").selectAll(".yaxisleft").remove();
 
 				var group = svg.selectAll(".c"+heatmapfilteri+"-"+heatmapfilterj);
-				group.attr("transform","scale(" + (columnnames.length-1-5-1) + "," + (columnnames.length-1-5-1) + ")");
+				group.attr("transform","scale(" + ((20 + 130*(columnnames.length-1-5-1))/130) + "," + ((20 + 130*(columnnames.length-1-5-1))/130) + "),translate(20,20)");
 				//group.transition().duration(1000).attr("transform","scale(2,2)");
 			}
 		}
