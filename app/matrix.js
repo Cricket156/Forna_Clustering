@@ -236,26 +236,76 @@ function doMatrix() {
 	
 		if(-1!=heatmapfilteri && -1!=heatmapfilterj)
 		{
-			if(new_heatmap)
+		
+			if(heatmapfilterj<5)
 			{
 				svg.selectAll("*").selectAll("rect").remove();
 				svg.selectAll("*").selectAll(".xaxis").remove();
 				svg.selectAll("*").selectAll(".yaxisleft").remove();
+			
+				svg.append("g").attr("class","new");
+				group1 = svg.select(".new");
 				
-				drawRectangles(data,heatmapfilteri,heatmapfilterj,true);
-				var group = svg.select(".new");
-				group.attr("transform","scale(" + (columnnames.length-1-5-1) + "," + (columnnames.length-1-5-1) + ")");
+				var i=heatmapfilteri;
+				var j=heatmapfilterj;
 				
+				var iLowerRange=d3.min(data,function(d){return parseFloat(d[i]);});
+				var iUpperRange=parseFloat(d3.max(data,function(d){return d[i];}))+stepSizes[i];
+				var iRange=d3.scale.linear().domain([iLowerRange,iUpperRange]).range([0,100]);
+				var iStepSize=iRange(iLowerRange+stepSizes[i]);
+					
+				var jLowerRange=d3.min(data,function(d){return parseFloat(d[j]);});
+				var jUpperRange=parseFloat(d3.max(data,function(d){return d[j];}))+stepSizes[j];
+				var jRange=d3.scale.linear().domain([jLowerRange,jUpperRange]).range([0,100]);
+				var jStepSize=jRange(jLowerRange+stepSizes[j]);
+				
+				var xaxis = d3.svg.axis()
+					.scale(iRange)
+					.orient("top")
+					.ticks(5);
+
+				var yaxisleft = d3.svg.axis()
+					.scale(jRange)
+					.orient("left")
+					.ticks(5);
+				
+				group1.append("g")
+					.attr("class", "xaxis axis")
+					.call(xaxis);
+				
+				group1.append("g")
+					.attr("class", "yaxisleft axis")
+					.call(yaxisleft);
+				
+				//Scatterplot
+				//alles, was mit dem scatterplot zu tun hat, kommt in group1
+				//Die daten für die x-Achse stehen an der stelle i, die für die y-Achse stehen an der Stelle j
+				
+				group1.attr("transform","scale(" + ((20 + 130*(columnnames.length-1-5-1))/130) + "," + ((20 + 130*(columnnames.length-1-5-1))/130) + "),translate(20,20)");
 			}
 			else
 			{
-				svg.selectAll("*:not(.c"+heatmapfilteri+"-"+heatmapfilterj+")").selectAll("rect").remove();
-				svg.selectAll("*:not(.c"+heatmapfilteri+"-"+heatmapfilterj+")").selectAll(".xaxis").remove();
-				svg.selectAll("*:not(.c"+heatmapfilteri+"-"+heatmapfilterj+")").selectAll(".yaxisleft").remove();
+				if(new_heatmap)
+				{
+					svg.selectAll("*").selectAll("rect").remove();
+					svg.selectAll("*").selectAll(".xaxis").remove();
+					svg.selectAll("*").selectAll(".yaxisleft").remove();
+					
+					drawRectangles(data,heatmapfilteri,heatmapfilterj,true);
+					var group = svg.select(".new");
+					group.attr("transform","scale(" + ((20 + 130*(columnnames.length-1-5-1))/130) + "," + ((20 + 130*(columnnames.length-1-5-1))/130) + "),translate(20,20)");
+					
+				}
+				else
+				{
+					svg.selectAll("*:not(.c"+heatmapfilteri+"-"+heatmapfilterj+")").selectAll("rect").remove();
+					svg.selectAll("*:not(.c"+heatmapfilteri+"-"+heatmapfilterj+")").selectAll(".xaxis").remove();
+					svg.selectAll("*:not(.c"+heatmapfilteri+"-"+heatmapfilterj+")").selectAll(".yaxisleft").remove();
 
-				var group = svg.selectAll(".c"+heatmapfilteri+"-"+heatmapfilterj);
-				group.attr("transform","scale(" + ((20 + 130*(columnnames.length-1-5-1))/130) + "," + ((20 + 130*(columnnames.length-1-5-1))/130) + "),translate(20,20)");
-				//group.transition().duration(1000).attr("transform","scale(2,2)");
+					var group = svg.selectAll(".c"+heatmapfilteri+"-"+heatmapfilterj);
+					group.attr("transform","scale(" + ((20 + 130*(columnnames.length-1-5-1))/130) + "," + ((20 + 130*(columnnames.length-1-5-1))/130) + "),translate(20,20)");
+					//group.transition().duration(1000).attr("transform","scale(2,2)");
+				}
 			}
 		}
 
