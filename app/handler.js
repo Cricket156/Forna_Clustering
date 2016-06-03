@@ -4,6 +4,7 @@ window.addEventListener('resize', doAll);
 var results = [];		//2d array, that holds all nodes
 var clusters = [];		//3d array; 1st D: cluster, 2nd D: single node, 3rd D: node info
 var columnnames = [];
+var gewichtungen = [1,1,1];
 var matrixloaded = false;
 var matrixfilter = -1;
 var heatmapfilteri = -1;
@@ -56,7 +57,7 @@ function loadCSV(evt) {
 		.attr("height", 200);
 		
 //TODO: nur eine Übergangslösung, sollte eine bessere Stelle zum Aufruf gefunden werden..
-			initDropdown();
+			initOptions();
 			extractClusters();
 			doAll();
 		}
@@ -80,8 +81,6 @@ function extractClusters() {
 			cluster.push(results[i]);
 		}
 	}
-	
-	var gewichtungen = [1,1,1];
 	
 	var getAvgPenalty = function(d) {
 		var result=0;
@@ -174,7 +173,7 @@ function extractClusters() {
 	//  console.log(globalavgarr);
 }
 
-function initDropdown() {
+function initOptions() {
 	var dropdown_x=d3.select("#filterxaxis");
 	var dropdown_y=d3.select("#filteryaxis");
 
@@ -186,33 +185,58 @@ function initDropdown() {
 		.attr("value",-1)
 		.text("no selection");
 	
-        for(var i=5;i<columnnames.length-1;++i)
-        {
-                dropdown_x.append("option")
-                        .attr("value",i)
-                        .text(columnnames[i]);
+	//Fuer alle Parameter
+	for(var i=5;i<columnnames.length-1;++i)
+	{
+		dropdown_x.append("option")
+			.attr("value",i)
+			.text(columnnames[i]);
 		dropdown_x.on("change",function(d) {
-				var index = dropdown_x.property("selectedIndex"),
-                                s = dropdown_x.selectAll("option").filter(function (d, i) { return i === index });
-                                heatmapfilteri  = s.attr("value");
-                                doMatrix();
+				var index = d3.select(this).property("selectedIndex");
+				s = d3.select(this).selectAll("option").filter(function (d, i) { return i === index });
+				heatmapfilteri  = s.attr("value");
+				doMatrix();
 			});
 
 		dropdown_y.append("option")
-                        .attr("value",i)
-                        .text(columnnames[i]);
-                dropdown_y.on("change",function(d) {
-				var index = dropdown_y.property("selectedIndex"),
-			        s = dropdown_y.selectAll("option").filter(function (d, i) { return i === index });
-        			heatmapfilterj = s.attr("value");
-                                doMatrix();
-                        });
-        }
-		
-		for(var i=2;i<5;++i)
+			.attr("value",i)
+			.text(columnnames[i]);
+		dropdown_y.on("change",function(d) {
+				var index = d3.select(this).property("selectedIndex");
+				s = d3.select(this).selectAll("option").filter(function (d, i) { return i === index });
+				heatmapfilterj = s.attr("value");
+				doMatrix();
+			});
+	}
+	
+	//Fuer alle Penalties
+	for(var i=2;i<5;++i)
+	{
 		dropdown_y.append("option")
-				.attr("value",i)
-                .text(columnnames[i]);
+			.attr("value",i)
+			.text(columnnames[i]);
+			
+		var txtGewichtungen = d3.select("#gewichtungen");
+		txtGewichtungen.append("br");
+		txtGewichtungen.append("input")
+			.attr("class", i)
+			.attr("type","number")
+			.attr("min",0)
+			.attr("max",1)
+			.attr("step",0.1)
+			.attr("value",1)
+			.on("input",function(d) {
+					s = this.value;
+					id = parseInt(d3.select(this).attr("class"))-2;
+					console.log(id);
+					gewichtungen[id]=parseFloat(s);
+					doBarchart();
+					doMatrix();
+					console.log(gewichtungen);
+				});
+	}
+	
+	
 }
 
 function doAll() {

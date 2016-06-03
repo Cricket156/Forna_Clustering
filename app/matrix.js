@@ -51,8 +51,6 @@ function doMatrix() {
 	
 	var avgType=true;
 
-	var gewichtungen = [1,1,1];
-
 	var getAvgPenalty = function(d) {
 		var result=0;
 		for(var i=0;i<gewichtungen.length;++i)
