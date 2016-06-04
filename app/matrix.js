@@ -1,3 +1,5 @@
+var clusterColors = [];
+
 function doMatrix() {
 
 	var svg = d3.select("#matrix");
@@ -239,6 +241,8 @@ function doMatrix() {
 		{
 			if(heatmapfilterj<5)
 			{
+				d3.select("#outlierCheckbox")
+					.style("visibility", "visible");
 				svg.selectAll("*").selectAll("rect").remove();
 				svg.selectAll("*").selectAll(".xaxis").remove();
 				svg.selectAll("*").selectAll(".yaxisleft").remove();
@@ -281,12 +285,13 @@ function doMatrix() {
 				//alles, was mit dem scatterplot zu tun hat, kommt in group1
 				//Die daten für die x-Achse stehen an der stelle i, die für die y-Achse stehen an der Stelle j
 					
-				var colorRangeScatter=d3.scale.linear().
-					domain([-1,clusters.length])
+/*
+				var colorRangeScatter=d3.scale.linear()
+					.domain([-1,clusters.length])
 					.range([["blue","yellow"]]);
-					
+*/				
 				// circles in scatterplot
-				
+
 				group1.selectAll(".dot")
 					.data(data)
 					.enter().append("circle")
@@ -294,19 +299,32 @@ function doMatrix() {
 					.attr("r", 3.5)
 					.attr("cx", function(d) { return iRange(d[i]); })
 					.attr("cy", function(d) { return jRange(d[j]); })
-					.style("opacity",0.2)
-					.style("fill", function(d) { 
-									/*if(-1==d[1])
-										return "black";
-									return "blue";*/
+					.style("opacity",1.0)
+					.style("fill", function(d, i) {
+									if(-1==d[1]) {
+										if (document.getElementById("inputCheckbox").checked) {
+											d3.select(this).style("opacity", 0.0);
+										}
+										else {
+											return "black";
+										}
+									}
+									else {
+										return clusterColors[(results[i][1])];
+									}
+//									return "white";
+										//return "#125ab5";
+									//return "blue";
 									//funktioniert iwie nicht
-									return colorRangeScatter(d[1]);
+									//return colorRangeScatter(d[1]);
 								});
 
 				group1.attr("transform","scale(" + ((20 + 130*(columnnames.length-1-5-1))/130) + "," + ((20 + 130*(columnnames.length-1-5-1))/130) + "),translate(20,20)");
 			}
 			else
 			{
+				d3.select("#outlierCheckbox")
+					.style("visibility", "hidden");
 				if(new_heatmap)
 				{
 					svg.selectAll("*").selectAll("rect").remove();
@@ -347,4 +365,15 @@ function doMatrix() {
         });
 
 	console.log("Matrix done");
+}
+
+function randomColorGenerator() {
+	for (var i = 0; i < clusters.length; i++) {
+		var color = "#"+((1<<24)*Math.random()|0).toString(16);
+		if (color.length < 7) {
+			console.log("color.length < 7");
+			color = "#"+((1<<24)*Math.random()|0).toString(16);
+		}
+		clusterColors.push(color);
+	}
 }

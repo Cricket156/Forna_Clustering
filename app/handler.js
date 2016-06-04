@@ -58,6 +58,7 @@ function loadCSV(evt) {
 //TODO: nur eine Übergangslösung, sollte eine bessere Stelle zum Aufruf gefunden werden..
 			initDropdown();
 			extractClusters();
+			randomColorGenerator();
 			doAll();
 		}
 	}
