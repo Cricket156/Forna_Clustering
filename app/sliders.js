@@ -1,8 +1,7 @@
 function doSliders() {
 	var data;
 
-	var x, y, dragging, line, axis, background, foreground;	
-	d3.select("#sliders").selectAll("*").remove();
+	var x, y, dragging, line, axis, background, foreground;
 	
 	var marginTop = 20,
 		marginBottom = 10,
@@ -16,107 +15,84 @@ function doSliders() {
 		.attr("height", height + marginBottom + marginTop);
 	
 	var wrapper = svg.append('g');
-
-	wrapper.append("g")
-		.attr("transform", "translate(" + marginTop + "," + marginSide + ")");
-		
+	
 	data = cutData(results);
-
-	x = {};
-	y = d3.scale.ordinal().rangePoints([0, height], 1);
-	dragging = {};
-
-	line = d3.svg.line();
-	axis = d3.svg.axis().orient("left");
 	
-// Extract the list of dimensions and create a scale for each.
-	y.domain(dimensions = d3.keys(data[0]).filter(function(d) {
-		return d != "name" && (x[d] = d3.scale.linear()
-			.domain(d3.extent(data, function(p) { return +p[d]; }))
-			.range([width, 0]));
-	}));
+	var foreground;
 	
-/*
-// Add grey background lines for context.
-	background = wrapper.select("g").append("g")
-		.attr("class", "background")
-		.selectAll("path")
-		.data(data)
-		.enter().append("path")
-		.attr("d", path);
-*/
-// Add blue foreground lines for focus.
-	foreground = wrapper.select("g").append("g");
-/*
-	bar.append("rect")
-		.attr("x", 1)
-		.attr("width", x(data[0].dx) - 1)
-		.attr("height", function(d) { return height - y(d.y); });
-
-	bar.append("text")
-		.attr("dy", ".75em")
-		.attr("y", 6)
-		.attr("x", x(data[0].dx) / 2)
-		.attr("text-anchor", "middle")
-		.text(function(d) { return formatCount(d.y); })
-*/
-// Add a group element for each dimension.
-	var g = wrapper.select("g").selectAll(".dimension")
-		.data(dimensions)
-		.enter().append("g")
-		.attr("class", "dimension")
-		.attr("transform", function(d) { 
-			return "rotate(270), translate(" + y(d)*(-1) + ")";
-//			return "translate(" + y(d) + ")"; 
-		});
-
-// Add an axis and title.
-	g.append("g")
-		.attr("class", "axis")
-		.each(function(d) { 
-			d3.select(this).call(axis.scale(x[d])); 
-		})
-		.append("text")
-		.style("text-anchor", "middle")
-		.attr("y", -9)
-		.text(function(d) { return data[0][d]; });
+	var dimensions = [];
 	
-// Add and store a brush for each axis.
-	g.append("g")
-		.attr("class", "brush")
-		.each(function(d) {
-			d3.select(this).call(x[d].brush = d3.svg.brush().y(x[d]).on("brushstart", function() {
-					d3.event.sourceEvent.stopPropagation();
-				}).on("brush", brush));
-		})
-		.selectAll("rect")
-		.attr("x", -8)
-		.attr("width", 16);
+	for (var j = 0; j < data[0].length; j++) {
+		var y_scale = {};
+		var x_scale = {};
+		var map = data.map(function (d, i) {if (i > 0) { return d[j];}})       
+				
+		var histogram = d3.layout.histogram()
+			.bins(7)(map);
+			
+		y_scale = d3.scale.linear()
+			.domain([0,d3.max( histogram.map (function (i) { return i.length;}))])
+			.range([0,height/data[j].length-marginTop]);
+ 
+		x_scale = d3.scale.linear()
+			.domain([0, d3.max(map)])
+			.range([0, width]);
+ 
+		var x_axis = d3.svg.axis()
+			.scale(x_scale)
+			.orient("bottom");
+		
+		var brush = d3.svg.brush()
+			.x(x_scale)
+			.on("brush", brushed);
+			
+		var canvas = wrapper.attr("width", width)
+			.attr("height", height)
+			.append("g")
+			.attr("transform", "translate(20," + height/data[0].length*(j)*(-1) + ")");
 
-	console.log("sliders done");
-	
-		function position(d) {
-		var v = dragging[d];
-		return v == null ? x(d) : v;
+		var g = canvas.append("g")
+			.attr("class", "axis")
+			.attr("transform", "translate(0,"    +  height + ")")
+			.call(x_axis);
+
+		canvas.selectAll("rect")
+			.data(histogram)
+			.enter()
+			.append("g")
+			.append("rect")
+			// startpunkt 
+			.attr("x", function (d) { return x_scale(d.x);} )
+			.attr("y", function (d) { return height - y_scale(d.y); } )
+			// breite ist span des intervalls . 
+			.attr("width", function (d) { return x_scale(d.dx);} )
+			// höhe ist anzahl der elemente 
+			.attr("height", function (d) { return y_scale(d.y);} )
+			.attr("fill", "red");
+
+
+		canvas.append("g")
+			.attr("class", "brush")
+			.attr("transform", "translate(0,"    +  height + ")")
+			.call(brush)
+			.selectAll("rect")
+			.attr("y", -9)
+			.attr("width", width)
+			.attr("height", 16);
+
 	}
-
-	// Returns the path for a given data point.
-	function path(d) {
-		return line(dimensions.map(function(p) { 
-			return [position(p), y[p](d[p])]; 
-		}));
-	}
-
-	// Handles a brush event, toggling the display of foreground lines.
-	function brush() {
-		var actives = dimensions.filter(function(p) { return !y[p].brush.empty(); }),
-			extents = actives.map(function(p) { return y[p].brush.extent(); });
+	
+	function brushed() {
+		/*
+		var actives = dimensions.filter(function(p) { return !y_scale[p].brush.empty(); }),
+			extents = actives.map(function(p) { return y_scale[p].brush.extent(); });
 		
 		foreground.style("display", function(d) {
 			return actives.every(function(p, i) {
 				return extents[i][0] <= d[p] && d[p] <= extents[i][1];
 			}) ? null : "none";
 		});
+		*/
 	}
 
 	function cutData(data) {
@@ -135,7 +111,8 @@ function doSliders() {
 			}
 			newData.push(line);
 		}
-		console.log(newData);
 		return newData;	
 	}
+	
+
 }
