@@ -219,10 +219,13 @@ function doAll() {
 	d3.select("#barchart").selectAll("*").remove();
 	d3.select("#parallelCoordinates").selectAll("*").remove();
 	d3.select("#matrix").select("g").selectAll("g").selectAll("*").remove();
+	d3.select("#sliders").selectAll("*").remove();
+	
 	
 	doBarchart();
 	doParallelCoordinates();
 	doMatrix();
+	doSliders();
 }
 
 function showSVG(d, svg_direct) {

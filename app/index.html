@@ -17,42 +17,51 @@
 	<script src="barchart.js"></script>
 	<script src="parallelCoordinates.js"></script>
 	<script src="matrix.js"></script>
+	<script src="sliders.js"></script>
 	<style>
+		svg {
+		  font: 10px sans-serif;
+		}
 
-svg {
-  font: 10px sans-serif;
-}
+		.background path {
+		  fill: none;
+		  stroke: #ddd;
+		  shape-rendering: crispEdges;
+		}
 
-.background path {
-  fill: none;
-  stroke: #ddd;
-  shape-rendering: crispEdges;
-}
+		.foreground path {
+		  fill: none;
+		  stroke: steelblue;
+		}
 
-.foreground path {
-  fill: none;
-  stroke: steelblue;
-}
+		.brush .extent {
+		  fill-opacity: .3;
+		  stroke: #fff;
+		  shape-rendering: crispEdges;
+		}
 
-.brush .extent {
-  fill-opacity: .3;
-  stroke: #fff;
-  shape-rendering: crispEdges;
-}
+		.axis line,
+		.axis path {
+		  fill: none;
+		  stroke: #000;
+		  shape-rendering: crispEdges;
+		}
 
-.axis line,
-.axis path {
-  fill: none;
-  stroke: #000;
-  shape-rendering: crispEdges;
-}
+		.axis text {
+		  text-shadow: 0 1px 0 #fff, 1px 0 0 #fff, 0 -1px 0 #fff, -1px 0 0 #fff;
+		  cursor: move;
+		}
+		
+		
+		.bar rect {
+		  fill: steelblue;
+		  shape-rendering: crispEdges;
+		}
 
-.axis text {
-  text-shadow: 0 1px 0 #fff, 1px 0 0 #fff, 0 -1px 0 #fff, -1px 0 0 #fff;
-  cursor: move;
-}
-
-</style>
+		.bar text {
+		  fill: #fff;
+		}
+	</style>
 </head>
 <body>
 	<nav class="navbar navbar-inverse navbar-fixed-top" role="navigation">
@@ -88,20 +97,23 @@ svg {
 				</label>
 			</div>
 		</div>
-		<div class="col-md-10">
+		<div class="col-md-8">
 			<div class="row">
-				<div class="col-md-10" id="barchartDiv">
+				<div class="col-md-12" id="barchartDiv">
 					<svg id="barchart" height="250px" width="100%"></svg>
 				</div>
 			</div>
 			<div class="row">
-				<div class="col-md-5" id="matrixDiv">
+				<div class="col-md-6" id="matrixDiv">
 					<svg id="matrix" width="100%"></svg>
 				</div>
-				<div class="col-md-5" id="parallelCoordinatesDiv">
+				<div class="col-md-6" id="parallelCoordinatesDiv">
 					<svg id="parallelCoordinates" width="100%"></svg>
 				</div>
 			</div>
+		</div>
+		<div class="col-md-2" id="sliderDiv" style="height: 700px">
+			<svg id="sliders" width="100%" height="100%"></svg>
 		</div>
 	</section>
 	<script src="handler.js"></script>

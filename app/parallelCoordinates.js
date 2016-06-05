@@ -1,10 +1,7 @@
-var data;
-
-var test;
-
-var x, y, dragging, line, axis, background, foreground;
-
 function doParallelCoordinates() {
+	var data;
+
+	var x, y, dragging, line, axis, background, foreground;	
 	d3.select("#parallelCoordinates").selectAll("*").remove();
 	
 	var marginTop = 30,
@@ -82,6 +79,7 @@ function doParallelCoordinates() {
 			.attr("y", -9)
 			.text(function(d) { return data[0][d]; });
 
+			
 		// Add and store a brush for each axis.
 		g.append("g")
 			.attr("class", "brush")
@@ -93,51 +91,53 @@ function doParallelCoordinates() {
 			.selectAll("rect")
 			.attr("x", -8)
 			.attr("width", 16);
+			
 	}
 	
 	console.log("ParallelCoordinates done");
-}
 
-function position(d) {
-	var v = dragging[d];
-	return v == null ? x(d) : v;
-}
-
-// Returns the path for a given data point.
-function path(d) {
-	return line(dimensions.map(function(p) { 
-		return [position(p), y[p](d[p])]; 
-	}));
-}
-
-// Handles a brush event, toggling the display of foreground lines.
-function brush() {
-	var actives = dimensions.filter(function(p) { return !y[p].brush.empty(); }),
-		extents = actives.map(function(p) { return y[p].brush.extent(); });
-	
-	foreground.style("display", function(d) {
-		return actives.every(function(p, i) {
-			return extents[i][0] <= d[p] && d[p] <= extents[i][1];
-		}) ? null : "none";
-	});
-}
-
-function cutData(data) {
-	var newData = [];
-
-	var line = [];
-	for (var i = 5; i < columnnames.length-1; i++) {
-		line.push(columnnames[i]);
+	function position(d) {
+		var v = dragging[d];
+		return v == null ? x(d) : v;
 	}
-	
-	newData.push(line);
-	for (var i = 0; i < data.length; i++) {
+
+	// Returns the path for a given data point.
+	function path(d) {
+		return line(dimensions.map(function(p) { 
+			return [position(p), y[p](d[p])]; 
+		}));
+	}
+
+	// Handles a brush event, toggling the display of foreground lines.
+	function brush() {
+		var actives = dimensions.filter(function(p) { return !y[p].brush.empty(); }),
+			extents = actives.map(function(p) { return y[p].brush.extent(); });
+		
+		foreground.style("display", function(d) {
+			return actives.every(function(p, i) {
+				return extents[i][0] <= d[p] && d[p] <= extents[i][1];
+			}) ? null : "none";
+		});
+	}
+
+	function cutData(data) {
+		var newData = [];
+
 		var line = [];
-		for (var j = 5; j < data[i].length-1; j++) {
-			line.push(data[i][j]);
+		for (var i = 5; i < columnnames.length-1; i++) {
+			line.push(columnnames[i]);
 		}
+		
 		newData.push(line);
+		for (var i = 0; i < data.length; i++) {
+			var line = [];
+			for (var j = 5; j < data[i].length-1; j++) {
+				line.push(data[i][j]);
+			}
+			newData.push(line);
+		}
+		
+		return newData;	
 	}
-	
-	return newData;	
 }
+
