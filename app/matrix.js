@@ -1,3 +1,5 @@
+var clusterColors = [];
+
 function doMatrix() {
 
 	var svg = d3.select("#matrix");
@@ -147,11 +149,25 @@ function doMatrix() {
 
 			group1.append("g")
 				.attr("class", "xaxis axis")
-				.call(xaxis);
+				.call(xaxis)
+				.append("text")
+				.attr("class", "label")
+				.attr("y", -20)
+				.attr("x", -70)
+				.style("text-anchor", "middle")
+				.text(String(columnnames[i]));
 
 			group1.append("g")
 				.attr("class", "yaxisleft axis")
-				.call(yaxisleft);
+				.call(yaxisleft)
+				.append("text")
+				.attr("class", "label")
+				.attr("transform", "rotate(-90)")
+				.attr("y", -30)
+				.attr("x", -70)
+				.attr("dy", ".71em")
+				.style("text-anchor", "middle")
+				.text(String(columnnames[j]));
 
 			squares.on("click",function(d) {
 					showSVG(d, svg_direct);
@@ -237,6 +253,8 @@ function doMatrix() {
 		{
 			if(heatmapfilterj<5)
 			{
+				d3.select("#outlierCheckbox")
+					.style("visibility", "visible");
 				svg.selectAll("*").selectAll("rect").remove();
 				svg.selectAll("*").selectAll(".xaxis").remove();
 				svg.selectAll("*").selectAll(".yaxisleft").remove();
@@ -246,7 +264,7 @@ function doMatrix() {
 				
 				var i=heatmapfilteri;
 				var j=heatmapfilterj;
-
+				
 				var iLowerRange=d3.min(data,function(d){return parseFloat(d[i]);});
 				var iUpperRange=parseFloat(d3.max(data,function(d){return d[i];}))+stepSizes[i];
 				var iRange=d3.scale.linear().domain([iLowerRange,iUpperRange]).range([0,100]);
@@ -275,15 +293,11 @@ function doMatrix() {
 					.attr("class", "yaxisleft axis")
 					.call(yaxisleft);
 					
-				var colorRangeScatter=d3.scale.linear().
-					domain([-1,clusters.length])
-					.range([["blue","yellow"]]);
-					
 				//Scatterplot
 				//alles, was mit dem scatterplot zu tun hat, kommt in group1
 				//Die daten für die x-Achse stehen an der stelle i, die für die y-Achse stehen an der Stelle j
 				// circles in scatterplot
-				
+
 				group1.selectAll(".dot")
 					.data(data)
 					.enter().append("circle")
@@ -292,18 +306,29 @@ function doMatrix() {
 					.attr("cx", function(d) { return iRange(d[i]); })
 					.attr("cy", function(d) { return jRange(d[j]); })
 					.style("opacity",0.2)
-					.style("fill", function(d) { 
-									/*if(-1==d[1])
-										return "black";
-									return "blue";*/
-									
-									return colorRangeScatter(d[1]);
-								});
+					.style("fill", function(d, i) {
+							if(-1==d[1])
+							{
+								if (document.getElementById("inputCheckbox").checked) {
+									d3.select(this).style("opacity", 0.0);
+								}
+								else
+								{
+									return "black";
+								}
+							}
+							else
+							{
+								return clusterColors[(results[i][1])];
+							}
+						});
 
 				group1.attr("transform","scale(" + ((20 + 130*(columnnames.length-1-5-1))/130) + "," + ((20 + 130*(columnnames.length-1-5-1))/130) + "),translate(20,20)");
 			}
 			else
 			{
+				d3.select("#outlierCheckbox")
+					.style("visibility", "hidden");
 				if(new_heatmap)
 				{
 					svg.selectAll("*").selectAll("rect").remove();
@@ -344,4 +369,15 @@ function doMatrix() {
         });
 
 	console.log("Matrix done");
+}
+
+function randomColorGenerator() {
+	for (var i = 0; i < clusters.length; i++) {
+		var color = "#"+((1<<24)*Math.random()|0).toString(16);
+		if (color.length < 7) {
+			console.log("color.length < 7");
+			color = "#"+((1<<24)*Math.random()|0).toString(16);
+		}
+		clusterColors.push(color);
+	}
 }
