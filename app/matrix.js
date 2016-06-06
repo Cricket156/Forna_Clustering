@@ -21,9 +21,9 @@ function doMatrix() {
 
 	svg.selectAll("g").selectAll(".axis").remove();
 
-	var marginSide = 10,
-		marginBottom = 10,
-		marginTop = 10;
+	var marginSide = 30,
+		marginBottom = 20,
+		marginTop = 20;
 
 	var width = document.getElementById('matrixDiv').clientWidth;
 	var height = (window.innerHeight-60)*(2/3);
@@ -34,7 +34,7 @@ function doMatrix() {
 	width = width - marginSide - marginSide;
 	height = height - marginBottom - marginTop;
 
-	svg.attr("transform", "translate(" + marginSide + "," + marginTop + "),scale("+width/((20 + 130*(columnnames.length-1-5-1)))+","+width/((20 + 130*(columnnames.length-1-5-1)))+")");
+	svg.attr("transform", "translate(" + marginSide + "," + marginTop + "),scale("+width/((marginSide + 130*(columnnames.length-1-5-1)))+","+width/((marginTop + 130*(columnnames.length-1-5-1)))+")");
 
 	//Iwo muss gespeichert sein, wie die StepSize beim Generieren war (oder iwie ausrechnen)
 	var stepSizes = [0,0,1,1,1];
@@ -150,7 +150,7 @@ function doMatrix() {
 			.append("text")
 			.attr("class", "label")
 			.attr("y", -20)
-			.attr("x", -70)
+		//	.attr("x", -70)
 			.style("text-anchor", "middle")
 			.text(String(columnnames[i]));
 
@@ -181,7 +181,7 @@ function doMatrix() {
 		squares.exit().remove();
 
 		if(!new_group)
-			group1.attr("transform","translate(" + (20 + (i-5)*130) + "," + (20 + (j-1-5)*130) + ")");
+			group1.attr("transform","translate(" + (marginSide + (i-5)*130) + "," + (marginTop + (j-1-5)*130) + ")");
 
 	}
 
@@ -254,11 +254,25 @@ function doMatrix() {
 					
 				group1.append("g")
 					.attr("class", "xaxis axis")
-					.call(xaxis);
-				
+					.call(xaxis)
+					.append("text")
+					.attr("class", "label")
+					.attr("y", -20)
+				//	.attr("x", -70)
+					.style("text-anchor", "middle")
+					.text(String(columnnames[i]));
+
 				group1.append("g")
 					.attr("class", "yaxisleft axis")
-					.call(yaxisleft);
+					.call(yaxisleft)
+					.append("text")
+					.attr("class", "label")
+					.attr("transform", "rotate(-90)")
+					.attr("y", -30)
+					.attr("x", -70)
+					.attr("dy", ".71em")
+					.style("text-anchor", "middle")
+					.text(String(columnnames[j]));
 					
 				//Scatterplot
 				//alles, was mit dem scatterplot zu tun hat, kommt in group1
@@ -290,7 +304,7 @@ function doMatrix() {
 							}
 						});
 
-				group1.attr("transform","scale(" + ((20 + 130*(columnnames.length-1-5-1))/130) + "," + ((20 + 130*(columnnames.length-1-5-1))/130) + "),translate(20,20)");
+				group1.attr("transform","scale(" + ((marginSide + 130*(columnnames.length-1-5-1))/130) + "," + ((marginTop + 130*(columnnames.length-1-5-1))/130) + "),translate(" + marginSide + "," + marginTop + ")");
 			}
 			else
 			{
@@ -304,7 +318,7 @@ function doMatrix() {
 					
 					drawRectangles(data,heatmapfilteri,heatmapfilterj,true);
 					var group = svg.select(".new");
-					group.attr("transform","scale(" + ((20 + 130*(columnnames.length-1-5-1))/130) + "," + ((20 + 130*(columnnames.length-1-5-1))/130) + "),translate(20,20)");	
+					group.attr("transform","scale(" + ((marginSide + 130*(columnnames.length-1-5-1))/130) + "," + ((marginTop + 130*(columnnames.length-1-5-1))/130) + "),translate(" + marginSide + "," + marginTop + ")");
 				}
 				else
 				{
@@ -313,7 +327,7 @@ function doMatrix() {
 					svg.selectAll("*:not(.c"+heatmapfilteri+"-"+heatmapfilterj+")").selectAll(".yaxisleft").remove();
 					
 					var group = svg.selectAll(".c"+heatmapfilteri+"-"+heatmapfilterj);
-					group.attr("transform","scale(" + ((20 + 130*(columnnames.length-1-5-1))/130) + "," + ((20 + 130*(columnnames.length-1-5-1))/130) + "),translate(20,20)");
+					group.attr("transform","scale(" + ((marginSide + 130*(columnnames.length-1-5-1))/130) + "," + ((marginTop + 130*(columnnames.length-1-5-1))/130) + "),translate(" + marginSide + "," + marginTop + ")");
 					//group.transition().duration(1000).attr("transform","scale(2,2)");
 				}
 			}
