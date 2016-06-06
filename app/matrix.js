@@ -151,11 +151,25 @@ function doMatrix() {
 
 			group1.append("g")
 				.attr("class", "xaxis axis")
-				.call(xaxis);
+				.call(xaxis)
+				.append("text")
+				.attr("class", "label")
+				.attr("y", -20)
+				.attr("x", -70)
+				.style("text-anchor", "middle")
+				.text(String(columnnames[i]));
 
 			group1.append("g")
 				.attr("class", "yaxisleft axis")
-				.call(yaxisleft);
+				.call(yaxisleft)
+				.append("text")
+				.attr("class", "label")
+				.attr("transform", "rotate(-90)")
+				.attr("y", -30)
+				.attr("x", -70)
+				.attr("dy", ".71em")
+				.style("text-anchor", "middle")
+				.text(String(columnnames[j]));
 
 			squares.on("click",function(d) {
 					showSVG(d, svg_direct);
@@ -239,6 +253,7 @@ function doMatrix() {
 
 		if(-1!=heatmapfilteri && -1!=heatmapfilterj)
 		{
+
 			if(heatmapfilterj<5)
 			{
 				d3.select("#outlierCheckbox")
@@ -249,7 +264,7 @@ function doMatrix() {
 
 				svg.append("g").attr("class","new");
 				group1 = svg.select(".new");
-				
+
 				var i=heatmapfilteri;
 				var j=heatmapfilterj;
 
@@ -272,26 +287,19 @@ function doMatrix() {
 					.scale(jRange)
 					.orient("left")
 					.ticks(5);
-				
+
 				group1.append("g")
 					.attr("class", "xaxis axis")
 					.call(xaxis);
-				
+
 				group1.append("g")
 					.attr("class", "yaxisleft axis")
 					.call(yaxisleft);
-				
+
 				//Scatterplot
 				//alles, was mit dem scatterplot zu tun hat, kommt in group1
 				//Die daten für die x-Achse stehen an der stelle i, die für die y-Achse stehen an der Stelle j
-					
-/*
-				var colorRangeScatter=d3.scale.linear()
-					.domain([-1,clusters.length])
-					.range([["blue","yellow"]]);
-*/				
 				// circles in scatterplot
-
 				group1.selectAll(".dot")
 					.data(data)
 					.enter().append("circle")
@@ -319,6 +327,8 @@ function doMatrix() {
 									//return colorRangeScatter(d[1]);
 								});
 
+
+
 				group1.attr("transform","scale(" + ((20 + 130*(columnnames.length-1-5-1))/130) + "," + ((20 + 130*(columnnames.length-1-5-1))/130) + "),translate(20,20)");
 			}
 			else
@@ -330,10 +340,11 @@ function doMatrix() {
 					svg.selectAll("*").selectAll("rect").remove();
 					svg.selectAll("*").selectAll(".xaxis").remove();
 					svg.selectAll("*").selectAll(".yaxisleft").remove();
-					
+
 					drawRectangles(data,heatmapfilteri,heatmapfilterj,true);
 					var group = svg.select(".new");
 					group.attr("transform","scale(" + ((20 + 130*(columnnames.length-1-5-1))/130) + "," + ((20 + 130*(columnnames.length-1-5-1))/130) + "),translate(20,20)");
+
 				}
 				else
 				{
@@ -345,6 +356,8 @@ function doMatrix() {
 					group.attr("transform","scale(" + ((20 + 130*(columnnames.length-1-5-1))/130) + "," + ((20 + 130*(columnnames.length-1-5-1))/130) + "),translate(20,20)");
 					//group.transition().duration(1000).attr("transform","scale(2,2)");
 				}
+
+
 			}
 		}
 
