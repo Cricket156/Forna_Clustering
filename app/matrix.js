@@ -216,8 +216,6 @@ function doMatrix() {
 
 		if(-1!=heatmapfilteri && -1!=heatmapfilterj)
 		{
-			svg_direct.style("font","5px sans-serif");
-		
 			if(heatmapfilterj<5)
 			{
 				d3.select("#outlierCheckbox")
@@ -331,6 +329,8 @@ function doMatrix() {
 					//group.transition().duration(1000).attr("transform","scale(2,2)");
 				}
 			}
+			
+			svg.selectAll(".axis").style("font","5px sans-serif");
 		}
 
 	};
