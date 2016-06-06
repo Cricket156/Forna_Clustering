@@ -136,7 +136,7 @@ function initOptions() {
 				heatmapfilteri = s.attr("value");
 				
 				if(-1==heatmapfilteri)
-					svg_direct.style("font","10px sans-serif");
+					d3.select("#matrix").style("font","10px sans-serif");
 				
 				doMatrix();
 			});
@@ -150,7 +150,7 @@ function initOptions() {
 				heatmapfilterj = s.attr("value");
 				
 				if(-1==heatmapfilterj)
-					svg_direct.style("font","10px sans-serif");
+					d3.select("#matrix").style("font","10px sans-serif");
 				
 				doMatrix();
 			});
@@ -181,9 +181,7 @@ function initOptions() {
 					doMatrix();
 					console.log(gewichtungen);
 				});
-	}
-	
-	
+	}	
 }
 
 function doAll() {
