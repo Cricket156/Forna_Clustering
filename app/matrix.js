@@ -124,96 +124,61 @@ function doMatrix() {
 			group1 = svg.select(".c"+i+"-"+j);
 		}
 
-		if(j>=5)
-		{
-
-			var squares = group1.selectAll("rect").data(visible);
-			squares.style("fill",function(d){
+		var squares = group1.selectAll("rect").data(visible);
+		squares.style("fill",function(d){
+				return colorRange(getAvgPenalty(d));
+			});
+		squares.enter().append("rect")
+			.style("fill",function(d){
 					return colorRange(getAvgPenalty(d));
 				});
-			squares.enter().append("rect")
-				.style("fill",function(d){
-						return colorRange(getAvgPenalty(d));
-					});
-			squares.attr("class",function(d){
-						return "r"+d[0]+" i"+i+" j"+j;
-					})
-				.attr("x",function(d){
-						return iRange(d[i]);
-					})
-				.attr("y",function(d){
-										return jRange(d[j]);
-								})
-				.attr("width",iStepSize)
-				.attr("height",jStepSize);
-
-			group1.append("g")
-				.attr("class", "xaxis axis")
-				.call(xaxis)
-				.append("text")
-				.attr("class", "label")
-				.attr("y", -20)
-				.attr("x", -70)
-				.style("text-anchor", "middle")
-				.text(String(columnnames[i]));
-
-			group1.append("g")
-				.attr("class", "yaxisleft axis")
-				.call(yaxisleft)
-				.append("text")
-				.attr("class", "label")
-				.attr("transform", "rotate(-90)")
-				.attr("y", -30)
-				.attr("x", -70)
-				.attr("dy", ".71em")
-				.style("text-anchor", "middle")
-				.text(String(columnnames[j]));
-
-			squares.on("click",function(d) {
-					showSVG(d, svg_direct);
+		squares.attr("class",function(d){
+					return "r"+d[0]+" i"+i+" j"+j;
 				})
-			.on("mouseover",function(d) {
-					d3.selectAll(".r"+d[0]).style("stroke", "white");
-					d3.event.stopPropagation();
+			.attr("x",function(d){
+					return iRange(d[i]);
 				})
-			.on("mouseout",function(d) {
-					d3.selectAll(".r"+d[0]).style("stroke", "none");
-					d3.event.stopPropagation();
-				});
+			.attr("y",function(d){
+									return jRange(d[j]);
+							})
+			.attr("width",iStepSize)
+			.attr("height",jStepSize);
 
-			squares.exit().remove();
+		group1.append("g")
+			.attr("class", "xaxis axis")
+			.call(xaxis)
+			.append("text")
+			.attr("class", "label")
+			.attr("y", -20)
+			.attr("x", -70)
+			.style("text-anchor", "middle")
+			.text(String(columnnames[i]));
 
-		}
-		else
-		{
-			console.log("test");
-			var circles = group1.selectAll("circle").data(visible);
-			circles.style("fill",function(d){
-					return colorRange(getAvgPenalty(d));
-				});
-			circles.enter().append("circle")
-				.style("fill",function(d){
-						return colorRange(getAvgPenalty(d));
-					});
-			circles.attr("class",function(d){
-						return "r"+d[0]+" i"+i+" j"+j;
-					})
-				.attr("cx",function(d){
-						return iRange(d[i]);
-					})
-				.attr("cy",function(d){
-						return jRange(d[j]);
-					})
-				.attr("r",function(d) {
-							if(jStepSize<iStepSize)
-								return jStepSize/4;
-							else
-								return iStepSize/4;
-					});
+		group1.append("g")
+			.attr("class", "yaxisleft axis")
+			.call(yaxisleft)
+			.append("text")
+			.attr("class", "label")
+			.attr("transform", "rotate(-90)")
+			.attr("y", -30)
+			.attr("x", -70)
+			.attr("dy", ".71em")
+			.style("text-anchor", "middle")
+			.text(String(columnnames[j]));
 
+		squares.on("click",function(d) {
+				showSVG(d, svg_direct);
+			})
+		.on("mouseover",function(d) {
+				d3.selectAll(".r"+d[0]).style("stroke", "white");
+				d3.event.stopPropagation();
+			})
+		.on("mouseout",function(d) {
+				d3.selectAll(".r"+d[0]).style("stroke", "none");
+				d3.event.stopPropagation();
+			});
 
-			 circles.exit().remove();
-		}
+		squares.exit().remove();
 
 		if(!new_group)
 			group1.attr("transform","translate(" + (20 + (i-5)*130) + "," + (20 + (j-1-5)*130) + ")");
