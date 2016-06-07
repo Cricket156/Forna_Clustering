@@ -181,6 +181,7 @@ function doBarchart() {
 					matrixfilter=-1;
 					doMatrix();
 					doParallelCoordinates();
+					doSliders();
 					rangeschanged=false;
 				}
 				else// if(-1==matrixfilter)
@@ -189,6 +190,7 @@ function doBarchart() {
 					matrixfilter=cluster;
 					doMatrix();
 					doParallelCoordinates();
+					doSliders();
 					rangeschanged=false;
 
 					d3.select("#matrix").selectAll("rect").style("opacity",1.0);
