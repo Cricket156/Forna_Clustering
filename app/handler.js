@@ -4,6 +4,7 @@ window.addEventListener('resize', doAll);
 var results = [];		//2d array, that holds all nodes
 var clusters = [];		//3d array; 1st D: cluster, 2nd D: single node, 3rd D: node info
 var columnnames = [];
+var gewichtungen = [1,1,1];
 var matrixloaded = false;
 var matrixfilter = -1;
 var heatmapfilteri = -1;
@@ -58,8 +59,9 @@ function loadCSV(evt) {
 		.attr("height", 200);
 		
 //TODO: nur eine Übergangslösung, sollte eine bessere Stelle zum Aufruf gefunden werden..
-			initDropdown();
+			initOptions();
 			extractClusters();
+			randomColorGenerator();
 			doAll();
 			d3.select("#sliders").selectAll("*").remove();
 			doSliders();
@@ -85,8 +87,6 @@ function extractClusters() {
 			cluster.push(results[i]);
 		}
 	}
-	
-	var gewichtungen = [1,1,1];
 	
 	var getAvgPenalty = function(d) {
 		var result=0;
@@ -115,71 +115,9 @@ function extractClusters() {
 			return getAvgPenalty(a_avg) - getAvgPenalty(b_avg);
 		});
 	
-	/*var counter = 0;
-	var len = 0;
-	// average cluster results
-	var cluster_penaltyarray = [];
-	var clusterlengtharray = [];
-	var totalposition = 0;
-	var totaloverlap = 0;
-	var totalstretches = 0;
-	var previous = 0;
-	var current = 0;
-	var globavg =0;
-	var globalsum = 0;
-	var avgpercluster = [];
-	var gobalavgarr = [];
-
-	// produce array with only penalties
-	clusters.forEach(function(d) {
-		// fore each node d in cluster
-		len = +d.length;
-		clusterlengtharray.push(len);
-		d.forEach(function(e){
-			// adds numcluster, overlaps, stretches, position
-			cluster_penaltyarray.push([+e[1], +e[2], +e[3], +e[4], len]);
-			 })
-			  });
-		// // gets average for each cluster penalties
-		// TODO: da ist irgendwo ein minifehler drinnen und bei den totaloverlaps wird irgendwo eins
-		// dazugezaehlt
-		// average penalties per cluster
-			// mean = d3.mean(selectedData,function(d) { return +d.reading})
-				cluster_penaltyarray.forEach(function(e){
-					current = e[0];
-					if (current == previous){
-						totaloverlap += e[1];
-						totalstretches += e[2];
-						totalposition += e[3];
-
-					}
-					else{
-						totaloverlap += e[1];
-						totalstretches += e[2];
-						totalposition += e[3];
-						len = +e[4];
-						avgpercluster.push([totaloverlap/len, totalstretches/len, totalposition/len]);
-						totaloverlap = 0;
-						totalstretches = 0;
-						totalposition = 0;
-
-					}
-					previous = current;
-
-			});*/
-	//console.log(avgpercluster)
-	// now average over all averages of clusters (global average)
-	//TODO: pushing global average into array doesn't work for reasons I can't understand
-	// avgpercluster.forEach(function(d){
-	//  globavg = ((+d[0] + +d[1] + +d[2])/cluster_count);
-	//  console.log(globavg);
-	//  // globalavgarr.push(globavg);
-	// });
-	//
-	//  console.log(globalavgarr);
 }
 
-function initDropdown() {
+function initOptions() {
 	var dropdown_x=d3.select("#filterxaxis");
 	var dropdown_y=d3.select("#filteryaxis");
 
@@ -191,33 +129,64 @@ function initDropdown() {
 		.attr("value",-1)
 		.text("no selection");
 	
-        for(var i=5;i<columnnames.length-1;++i)
-        {
-                dropdown_x.append("option")
-                        .attr("value",i)
-                        .text(columnnames[i]);
+	//Fuer alle Parameter
+	for(var i=5;i<columnnames.length-1;++i)
+	{
+		dropdown_x.append("option")
+			.attr("value",i)
+			.text(columnnames[i]);
 		dropdown_x.on("change",function(d) {
-				var index = dropdown_x.property("selectedIndex"),
-                                s = dropdown_x.selectAll("option").filter(function (d, i) { return i === index });
-                                heatmapfilteri  = s.attr("value");
-                                doMatrix();
+				var index = d3.select(this).property("selectedIndex");
+				s = d3.select(this).selectAll("option").filter(function (d, i) { return i === index });
+				heatmapfilteri = s.attr("value");
+				
+				if(-1==heatmapfilteri)
+					d3.select("#matrix").selectAll(".axis").style("font","10px sans-serif");
+				
+				doMatrix();
 			});
 
 		dropdown_y.append("option")
-                        .attr("value",i)
-                        .text(columnnames[i]);
-                dropdown_y.on("change",function(d) {
-				var index = dropdown_y.property("selectedIndex"),
-			        s = dropdown_y.selectAll("option").filter(function (d, i) { return i === index });
-        			heatmapfilterj = s.attr("value");
-                                doMatrix();
-                        });
-        }
-		
-		for(var i=2;i<5;++i)
+			.attr("value",i)
+			.text(columnnames[i]);
+		dropdown_y.on("change",function(d) {
+				var index = d3.select(this).property("selectedIndex");
+				s = d3.select(this).selectAll("option").filter(function (d, i) { return i === index });
+				heatmapfilterj = s.attr("value");
+				
+				if(-1==heatmapfilterj)
+					d3.select("#matrix").selectAll(".axis").style("font","10px sans-serif");
+				
+				doMatrix();
+			});
+	}
+	
+	//Fuer alle Penalties
+	for(var i=2;i<5;++i)
+	{
 		dropdown_y.append("option")
-				.attr("value",i)
-                .text(columnnames[i]);
+			.attr("value",i)
+			.text(columnnames[i]);
+			
+		var txtGewichtungen = d3.select("#gewichtungen");
+		txtGewichtungen.append("br");
+		txtGewichtungen.append("input")
+			.attr("class", i)
+			.attr("type","number")
+			.attr("min",0)
+			.attr("max",1)
+			.attr("step",0.1)
+			.attr("value",1)
+			.on("input",function(d) {
+					s = this.value;
+					id = parseInt(d3.select(this).attr("class"))-2;
+					console.log(id);
+					gewichtungen[id]=parseFloat(s);
+					doBarchart();
+					doMatrix();
+					console.log(gewichtungen);
+				});
+	}	
 }
 
 function doAll() {
