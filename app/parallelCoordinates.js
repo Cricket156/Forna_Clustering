@@ -39,7 +39,7 @@ function doParallelCoordinates() {
 				.domain(d3.extent(data, function(p) { return +p[d]; }))
 				.range([height, 0]));
 		}));
-
+		
 		// Add grey background lines for context.
 		background = wrapper.select("g").append("g")
 			.attr("class", "background")
@@ -84,9 +84,11 @@ function doParallelCoordinates() {
 		g.append("g")
 			.attr("class", "brush")
 			.each(function(d) {
-				d3.select(this).call(y[d].brush = d3.svg.brush().y(y[d]).on("brushstart", function() {
+				d3.select(this).call(y[d].brush = d3.svg.brush().y(y[d])
+					.on("brushstart", function() {
 						d3.event.sourceEvent.stopPropagation();
-					}).on("brush", brush));
+					})
+					.on("brush", brush));
 			})
 			.selectAll("rect")
 			.attr("x", -8)

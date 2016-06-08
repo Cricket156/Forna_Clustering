@@ -1,6 +1,8 @@
+var original_filters = [];
+
+var new_filters = [];
+
 function doSliders() {
-	
-	
 	d3.select("#sliders").selectAll("*").remove();
 	
 	var data;
@@ -21,6 +23,9 @@ function doSliders() {
 	
 	var wrapper = svg.append('g');
 	
+	wrapper.append("g")
+		.attr("transform", "translate(" + marginLeft + "," + marginTop + ")");
+	
 	if (matrixfilter != -1) {
 		data = cutData(clusters[matrixfilter]);
 	}
@@ -28,122 +33,104 @@ function doSliders() {
 		data = cutData(results);
 	}
 	
-	console.log(data);
+	var bins = 8;
 	
-	var foreground = [];
-	var brushes = [];
+	y_scale = d3.scale.ordinal().rangePoints([0, height], 1);
+	x_scale = {};
 	
-	var dimensions = [];
-	var bins = 10;
+	axis = d3.svg.axis().ticks(bins/2).orient("bottom");
 	
-	var axis_distance = 20;
+	y_scale.domain(dimensions = d3.keys(data[0]).filter(function(d) {
+		return d != "name" && (x_scale[d] = d3.scale.linear()
+			.domain(d3.extent(data, function(p) { return +p[d]; }))
+			.range([width, 0]));
+	}));
+		
+	var g = wrapper.select("g").selectAll(".dimension")
+		.data(dimensions)
+		.enter().append("g")
+		.attr("class", "dimension")
+		.attr("transform", function(d) { 
+			return "translate(0," + y_scale(d) + ")"; 
+		});
+		
+	g.append("g")
+		.attr("class", "axis")
+		.each(function(d) { 
+			d3.select(this).call(axis.scale(x_scale[d])); 
+		})
+		.append("text")
+		.style("text-anchor", "middle")
+		.attr("x", width/2)
+		.attr("y", 30)
+		.text(function(d) { return data[0][d]; });
 	
-	
+	g.append("g")
+		.attr("class", "brush")
+		.each(function(d) {
+			d3.select(this).call(x_scale[d].brush = d3.svg.brush().x(x_scale[d])
+				.on("brushstart", function() {
+					d3.event.sourceEvent.stopPropagation();
+				})
+				.on("brush", brush));
+		})
+		.selectAll("rect")
+		.attr("x", 0)
+		.attr("y", -9)
+		.attr("width", width)
+		.attr("height", 16);
+		
+			
 	for (var j = 0; j < data[0].length; j++) {
-		var y_scale = {};
-		var x_scale = {};
+		original_filters.push(x_scale[j].domain());
+		new_filters.push(x_scale[j].domain());
 		
 		var map = data.map(function (d, i) {if (i > 0) { return d[j];}})       
-				
+		
 		var histogram = d3.layout.histogram()
 			.bins(bins)(map);
 			
-		y_scale = d3.scale.linear()
-			.domain([/*d3.min(histogram.map( function (i) { return i.length;}))*/ 0,
-					 d3.max(histogram.map( function (i) { return i.length;}))])
-			.range([0,height/data[0].length-marginTop]);
- 
-		x_scale = d3.scale.linear()
-			.domain([d3.min(map), d3.max(map)])
-			.range([0, width]);
-
-		var abstand = d3.max(map) - d3.min(map);
-		abstand /= bins;
-		
-		var x_axis = d3.svg.axis()
-			.scale(x_scale)
-			.ticks(bins/2)
-			.orient("bottom");
-		
-		var brush = d3.svg.brush()
-			.x(x_scale)
-			.on("brush", function(d) {//brushed);
-					var extent0 = brush.extent();
-					console.log(extent0);
-				});
+		var y_scale_bars = d3.scale.linear()
+			.domain([0, d3.max(histogram.map( function (i) { return i.length;}))])
+			.range([0, height/data[0].length-marginTop]);
 			
 		var canvas = wrapper.attr("width", width)
-			.attr("height", height + axis_distance)
+			.attr("height", height + 30)
 			.append("g")
-			.attr("transform", "translate(20," + height/data[0].length*(j)*(-1) + ")");
+			.attr("transform", "translate(20," + y_scale(j)/*height/data[0].length*(j)*/ + ")");
 
-		var g = canvas.append("g")
-			.attr("class", "axis")
-			.attr("transform", "translate(0,"    +  height + ")")
-			.call(x_axis);
-
-		foreground.push(canvas.selectAll("rect")
+		canvas.selectAll("rect")
 			.data(histogram)
 			.enter()
 			.append("g")
 			.append("rect")
-			// startpunkt 
-			.attr("x", function (d) { 
-				return x_scale(d.x);
+			.attr("x", function (d) {
+				return x_scale[j](d.x) - (width/bins) + 1;
 			})
-			.attr("y", function (d) { return height - y_scale(d.y); } )
-			// breite ist span des intervalls . 
+			.attr("y", function (d) { 
+				return height/data[0].length-marginTop - 1 - y_scale_bars(d.y);
+			}) 
 			.attr("width", function (d) {
-				if (d.dx != 0) {
-					return (width/bins) - 3;
-				}
-				/*
-				console.log(d.dx);
-				return x_scale(d.dx);
-				*/
+				return (width/bins) - 3;
 			})
-			// höhe ist anzahl der elemente 
-			.attr("height", function (d) { return y_scale(d.y);} )
-			.attr("fill", "red"));
-
-		canvas.append("g")
-			.attr("class", "brush")
-			.attr("transform", "translate(0,"    +  height + ")")
-			.call(brush)
-			.selectAll("rect")
-			.attr("y", -9)
-			.attr("width", width)
-			.attr("height", 16);
+			.attr("height", function (d) { 
+				if(y_scale_bars.domain()[1] != data.length-1) {
+					return y_scale_bars(d.y);
+				}
+			})
+			.attr("fill", "red");
 	}
 	
-	
-	function brushed() {
-		var extent0 = brush.extent();
-		console.log(extent0);
-//		foreground[3].style("display", "none");
-//		x_scale.domain(brush.empty);
-		/*
-		if (brush.empty) {
-			foreground.selectAll("rect")
-				.attr("fill", "grey");
-		}
-		else {
-			console.log("nope");
-		}
-		*/
-		//x_scale.domain(brush.empty() ? console.log(brush.empty) : brush.extent());
-		/*
-		var actives = dimensions.filter(function(p) { return !y_scale[p].brush.empty(); }),
-			extents = actives.map(function(p) { return y_scale[p].brush.extent(); });
-		
-		foreground.style("display", function(d) {
-			return actives.every(function(p, i) {
-				return extents[i][0] <= d[p] && d[p] <= extents[i][1];
-			}) ? null : "none";
-		});
-		*/
+	function brush() {
+		var actives = dimensions.filter(function(p) {
+				return !x_scale[p].brush.empty(); 
+			}),
+			extents = actives.map(function(p) { 
+				new_filters[p] = x_scale[p].brush.extent()
+				return x_scale[p].brush.extent(); 
+			});
 	}
-
+	
 	function cutData(data) {
 		var newData = [];
 
@@ -164,4 +151,13 @@ function doSliders() {
 	}
 	
 
+}
+
+function SlidersApplyFilter() {
+	console.log(new_filters);
+	console.log("hier");
+}
+	
+function SlidersResetFilter() {
+	console.log("da");
 }
