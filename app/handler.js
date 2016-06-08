@@ -13,6 +13,7 @@ var barchartHover = true;
 //reads the csv File from the input to the results array
 function loadCSV(evt) {
 	results = [];
+	original_results = [];
 	clusters = [];
 	columnnames = [];
 	matrixloaded = false;
@@ -40,6 +41,7 @@ function loadCSV(evt) {
 						line.push(parseFloat(data[j]));
 					}
 					results.push(line);
+					original_results.push(line);
 			}
 
 	//TODO vorlaeufige Festlegung der Groesse des svgs
@@ -59,6 +61,9 @@ function loadCSV(evt) {
 			initDropdown();
 			extractClusters();
 			doAll();
+			d3.select("#sliders").selectAll("*").remove();
+			doSliders();
+			
 		}
 	}
 	else { 
@@ -219,13 +224,10 @@ function doAll() {
 	d3.select("#barchart").selectAll("*").remove();
 	d3.select("#parallelCoordinates").selectAll("*").remove();
 	d3.select("#matrix").select("g").selectAll("g").selectAll("*").remove();
-	d3.select("#sliders").selectAll("*").remove();
-	
-	
+
 	doBarchart();
 	doParallelCoordinates();
 	doMatrix();
-	doSliders();
 }
 
 function showSVG(d, svg_direct) {

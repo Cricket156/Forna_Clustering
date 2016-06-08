@@ -26,12 +26,7 @@ function doSliders() {
 	wrapper.append("g")
 		.attr("transform", "translate(" + marginLeft + "," + marginTop + ")");
 	
-	if (matrixfilter != -1) {
-		data = cutData(clusters[matrixfilter]);
-	}
-	else {
-		data = cutData(results);
-	}
+	data = cutData(original_results);
 	
 	var bins = 8;
 	
@@ -40,14 +35,14 @@ function doSliders() {
 	
 	axis = d3.svg.axis().ticks(bins/2).orient("bottom");
 	
-	y_scale.domain(dimensions = d3.keys(data[0]).filter(function(d) {
+	y_scale.domain(slider_dimensions = d3.keys(data[0]).filter(function(d) {
 		return d != "name" && (x_scale[d] = d3.scale.linear()
 			.domain(d3.extent(data, function(p) { return +p[d]; }))
 			.range([width, 0]));
 	}));
 		
 	var g = wrapper.select("g").selectAll(".dimension")
-		.data(dimensions)
+		.data(slider_dimensions)
 		.enter().append("g")
 		.attr("class", "dimension")
 		.attr("transform", function(d) { 
@@ -122,7 +117,7 @@ function doSliders() {
 	}
 	
 	function brush() {
-		var actives = dimensions.filter(function(p) {
+		var actives = slider_dimensions.filter(function(p) {
 				return !x_scale[p].brush.empty(); 
 			}),
 			extents = actives.map(function(p) { 
@@ -153,11 +148,41 @@ function doSliders() {
 
 }
 
+var original_results = [];
+
 function SlidersApplyFilter() {
-	console.log(new_filters);
+	
 	console.log("hier");
+		
+	console.log("old " + results.length);
+	results = [];
+		
+	for (var i = 0; i < original_results.length; i++) {
+		var check = true;
+		for (var j = 0; j < slider_dimensions.length; j++) {
+			if (original_results[i][j+2] < new_filters[j][0] || original_results[i][j+2] > new_filters[j][1]) {
+				check = false;
+			}
+		}
+		if (check) {
+			results.push(original_results[i]);
+		}
+	}
+	
+	console.log("new " + results.length);
+	
+	extractClusters();
+	
+	doAll();
 }
 	
 function SlidersResetFilter() {
+	results = original_results;
+	new_filters = original_filters;
 	console.log("da");
+	
+	doAll();
+	
+	d3.select("#sliders").selectAll("*").remove();
+	doSliders();
 }
