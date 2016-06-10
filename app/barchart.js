@@ -10,7 +10,7 @@ function doBarchart() {
 	for(var i=0;i<grenze;++i)
 		clusters_filtered.push(clusters[i]);
 
-	var m = [40, 50, 40, 40];
+	var m = [40, 50, 40, 50];
 
 	var width = document.getElementById('barchartDiv').clientWidth - m[1] - m[3];
 	var height = (window.innerHeight-60)*(1/3) - m[0] - m[2];
@@ -68,19 +68,25 @@ function doBarchart() {
 		.call(x_axis)
 		.select("text")
 		.attr("y", width+36)
-		.attr("x", height/2)
-		.attr("font-size","15px")
+		.attr("x", height/2);
+		/*.attr("font-size","15px")
 		.attr("transform", "rotate(-90)")
-		.text("Penalties");
+		.text("Penalties");*/
 
-		draw.append("g")
-			.attr("class", "yaxisright axis")
-			.attr("transform", "translate(" + width + ",0)")
-			.call(y_axisright);
+	draw.append("g")
+		.attr("class", "yaxisright axis")
+		.attr("transform", "translate(" + width + ",0)")
+		.call(y_axisright)
+		.select("text")
+		.attr("transform", "rotate(-90),translate(0,40)")
+		.text("Penalties");
 
 	draw.append("g")
 		.attr("class", "yaxisleft axis")
-		.call(y_axisleft);
+		.call(y_axisleft)
+		.select("text")
+		.attr("transform", "rotate(-90),translate(70,-40)")
+		.text("NodeCount");
 /*
 	svg.append("g")
 		.attr("class", "yaxisleft")
