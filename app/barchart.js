@@ -3,8 +3,8 @@ function doBarchart() {
 
 	var clusters_filtered=[];
 
-	var grenze=10;
-	if(clusters.length<10)
+	var grenze=20;
+	if(clusters.length<20)
 		grenze=clusters.length;
 
 	for(var i=0;i<grenze;++i)
@@ -29,7 +29,8 @@ function doBarchart() {
 
 	var x_axis = d3.svg.axis()
 		.scale(x_scale)
-		.orient("bottom");
+		.orient("bottom")
+		.ticks(0);
 
 //ticks y axis
 	// var y_axisleft = d3.svg.axis().orient("left");
@@ -50,10 +51,10 @@ function doBarchart() {
 		.attr("width", width + m[3] + m[1])
 	    .attr("height", height + m[0] + m[2]);
 
-	var wrapper = svg.append("g");
-
-	var draw = wrapper.append("g")
+	var wrapper = svg.append("g")
 		.attr("transform", "translate(" + m[3] + "," + m[0] + ")");
+
+	var draw = wrapper;//wrapper.append("g");
 
 //	x_scale.domain(results.map(function(d) { return d[1]; }));
 //	y_scale.domain([0, d3.max(data, function(d) { return d.frequency; })]);
@@ -94,10 +95,13 @@ function doBarchart() {
 
 */
 
-	var overlaps_scale = d3.scale.linear()
+	var penalty_scale = d3.scale.linear()
                 .domain([0, d3.max( clusters_filtered, function(d) {
 				return d3.mean(d, function(d) {
-					return d[2];
+					var all = 0;
+					for(var i=0;i<3;++i)
+						all+=d[2+i];
+					return all;
 				})
 			})])
                 .range([0, height]);
@@ -111,40 +115,40 @@ function doBarchart() {
 	
 	for(var i=0;i<3;++i)
 	{
-		console.log(i);
-	
-		svg.selectAll(".penalties"+i)
+		wrapper.selectAll(".penalties"+i)
 			.data(clusters_filtered)
 			.enter().append("rect")
 			.attr("class", "penalties")
 			.attr("x", function(d,index) {
-					//console.log(i);
-					return x_scale(index + i*1.0/5.0);
+					return x_scale(index);
 				})
-			.attr("width", x_scale(1.0/5.0))
+			.attr("width", x_scale(1.0/3.0))
 			.attr("y", function(d) {
-					return height + axis_distance - overlaps_scale(d3.mean(d, function(d) {
-																	return d[2+i];
-															}));
+					return height - penalty_scale(d3.mean(d, function(d) {
+								var previous = 0;
+								for(var j=0;j<i;++j)
+									previous+=d[2+j];
+								return d[2+i]+previous;
+							}));
 				})
 			.attr("height", function(d) {
-					return overlaps_scale(d3.mean(d, function(d) {
-														return d[2+i];
-													}));
+					return penalty_scale(d3.mean(d, function(d) {
+								return d[2+i];
+							}));
 				})
 			.style("fill",colors[i]);
 	}
 	
-	svg.selectAll(".count")
+	wrapper.selectAll(".count")
                 .data(clusters_filtered)
                 .enter().append("rect")
                 .attr("class", "count")
                 .attr("x", function(d,i) {
-                                return x_scale(i+3.0/5.0);
+                                return x_scale(i+1.0/3.0);
                         })
-                .attr("width", x_scale(1.0/5.0))
+                .attr("width", x_scale(1.0/3.0))
                 .attr("y", function(d) {
-                                return height + axis_distance - y_scale(d.length);
+                                return height - y_scale(d.length);
                         })
                 .attr("height", function(d) {
                                 return y_scale(d.length);
