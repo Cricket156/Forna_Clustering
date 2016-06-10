@@ -9,6 +9,7 @@ var matrixloaded = false;
 var matrixfilter = -1;
 var heatmapfilteri = -1;
 var heatmapfilterj = -1;
+var anzahlPenalties = 0;
 
 var barchartHover = true;
 //reads the csv File from the input to the results array
@@ -44,27 +45,15 @@ function loadCSV(evt) {
 					results.push(line);
 					original_results.push(line);
 			}
-
-	//TODO vorlaeufige Festlegung der Groesse des svgs
-	d3.select("#matrix")
-		.attr("width",500)
-		.attr("height",500);
-
-	d3.select("#parallelCoordinates")
-		.attr("width", 300)
-		.attr("height", 400);
-		
-	d3.select("barchart")
-		.attr("width", 800)
-		.attr("height", 200);
-		
-//TODO: nur eine Übergangslösung, sollte eine bessere Stelle zum Aufruf gefunden werden..
+			
+			anzahlPenalties = parseInt(prompt("Please enter the Number of Penalties"));
+	
 			initOptions();
 			extractClusters();
 			randomColorGenerator();
-			doAll();		
-			d3.select("#sliders").selectAll("*").remove();
+			doAll();
 			
+			d3.select("#sliders").selectAll("*").remove();
 			doSliders();
 		}
 	}
