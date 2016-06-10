@@ -104,66 +104,37 @@ function doBarchart() {
 
 	//TODO weitere scales fuer die anderen Penalties
 
-	svg.selectAll(".overlaps")
-		.data(clusters_filtered)
-		.enter().append("rect")
-		.attr("class", "overlaps")
-		.attr("x", function(d,i) {
-				return x_scale(i);
-			})
-		.attr("width", x_scale(1.0/5.0))
-		.attr("y", function(d) {
-				return height + axis_distance - overlaps_scale(d3.mean(d, function(d) {
-                                				        		return d[2];
-                                						}));
-			})
-		.attr("height", function(d) {
-				return overlaps_scale(d3.mean(d, function(d) {
-													return d[2];
-												}));
-			})
-		.style("fill","green");
-
-	svg.selectAll(".stretches")
-                .data(clusters_filtered)
-                .enter().append("rect")
-                .attr("class", "stretches")
-                .attr("x", function(d,i) {
-                                return x_scale(i+1.0/5.0);
-                        })
-                .attr("width", x_scale(1.0/5.0))
-                .attr("y", function(d) {
-                                return height + axis_distance - overlaps_scale(d3.mean(d, function(d) {
-                                				        		return d[3];
-                                						}));
-                        })
-                .attr("height", function(d) {
-                                return overlaps_scale(d3.mean(d, function(d) {
-                                				        		return d[3];
-                                						}));
-                        })
-		.style("fill","red");
-
-	svg.selectAll(".position")
-                .data(clusters_filtered)
-                .enter().append("rect")
-                .attr("class", "position")
-                .attr("x", function(d,i) {
-                                return x_scale(i+2.0/5.0);
-                        })
-                .attr("width", x_scale(1.0/5.0))
-                .attr("y", function(d) {
-                                return height + axis_distance - overlaps_scale(d3.mean(d, function(d) {
-                                				        		return d[4];
-                                						}));
-                        })
-                .attr("height", function(d) {
-                                return overlaps_scale(d3.mean(d, function(d) {
-                                				        		return d[4];
-                                						}));
-                        })
-		.style("fill","blue");
-
+	var colors = [];
+	colors.push("green");
+	colors.push("red");
+	colors.push("blue");
+	
+	for(var i=0;i<3;++i)
+	{
+		console.log(i);
+	
+		svg.selectAll(".penalties"+i)
+			.data(clusters_filtered)
+			.enter().append("rect")
+			.attr("class", "penalties")
+			.attr("x", function(d,index) {
+					//console.log(i);
+					return x_scale(index + i*1.0/5.0);
+				})
+			.attr("width", x_scale(1.0/5.0))
+			.attr("y", function(d) {
+					return height + axis_distance - overlaps_scale(d3.mean(d, function(d) {
+																	return d[2+i];
+															}));
+				})
+			.attr("height", function(d) {
+					return overlaps_scale(d3.mean(d, function(d) {
+														return d[2+i];
+													}));
+				})
+			.style("fill",colors[i]);
+	}
+	
 	svg.selectAll(".count")
                 .data(clusters_filtered)
                 .enter().append("rect")
