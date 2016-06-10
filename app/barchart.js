@@ -3,14 +3,14 @@ function doBarchart() {
 
 	var clusters_filtered=[];
 
-	var grenze=10;
-	if(clusters.length<10)
+	var grenze=20;
+	if(clusters.length<20)
 		grenze=clusters.length;
 
 	for(var i=0;i<grenze;++i)
 		clusters_filtered.push(clusters[i]);
 
-	var m = [40, 50, 40, 40];
+	var m = [40, 50, 40, 50];
 
 	var width = document.getElementById('barchartDiv').clientWidth - m[1] - m[3];
 	var height = (window.innerHeight-60)*(1/3) - m[0] - m[2];
@@ -29,7 +29,8 @@ function doBarchart() {
 
 	var x_axis = d3.svg.axis()
 		.scale(x_scale)
-		.orient("bottom");
+		.orient("bottom")
+		.ticks(0);
 
 //ticks y axis
 	// var y_axisleft = d3.svg.axis().orient("left");
@@ -50,10 +51,10 @@ function doBarchart() {
 		.attr("width", width + m[3] + m[1])
 	    .attr("height", height + m[0] + m[2]);
 
-	var wrapper = svg.append("g");
-
-	var draw = wrapper.append("g")
+	var wrapper = svg.append("g")
 		.attr("transform", "translate(" + m[3] + "," + m[0] + ")");
+
+	var draw = wrapper;//wrapper.append("g");
 
 //	x_scale.domain(results.map(function(d) { return d[1]; }));
 //	y_scale.domain([0, d3.max(data, function(d) { return d.frequency; })]);
@@ -67,19 +68,25 @@ function doBarchart() {
 		.call(x_axis)
 		.select("text")
 		.attr("y", width+36)
-		.attr("x", height/2)
-		.attr("font-size","15px")
+		.attr("x", height/2);
+		/*.attr("font-size","15px")
 		.attr("transform", "rotate(-90)")
-		.text("Penalties");
+		.text("Penalties");*/
 
-		draw.append("g")
-			.attr("class", "yaxisright axis")
-			.attr("transform", "translate(" + width + ",0)")
-			.call(y_axisright);
+	draw.append("g")
+		.attr("class", "yaxisright axis")
+		.attr("transform", "translate(" + width + ",0)")
+		.call(y_axisright)
+		.select("text")
+		.attr("transform", "rotate(-90),translate(0,40)")
+		.text("Penalties");
 
 	draw.append("g")
 		.attr("class", "yaxisleft axis")
-		.call(y_axisleft);
+		.call(y_axisleft)
+		.select("text")
+		.attr("transform", "rotate(-90),translate(70,-40)")
+		.text("NodeCount");
 /*
 	svg.append("g")
 		.attr("class", "yaxisleft")
@@ -94,86 +101,74 @@ function doBarchart() {
 
 */
 
-	var overlaps_scale = d3.scale.linear()
+	var penalty_scale = d3.scale.linear()
                 .domain([0, d3.max( clusters_filtered, function(d) {
 				return d3.mean(d, function(d) {
-					return d[2];
+					var all = 0;
+					for(var i=0;i<3;++i)
+						all+=d[2+i];
+					return all;
 				})
 			})])
                 .range([0, height]);
 
 	//TODO weitere scales fuer die anderen Penalties
 
-	svg.selectAll(".overlaps")
-		.data(clusters_filtered)
-		.enter().append("rect")
-		.attr("class", "overlaps")
-		.attr("x", function(d,i) {
-				return x_scale(i);
-			})
-		.attr("width", x_scale(1.0/5.0))
-		.attr("y", function(d) {
-				return height + axis_distance - overlaps_scale(d3.mean(d, function(d) {
-                                				        		return d[2];
-                                						}));
-			})
-		.attr("height", function(d) {
-				return overlaps_scale(d3.mean(d, function(d) {
-													return d[2];
-												}));
-			})
-		.style("fill","green");
-
-	svg.selectAll(".stretches")
-                .data(clusters_filtered)
-                .enter().append("rect")
-                .attr("class", "stretches")
-                .attr("x", function(d,i) {
-                                return x_scale(i+1.0/5.0);
-                        })
-                .attr("width", x_scale(1.0/5.0))
-                .attr("y", function(d) {
-                                return height + axis_distance - overlaps_scale(d3.mean(d, function(d) {
-                                				        		return d[3];
-                                						}));
-                        })
-                .attr("height", function(d) {
-                                return overlaps_scale(d3.mean(d, function(d) {
-                                				        		return d[3];
-                                						}));
-                        })
-		.style("fill","red");
-
-	svg.selectAll(".position")
-                .data(clusters_filtered)
-                .enter().append("rect")
-                .attr("class", "position")
-                .attr("x", function(d,i) {
-                                return x_scale(i+2.0/5.0);
-                        })
-                .attr("width", x_scale(1.0/5.0))
-                .attr("y", function(d) {
-                                return height + axis_distance - overlaps_scale(d3.mean(d, function(d) {
-                                				        		return d[4];
-                                						}));
-                        })
-                .attr("height", function(d) {
-                                return overlaps_scale(d3.mean(d, function(d) {
-                                				        		return d[4];
-                                						}));
-                        })
-		.style("fill","blue");
-
-	svg.selectAll(".count")
+	var colors = [];
+	colors.push("green");
+	colors.push("red");
+	colors.push("blue");
+	
+	for(var i=0;i<3;++i)
+	{
+		wrapper.selectAll(".penalties"+i)
+			.data(clusters_filtered)
+			.enter().append("rect")
+			.attr("class", "penalties")
+			.attr("x", function(d,index) {
+					return x_scale(index);
+				})
+			.attr("width", x_scale(1.0/3.0))
+			.attr("y", function(d) {
+					return height - penalty_scale(d3.mean(d, function(d) {
+								var previous = 0;
+								for(var j=0;j<i;++j)
+									previous+=d[2+j];
+								return d[2+i]+previous;
+							}));
+				})
+			.attr("height", function(d) {
+					return penalty_scale(d3.mean(d, function(d) {
+								return d[2+i];
+							}));
+				})
+			.style("fill",colors[i]);
+			
+		wrapper.selectAll(".pticks")
+			.data(clusters_filtered)
+			.enter().append("text")
+			.attr("class", "pticks")
+			.attr("x", function(d,index) {
+					return x_scale(index);
+				})
+			.attr("y", function(d) {
+					return height+20;
+				})
+			.text(function(d) {
+					return d[0][1];
+				});
+	}
+	
+	wrapper.selectAll(".count")
                 .data(clusters_filtered)
                 .enter().append("rect")
                 .attr("class", "count")
                 .attr("x", function(d,i) {
-                                return x_scale(i+3.0/5.0);
+                                return x_scale(i+1.0/3.0);
                         })
-                .attr("width", x_scale(1.0/5.0))
+                .attr("width", x_scale(1.0/3.0))
                 .attr("y", function(d) {
-                                return height + axis_distance - y_scale(d.length);
+                                return height - y_scale(d.length);
                         })
                 .attr("height", function(d) {
                                 return y_scale(d.length);
