@@ -105,7 +105,7 @@ function doSliders() {
 				return x_scale[j](d.x) - (width/bins) + 1;
 			})
 			.attr("y", function (d) { 
-				return height/data[0].length-marginTop - 1 - y_scale_bars(d.y);
+				return y_scale_bars(d.y) * (-1) + marginTop;// - 1 - y_scale_bars(d.y);
 			}) 
 			.attr("width", function (d) {
 				return (width/bins) - 3;
