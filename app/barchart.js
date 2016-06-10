@@ -137,6 +137,20 @@ function doBarchart() {
 							}));
 				})
 			.style("fill",colors[i]);
+			
+		wrapper.selectAll(".pticks")
+			.data(clusters_filtered)
+			.enter().append("text")
+			.attr("class", "pticks")
+			.attr("x", function(d,index) {
+					return x_scale(index);
+				})
+			.attr("y", function(d) {
+					return height+20;
+				})
+			.text(function(d) {
+					return d[0][1];
+				});
 	}
 	
 	wrapper.selectAll(".count")
