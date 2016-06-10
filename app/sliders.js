@@ -15,7 +15,8 @@ function doSliders() {
 		marginRight = 40;
 		
 	var width = document.getElementById('sliderDiv').clientWidth - marginLeft - marginRight;
-	var height = document.getElementById('sliderDiv').clientHeight - marginBottom - marginTop;
+	var height = (window.innerHeight-60 - 30) - marginBottom - marginTop
+//	var height = document.getElementById('sliderDiv').clientHeight - marginBottom - marginTop;
 	
 	var svg = d3.select("#sliders")
 		.attr("width", width + marginLeft + marginRight)
