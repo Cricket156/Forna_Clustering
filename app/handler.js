@@ -10,6 +10,8 @@ var matrixfilter = -1;
 var heatmapfilteri = -1;
 var heatmapfilterj = -1;
 var anzahlPenalties = 0;
+var svgPfad = "";
+var drawSVG = true;
 
 var barchartHover = true;
 //reads the csv File from the input to the results array
@@ -47,6 +49,11 @@ function loadCSV(evt) {
 			}
 			
 			anzahlPenalties = parseInt(prompt("Please enter the Number of Penalties"));
+			svgPfad = prompt("Please enter the full path to the SVG files. If you don't want to show the SVG's, just enter 'NO'");
+			
+			if (svgPfad == "NO" || svgPfad == "N" || svgPfad == "n" || svgPfad == "no") {
+				drawSVG = false;
+			}
 	
 			initOptions();
 			extractClusters();
@@ -190,102 +197,104 @@ function doAll() {
 }
 
 function showSVG(d, svg_direct) {
-	var group = svg_direct.append("g").attr("class","vis");
+	if (drawSVG) {
+		var group = svg_direct.append("g").attr("class","vis");
 
-	group.append("rect")
-		.attr("class","details")
-		.attr("x",0)
-		.attr("y",0)
-		.attr("width",400)
-		.attr("height",300)
-		.attr("fill","khaki");
-		
-	var group_new_window = group.append("g").attr("class","new_window");
-		
-	group_new_window.append("rect")
-		.attr("class","vis_rect")
-		.attr("x",10)
-		.attr("y",10)
-		.attr("width",200)
-		.attr("height",280)
-		.attr("fill","white")
-		.on("click",function(d) {
-			window.open("./svg1.svg");
-		});
-		
-	try {
-		d3.xml("svg1.svg", "image/svg+xml", function(error, xml) {
-				if (error) throw error;
+		group.append("rect")
+			.attr("class","details")
+			.attr("x",0)
+			.attr("y",0)
+			.attr("width",400)
+			.attr("height",300)
+			.attr("fill","khaki");
+			
+		var group_new_window = group.append("g").attr("class","new_window");
+			
+		group_new_window.append("rect")
+			.attr("class","vis_rect")
+			.attr("x",10)
+			.attr("y",10)
+			.attr("width",200)
+			.attr("height",280)
+			.attr("fill","white")
+			.on("click",function(d) {
+				window.open("./svg1.svg");
+			});
+			
+		try {
+			d3.xml("svg1.svg", "image/svg+xml", function(error, xml) {
+					if (error) throw error;
 
-				var svgNode = xml.getElementsByTagName("svg")[0];
-				svg_direct.node().appendChild(svgNode);
-				svg_direct.select("#plotting-area").select("g")
-					.attr("transform","scale(0.5,0.5)")
-					.on("click",function(d) {
-						window.open("./svg1.svg");
+					var svgNode = xml.getElementsByTagName("svg")[0];
+					svg_direct.node().appendChild(svgNode);
+					svg_direct.select("#plotting-area").select("g")
+						.attr("transform","scale(0.5,0.5)")
+						.on("click",function(d) {
+							window.open("./svg1.svg");
+						});
 					});
-				});
-	}
-	catch(err)
-	{
+		}
+		catch(err)
+		{
+			group.append("text")
+			.attr("x",20)
+			.attr("y",50)
+			.text("Konnete nicht gezeichnet werden");
+		}
+
+		var group_close = group.append("g").attr("class","close");
+
+		group_close.append('image')
+			.attr('xlink:href','close.jpg')
+			.attr('height', 20)
+			.attr('width', 20)
+			.on("click",function(d) {
+				svg_direct.select("#plotting-area").remove();
+				svg_direct.selectAll(".vis").remove();
+			});
+
+		group_close.attr("transform","translate(370,7)");
+
 		group.append("text")
-		.attr("x",20)
-		.attr("y",50)
-		.text("Konnete nicht gezeichnet werden");
+			.attr("x",250)
+			.attr("y",50)
+			.text("Overlaps: " + d[2]);
+
+		group.append("text")
+			.attr("x",250)
+			.attr("y",65)
+			.text("Stretches: " + d[3]);
+
+		group.append("text")
+			.attr("x",250)
+			.attr("y",80)
+			.text("Position: " + d[4]);
+
+		group.append("text")
+			.attr("x",250)
+			.attr("y",95)
+			.text("Cluster: " + d[1]);
+
+		group.append("text")
+			.attr("x",250)
+			.attr("y",120)
+			.text("parameter1: " + d[5]);
+
+		group.append("text")
+			.attr("x",250)
+			.attr("y",135)
+			.text("parameter2: " + d[6]);
+
+		group.append("text")
+			.attr("x",250)
+			.attr("y",150)
+			.text("parameter3: " + d[7]);
+
+		group.append("text")
+			.attr("x",250)
+			.attr("y",180)
+			.text("Nummer: " + d[0]);
+
+		d3.event.stopPropagation();
 	}
-
-	var group_close = group.append("g").attr("class","close");
-
-	group_close.append('image')
-		.attr('xlink:href','close.jpg')
-		.attr('height', 20)
-		.attr('width', 20)
-		.on("click",function(d) {
-			svg_direct.select("#plotting-area").remove();
-			svg_direct.selectAll(".vis").remove();
-		});
-
-	group_close.attr("transform","translate(370,7)");
-
-	group.append("text")
-		.attr("x",250)
-		.attr("y",50)
-		.text("Overlaps: " + d[2]);
-
-	group.append("text")
-		.attr("x",250)
-		.attr("y",65)
-		.text("Stretches: " + d[3]);
-
-	group.append("text")
-		.attr("x",250)
-		.attr("y",80)
-		.text("Position: " + d[4]);
-
-	group.append("text")
-		.attr("x",250)
-		.attr("y",95)
-		.text("Cluster: " + d[1]);
-
-	group.append("text")
-		.attr("x",250)
-		.attr("y",120)
-		.text("parameter1: " + d[5]);
-
-	group.append("text")
-		.attr("x",250)
-		.attr("y",135)
-		.text("parameter2: " + d[6]);
-
-	group.append("text")
-		.attr("x",250)
-		.attr("y",150)
-		.text("parameter3: " + d[7]);
-
-	group.append("text")
-		.attr("x",250)
-		.attr("y",180)
-		.text("Nummer: " + d[0]);
-
-	d3.event.stopPropagation();
 }
