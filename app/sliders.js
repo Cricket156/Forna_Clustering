@@ -95,6 +95,7 @@ function doSliders() {
 			.attr("transform", "translate(20," + y_scale(j)/*height/data[0].length*(j)*/ + ")");
 
 		canvas.selectAll("rect")
+			.attr("class", "slider")
 			.data(histogram)
 			.enter()
 			.append("g")
@@ -151,10 +152,6 @@ function doSliders() {
 var original_results = [];
 
 function SlidersApplyFilter() {
-	
-	console.log("hier");
-		
-	console.log("old " + results.length);
 	results = [];
 		
 	for (var i = 0; i < original_results.length; i++) {
@@ -169,17 +166,19 @@ function SlidersApplyFilter() {
 		}
 	}
 	
-	console.log("new " + results.length);
-	
-	extractClusters();
-	
-	doAll();
+	if (results.length != 0) {
+		extractClusters();
+		doAll();
+	}
+	else {
+		alert("This filter does not contain any nodes, the filter will be reseted");
+		SlidersResetFilter();
+	}
 }
 	
 function SlidersResetFilter() {
 	results = original_results;
 	new_filters = original_filters;
-	console.log("da");
 	
 	doAll();
 	

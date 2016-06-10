@@ -62,10 +62,10 @@ function loadCSV(evt) {
 			initOptions();
 			extractClusters();
 			randomColorGenerator();
-			doAll();
+			doAll();		
 			d3.select("#sliders").selectAll("*").remove();
-			doSliders();
 			
+			doSliders();
 		}
 	}
 	else { 
@@ -75,6 +75,7 @@ function loadCSV(evt) {
 
 //extracts the clusters from the results Array
 function extractClusters() {
+	clusters = [];
 	var aktuellerCluster = results[0][1];
 	var cluster = [];
 	for (var i = 0; i < results.length; i++) {
