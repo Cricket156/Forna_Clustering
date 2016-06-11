@@ -335,18 +335,27 @@ function doMatrix() {
 
 	};
 
-	if(-1==matrixfilter)
-		drawHeatmaps(results);
-	else
-		drawHeatmaps(clusters[matrixfilter]);
+	var drawMatrix = function() {
+		var clusterposition;
+		
+		for(var i=0;i<clusters.length;++i)
+		{
+			if(clusters[i][0][1]==matrixfilter)
+				clusterposition=i;
+		}
+		
+		if(-1==matrixfilter)
+			drawHeatmaps(results);
+		else
+			drawHeatmaps(clusters[clusterposition]);
+	};
+	
+	drawMatrix();
 
 	d3.select("body").select("#ChangeMatrix")
         .on("click", function(d) {
                 avgType=!avgType;
-		if(-1==matrixfilter)
-				drawHeatmaps(results);
-		else
-				drawHeatmaps(clusters[matrixfilter]);
+		drawMatrix();
         });
 
 	console.log("Matrix done");
