@@ -10,7 +10,7 @@ function doMatrix() {
 	if(!matrixloaded)
 	{
 		svg = svg.append("g");
-		for(var i=5;i<columnnames.length-1;++i)
+		for(var i=anzahlPenalties+2;i<columnnames.length-1;++i)
 			for(var j=i+1;j<columnnames.length-1;++j)
 				var group1 = svg.append("g")
                 			.attr("class","c"+i+"-"+j);
@@ -34,19 +34,22 @@ function doMatrix() {
 	width = width - marginSide - marginSide;
 	height = height - marginBottom - marginTop;
 
-	svg.attr("transform", "translate(" + marginSide + "," + marginTop + "),scale("+width/((marginSide + (100+marginSide)*(columnnames.length-1-5-1)))+","+width/((marginTop + (100+marginSide)*(columnnames.length-1-5-1)))+")");
+	svg.attr("transform", "translate(" + marginSide + "," + marginTop + "),scale("+width/((marginSide + (100+marginSide)*(columnnames.length-1-(anzahlPenalties+2)-1)))+","+width/((marginTop + (100+marginSide)*(columnnames.length-1-(anzahlPenalties+2)-1)))+")");
 
 	//Iwo muss gespeichert sein, wie die StepSize beim Generieren war (oder iwie ausrechnen)
-	var stepSizes = [0,0,1,1,1];
+	var stepSizes = [];
+	
+	for(var i=0;i<(anzahlPenalties+2);++i)
+		stepSizes.push(0);
 
 	for(var i=0;i<columnnames.length-1;++i)
 	{
 		min1 = d3.min(results,function(d) {
-				return d[5+i];
+				return d[(anzahlPenalties+2)+i];
 			});
 		min2 = d3.min(results,function(d) {
-				if(d[5+i]>min1)
-					return d[5+i];
+				if(d[(anzahlPenalties+2)+i]>min1)
+					return d[(anzahlPenalties+2)+i];
 			});
 		stepSizes.push(min2-min1);
 	}
@@ -181,7 +184,7 @@ function doMatrix() {
 		squares.exit().remove();
 
 		if(!new_group)
-			group1.attr("transform","translate(" + (marginSide + (i-5)*(100+marginSide)) + "," + (marginTop + (j-1-5)*(100+marginSide)) + ")");
+			group1.attr("transform","translate(" + (marginSide + (i-(anzahlPenalties+2))*(100+marginSide)) + "," + (marginTop + (j-1-(anzahlPenalties+2))*(100+marginSide)) + ")");
 
 	}
 
@@ -194,7 +197,7 @@ function doMatrix() {
 	{
 		var new_heatmap=true;
 
-		for(var i=5;i<columnnames.length-1;++i)
+		for(var i=anzahlPenalties+2;i<columnnames.length-1;++i)
 		{
 			if((-1==heatmapfilteri || -1==heatmapfilterj) || i==heatmapfilteri)
 			{
@@ -216,7 +219,7 @@ function doMatrix() {
 
 		if(-1!=heatmapfilteri && -1!=heatmapfilterj)
 		{
-			if(heatmapfilterj<5)
+			if(heatmapfilterj<(anzahlPenalties+2))
 			{
 				d3.select("#outlierCheckbox")
 					.style("visibility", "visible");
@@ -302,7 +305,7 @@ function doMatrix() {
 							}
 						});
 
-				group1.attr("transform","scale(" + ((marginSide + (100+marginSide)*(columnnames.length-1-5-1))/(100+marginSide)) + "," + ((marginTop + (100+marginSide)*(columnnames.length-1-5-1))/(100+marginSide)) + "),translate(" + marginSide + "," + marginTop + ")");
+				group1.attr("transform","scale(" + ((marginSide + (100+marginSide)*(columnnames.length-1-(anzahlPenalties+2)-1))/(100+marginSide)) + "," + ((marginTop + (100+marginSide)*(columnnames.length-1-(anzahlPenalties+2)-1))/(100+marginSide)) + "),translate(" + marginSide + "," + marginTop + ")");
 			}
 			else
 			{
@@ -316,7 +319,7 @@ function doMatrix() {
 					
 					drawRectangles(data,heatmapfilteri,heatmapfilterj,true);
 					var group = svg.select(".new");
-					group.attr("transform","scale(" + ((marginSide + (100+marginSide)*(columnnames.length-1-5-1))/(100+marginSide)) + "," + ((marginTop + (100+marginSide)*(columnnames.length-1-5-1))/(100+marginSide)) + "),translate(" + marginSide + "," + marginTop + ")");
+					group.attr("transform","scale(" + ((marginSide + (100+marginSide)*(columnnames.length-1-(anzahlPenalties+2)-1))/(100+marginSide)) + "," + ((marginTop + (100+marginSide)*(columnnames.length-1-(anzahlPenalties+2)-1))/(100+marginSide)) + "),translate(" + marginSide + "," + marginTop + ")");
 				}
 				else
 				{
@@ -325,7 +328,7 @@ function doMatrix() {
 					svg.selectAll("*:not(.c"+heatmapfilteri+"-"+heatmapfilterj+")").selectAll(".yaxisleft").remove();
 					
 					var group = svg.selectAll(".c"+heatmapfilteri+"-"+heatmapfilterj);
-					group.attr("transform","scale(" + ((marginSide + (100+marginSide)*(columnnames.length-1-5-1))/(100+marginSide)) + "," + ((marginTop + (100+marginSide)*(columnnames.length-1-5-1))/(100+marginSide)) + "),translate(" + marginSide + "," + marginTop + ")");
+					group.attr("transform","scale(" + ((marginSide + (100+marginSide)*(columnnames.length-1-(anzahlPenalties+2)-1))/(100+marginSide)) + "," + ((marginTop + (100+marginSide)*(columnnames.length-1-(anzahlPenalties+2)-1))/(100+marginSide)) + "),translate(" + marginSide + "," + marginTop + ")");
 					//group.transition().duration(1000).attr("transform","scale(2,2)");
 				}
 			}
