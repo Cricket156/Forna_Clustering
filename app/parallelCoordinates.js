@@ -24,7 +24,15 @@ function doParallelCoordinates() {
 		wrapper.append("g")
 			.attr("transform", "translate(" + marginSide + "," + marginTop + ")");
 		
-		data = cutData(clusters[matrixfilter]);
+		var clusterposition;
+		
+		for(var i=0;i<clusters.length;++i)
+		{
+			if(clusters[i][0][1]==matrixfilter)
+				clusterposition=i;
+		}
+		
+		data = cutData(clusters[clusterposition]);
 
 		x = d3.scale.ordinal().rangePoints([0, width], 1);
 		y = {};
@@ -56,7 +64,7 @@ function doParallelCoordinates() {
 			.enter().append("path")
 			.attr("d", path)
 			.on("click", function(d, i) {
-				showSVG(clusters[matrixfilter][i-1], wrapper);
+				showSVG(clusters[clusterposition][i-1], wrapper);
 			});
 
 		// Add a group element for each dimension.
