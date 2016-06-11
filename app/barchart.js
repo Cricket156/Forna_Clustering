@@ -105,7 +105,7 @@ function doBarchart() {
                 .domain([0, d3.max( clusters_filtered, function(d) {
 				return d3.mean(d, function(d) {
 					var all = 0;
-					for(var i=0;i<3;++i)
+					for(var i=0;i<anzahlPenalties;++i)
 						all+=d[2+i];
 					return all;
 				})
@@ -119,7 +119,7 @@ function doBarchart() {
 	colors.push("red");
 	colors.push("blue");
 	
-	for(var i=0;i<3;++i)
+	for(var i=0;i<anzahlPenalties;++i)
 	{
 		wrapper.selectAll(".penalties"+i)
 			.data(clusters_filtered)

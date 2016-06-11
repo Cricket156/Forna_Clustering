@@ -4,7 +4,7 @@ window.addEventListener('resize', doAll);
 var results = [];		//2d array, that holds all nodes
 var clusters = [];		//3d array; 1st D: cluster, 2nd D: single node, 3rd D: node info
 var columnnames = [];
-var gewichtungen = [1,1,1];
+var gewichtungen = [];
 var matrixloaded = false;
 var matrixfilter = -1;
 var heatmapfilteri = -1;
@@ -76,6 +76,10 @@ function loadCSV(evt) {
 
 //extracts the clusters from the results Array
 function extractClusters() {
+
+	for(var i=0;i<anzahlPenalties;++i)
+		gewichtungen.push(1);
+
 	clusters = [];
 	var aktuellerCluster = results[0][1];
 	var cluster = [];
@@ -104,7 +108,7 @@ function extractClusters() {
 			var b_avg = [];
 			b_avg.push(0);
 			b_avg.push(0);
-			for(var i=0;i<3;++i)
+			for(var i=0;i<anzahlPenalties;++i)
 			{
 				a_avg.push(d3.mean(a,function(d) {
 						return parseFloat(d[2+i]);
@@ -132,7 +136,7 @@ function initOptions() {
 		.text("no selection");
 	
 	//Fuer alle Parameter
-	for(var i=5;i<columnnames.length-1;++i)
+	for(var i=anzahlPenalties+2;i<columnnames.length-1;++i)
 	{
 		dropdown_x.append("option")
 			.attr("value",i)
@@ -164,7 +168,7 @@ function initOptions() {
 	}
 	
 	//Fuer alle Penalties
-	for(var i=2;i<5;++i)
+	for(var i=2;i<anzahlPenalties+2;++i)
 	{
 		dropdown_y.append("option")
 			.attr("value",i)
