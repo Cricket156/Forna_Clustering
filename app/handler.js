@@ -49,11 +49,16 @@ function loadCSV(evt) {
 			}
 			
 			anzahlPenalties = parseInt(prompt("Please enter the Number of Penalties"));
-			svgPfad = prompt("Please enter the full path to the SVG files. If you don't want to show the SVG's, just enter 'NO'");
+			svgPfad = prompt("Please enter the full path to the SVG files. \nIf you don't want to show the SVG's, just enter 'NO'");
 			
 			if (svgPfad == "NO" || svgPfad == "N" || svgPfad == "n" || svgPfad == "no") {
 				drawSVG = false;
 			}
+			/*
+			else {
+				window.open("file:///" + svgPfad + "/svg2.svg");
+			}
+			*/
 	
 			initOptions();
 			extractClusters();

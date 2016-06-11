@@ -185,4 +185,5 @@ function SlidersResetFilter() {
 	
 	d3.select("#sliders").selectAll("*").remove();
 	doSliders();
+	SlidersApplyFilter();
 }
