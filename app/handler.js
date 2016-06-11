@@ -136,7 +136,7 @@ function initOptions() {
 				heatmapfilteri = s.attr("value");
 				
 				if(-1==heatmapfilteri)
-					d3.select("#matrix").style("font","10px sans-serif");
+					d3.select("#matrix").selectAll(".axis").style("font","10px sans-serif");
 				
 				doMatrix();
 			});
@@ -150,7 +150,7 @@ function initOptions() {
 				heatmapfilterj = s.attr("value");
 				
 				if(-1==heatmapfilterj)
-					d3.select("#matrix").style("font","10px sans-serif");
+					d3.select("#matrix").selectAll(".axis").style("font","10px sans-serif");
 				
 				doMatrix();
 			});
