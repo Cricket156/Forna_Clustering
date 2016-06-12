@@ -77,6 +77,7 @@ function loadCSV(evt) {
 //extracts the clusters from the results Array
 function extractClusters() {
 
+	gewichtungen = [];
 	for(var i=0;i<anzahlPenalties;++i)
 		gewichtungen.push(1);
 

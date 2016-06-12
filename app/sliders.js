@@ -181,6 +181,7 @@ function SlidersResetFilter() {
 	results = original_results;
 	new_filters = original_filters;
 	
+	extractClusters();
 	doAll();
 	
 	d3.select("#sliders").selectAll("*").remove();
