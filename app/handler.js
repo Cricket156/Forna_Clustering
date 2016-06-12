@@ -59,6 +59,8 @@ function loadCSV(evt) {
 				window.open("file:///" + svgPfad + "/svg2.svg");
 			}
 			*/
+			for(var i=0;i<anzahlPenalties;++i)
+				gewichtungen.push(1);
 	
 			initOptions();
 			extractClusters();
@@ -76,9 +78,6 @@ function loadCSV(evt) {
 
 //extracts the clusters from the results Array
 function extractClusters() {
-
-	for(var i=0;i<anzahlPenalties;++i)
-		gewichtungen.push(1);
 
 	clusters = [];
 	var aktuellerCluster = results[0][1];
