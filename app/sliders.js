@@ -102,7 +102,7 @@ function doSliders() {
 			.append("g")
 			.append("rect")
 			.attr("x", function (d) {
-				return x_scale[j](d.x) - (width/bins) + 1;
+				return x_scale[j](d.x) - (width/bins) +1;
 			})
 			.attr("y", function (d) { 
 				return y_scale_bars(d.y) * (-1) + marginTop;// - 1 - y_scale_bars(d.y);
@@ -180,6 +180,7 @@ function SlidersApplyFilter() {
 function SlidersResetFilter() {
 	results = original_results;
 	new_filters = original_filters;
+	matrixfilter = -1;
 	
 	extractClusters();
 	doAll();
