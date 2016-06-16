@@ -26,6 +26,10 @@ function doBarchart() {
 	var y_scale = d3.scale.linear()
 		.domain([0, d3.max( clusters_filtered, function (d) { return d.length;})])
 		.range([height, 0]);
+		
+	var y_scale2 = d3.scale.linear()
+		.domain([0, d3.max( clusters_filtered, function (d) { return d.length;})])
+		.range([0, height]);
 
 	var x_axis = d3.svg.axis()
 		.scale(x_scale)
@@ -168,10 +172,10 @@ function doBarchart() {
                         })
                 .attr("width", x_scale(1.0/3.0))
                 .attr("y", function(d) {
-                                return height - y_scale(d.length);
+                                return height - y_scale2(d.length);
                         })
                 .attr("height", function(d) {
-                                return y_scale(d.length);
+                                return y_scale2(d.length);
                         });
 		
 	svg.selectAll("rect")
