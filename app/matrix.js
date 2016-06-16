@@ -65,13 +65,13 @@ function doMatrix() {
 
 	var drawRectangles = function(data,i,j,new_group) {
 
-		var iLowerRange=d3.min(data,function(d){return parseFloat(d[i]);});
-		var iUpperRange=parseFloat(d3.max(data,function(d){return d[i];}))+stepSizes[i];
+		var iLowerRange=d3.min(results,function(d){return parseFloat(d[i]);});
+		var iUpperRange=parseFloat(d3.max(results,function(d){return d[i];}))+stepSizes[i];
 		var iRange=d3.scale.linear().domain([iLowerRange,iUpperRange]).range([0,100]);
 		var iStepSize=iRange(iLowerRange+stepSizes[i]);
 
-		var jLowerRange=d3.min(data,function(d){return parseFloat(d[j]);});
-		var jUpperRange=parseFloat(d3.max(data,function(d){return d[j];}))+stepSizes[j];
+		var jLowerRange=d3.min(results,function(d){return parseFloat(d[j]);});
+		var jUpperRange=parseFloat(d3.max(results,function(d){return d[j];}))+stepSizes[j];
 		var jRange=d3.scale.linear().domain([jLowerRange,jUpperRange]).range([0,100]);
 		var jStepSize=jRange(jLowerRange+stepSizes[j]);
 
@@ -84,7 +84,7 @@ function doMatrix() {
 			.scale(jRange)
 			.orient("left")
 			.ticks(5);
-
+		
 		var visible = [];
 		visible.push(data[0]);
 
@@ -111,9 +111,6 @@ function doMatrix() {
 			if(!v)
 				visible.push(data[k]);
 		}
-
-//						console.log(iStepSize);
-//						console.log(jStepSize);
 
 		var group1;
 
