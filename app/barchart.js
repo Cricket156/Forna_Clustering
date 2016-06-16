@@ -19,6 +19,10 @@ function doBarchart() {
 
 	var cluster_count=clusters_filtered.length;
 
+	var div = d3.select("body").append("div")	
+		.attr("class", "tooltipBarchart")				
+		.style("opacity", 0);
+		
 	var x_scale = d3.scale.linear()
 		.domain([0, cluster_count])
 		.range([0, width]);
@@ -45,7 +49,6 @@ function doBarchart() {
 		.scale(y_scale)
 		.orient("right")
 		.ticks(5);
-
 
 	var svg = d3.select("#barchart")
 		.attr("width", width + m[3] + m[1])
@@ -229,6 +232,23 @@ function doBarchart() {
 				d3.event.stopPropagation();
 			})
 		.on("mouseover", function(d) {
+			
+			div.transition()		
+                .duration(200)		
+                .style("opacity", .9);	
+				
+            div.html(function() {
+					//console.log(d[0]);
+					var text = "nodes: " + d.length + "<br>";
+												
+					for (var i = 0; i < anzahlPenalties; i++) {
+						text = text + columnnames[i+2] + ": " + d[0][i+2] + "<br>";
+					}
+					return text;
+				})	
+                .style("left", (d3.event.pageX) + "px")		
+                .style("top", (d3.event.pageY - 28) + "px");	
+				
 				cluster=d[0][1];
 				/*d3.select("#matrix").selectAll("rect").each( function(d){
 					if(cluster!=d[1])
@@ -249,6 +269,10 @@ function doBarchart() {
 		.on("mouseout", function(d) {
 				//d3.select("#matrix").selectAll("rect").style("opacity",1.0);
 				
+				div.transition()		
+                .duration(500)		
+                .style("opacity", 0);	
+
 				if(barchartHover)
 				{
 					svg.selectAll("rect").each(function(d) {

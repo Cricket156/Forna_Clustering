@@ -13,7 +13,6 @@
 	
 	<script src="include/d3.js"></script>
 	<!--<script src="include/d3.parcoords.js"></script>-->
-	
 	<script src="barchart.js"></script>
 	<script src="parallelCoordinates.js"></script>
 	<script src="matrix.js"></script>
@@ -60,6 +59,30 @@
 
 		.bar text {
 		  fill: #fff;
+		}
+				
+		div.tooltipBarchart {	
+			position: absolute;			
+			text-align: center;		
+			font-size: 10px;
+			width: 60px;					
+			height: 65px;					
+			padding: 5px;
+			background: rgba(0, 0, 0, 0.8);
+			color: #fff;		
+			pointer-events: none;			
+		}
+		
+		div.tooltipSliders {	
+			position: absolute;			
+			text-align: center;		
+			font-size: 10px;
+			width: 55px;					
+			height: 40px;					
+			padding: 5px;
+			background: rgba(0, 0, 0, 0.8);
+			color: #fff;		
+			pointer-events: none;			
 		}
 	</style>
 </head>
