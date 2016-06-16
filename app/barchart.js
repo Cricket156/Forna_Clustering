@@ -177,8 +177,8 @@ function doBarchart() {
                 .attr("height", function(d) {
                                 return y_scale2(d.length);
                         });
-		
-	svg.selectAll("rect")
+	
+	svg.selectAll("rect, .pticks")
 		.on("click", function(d) {
 				//d3.select("#matrix").selectAll("rect").style("fill", );
 				
