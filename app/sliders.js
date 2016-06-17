@@ -28,7 +28,7 @@ function doSliders() {
 		.attr("transform", "translate(" + marginLeft + "," + marginTop + ")");
 	
 	var div = d3.select("body").append("div")	
-		.attr("class", "tooltipSliders")				
+		.attr("class", "tooltipSmall")				
 		.style("opacity", 0);
 	
 	data = cutData(original_results);
@@ -126,7 +126,6 @@ function doSliders() {
 					.style("opacity", .9);	
 					
 				div.html(function() {
-						console.log(d);
 						var text = "frequency: <br>" + d.length;
 						return text;
 					})	

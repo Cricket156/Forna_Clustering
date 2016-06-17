@@ -19,6 +19,10 @@ function doParallelCoordinates() {
 		.attr("height", height + marginBottom + marginTop);
 	
 	var wrapper = svg.append('g');
+	
+	var div = d3.select("body").append("div")	
+		.attr("class", "tooltipLarge")				
+		.style("opacity", 0);
 
 	if (matrixfilter != -1) {
 		wrapper.append("g")
@@ -65,7 +69,27 @@ function doParallelCoordinates() {
 			.attr("d", path)
 			.on("click", function(d, i) {
 				showSVG(clusters[clusterposition][i-1], wrapper);
-			});
+			})
+			.on('mouseover', function(d, i) {
+				div.transition()		
+					.duration(200)		
+					.style("opacity", .9);	
+					
+				div.html(function() {
+						var text = "";
+						for (var j = 0; j < columnnames.length-1; j++) {
+							text = text + columnnames[j] + ": " + clusters[clusterposition][i-1][j] + "<br>";
+						}
+						return text;
+					})	
+					.style("left", (d3.event.pageX) + "px")		
+					.style("top", (d3.event.pageY - 28) + "px");
+				})
+			.on('mouseout', function(d) {
+					div.transition()		
+						.duration(500)		
+						.style("opacity", 0);	
+				});
 
 		// Add a group element for each dimension.
 		var g = wrapper.select("g").selectAll(".dimension")

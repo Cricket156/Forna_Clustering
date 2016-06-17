@@ -28,6 +28,10 @@ function doMatrix() {
 	var width = document.getElementById('matrixDiv').clientWidth;
 	var height = (window.innerHeight-60)*(2/3);
 
+	var div = d3.select("body").append("div")	
+		.attr("class", "tooltipLarge")				
+		.style("opacity", 0);
+		
 	svg_direct.attr("width", width)
 		.attr("height", width);
 
@@ -172,10 +176,28 @@ function doMatrix() {
 		.on("mouseover",function(d) {
 				d3.selectAll(".r"+d[0]).style("stroke", "white");
 				d3.event.stopPropagation();
+				
+				div.transition()		
+					.duration(200)		
+					.style("opacity", .9);	
+					
+				div.html(function() {
+						var text = "";
+						for (var j = 0; j < columnnames.length-1; j++) {
+							text = text + columnnames[j] + ": " + d[j] + "<br>";
+						}
+						return text;
+					})	
+					.style("left", (d3.event.pageX) + "px")		
+					.style("top", (d3.event.pageY - 28) + "px");
 			})
 		.on("mouseout",function(d) {
 				d3.selectAll(".r"+d[0]).style("stroke", "none");
 				d3.event.stopPropagation();
+				
+				div.transition()		
+						.duration(500)		
+						.style("opacity", 0);
 			});
 
 		squares.exit().remove();

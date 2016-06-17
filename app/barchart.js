@@ -20,7 +20,7 @@ function doBarchart() {
 	var cluster_count=clusters_filtered.length;
 
 	var div = d3.select("body").append("div")	
-		.attr("class", "tooltipBarchart")				
+		.attr("class", "tooltipMiddle")				
 		.style("opacity", 0);
 		
 	var x_scale = d3.scale.linear()
@@ -238,7 +238,6 @@ function doBarchart() {
                 .style("opacity", .9);	
 				
             div.html(function() {
-					//console.log(d[0]);
 					var text = "nodes: " + d.length + "<br>";
 												
 					for (var i = 0; i < anzahlPenalties; i++) {
