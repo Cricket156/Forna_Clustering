@@ -13,6 +13,8 @@ var anzahlPenalties = 0;
 var svgPfad = "";
 var drawSVG = true;
 
+var colors = [];
+	
 var barchartHover = true;
 //reads the csv File from the input to the results array
 function loadCSV(evt) {
@@ -24,6 +26,11 @@ function loadCSV(evt) {
 	matrixfilter = -1;
 	heatmapfilteri = -1;
 	heatmapfilterj = -1;
+	
+	
+	colors.push("green");
+	colors.push("red");
+	colors.push("blue");
 
 	var file = evt.target.files[0];
 	if (file) {
@@ -181,6 +188,9 @@ function initOptions() {
 			.attr("max",1)
 			.attr("step",0.1)
 			.attr("value",1)
+			.attr("title", function() {
+				return columnnames[i];
+			})
 			.on("input",function(d) {
 					s = this.value;
 					id = parseInt(d3.select(this).attr("class"))-2;

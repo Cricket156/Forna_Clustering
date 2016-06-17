@@ -67,13 +67,15 @@ function doBarchart() {
 	// var y_axisleft = d3.svg.axis().orient("left");
 
 	var y_axisleft = d3.svg.axis()
-		.scale(y_scale)
+		.scale(penalty_scale2)
+		//.scale(y_scale)
 		// .style("stroke-width", '1')
 		.orient("left")
 		.ticks(5);
 
 	var y_axisright = d3.svg.axis()
-		.scale(penalty_scale2)
+		//.scale(penalty_scale2)
+		.scale(y_scale)
 		.orient("right")
 		.ticks(5);
 
@@ -109,14 +111,16 @@ function doBarchart() {
 		.call(y_axisright)
 		.select("text")
 		.attr("transform", "rotate(-90),translate(0,40)")
-		.text("Penalties");
+		//.text("Penalties");
+		.text("NodeCount");
 
 	draw.append("g")
 		.attr("class", "yaxisleft axis")
 		.call(y_axisleft)
 		.select("text")
 		.attr("transform", "rotate(-90),translate(70,-40)")
-		.text("NodeCount");
+		//.text("NodeCount");
+		.text("Penalties");
 /*
 	svg.append("g")
 		.attr("class", "yaxisleft")
@@ -133,10 +137,7 @@ function doBarchart() {
 
 	//TODO weitere scales fuer die anderen Penalties
 
-	var colors = [];
-	colors.push("green");
-	colors.push("red");
-	colors.push("blue");
+
 	
 	for(var i=0;i<anzahlPenalties;++i)
 	{

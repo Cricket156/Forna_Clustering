@@ -119,7 +119,14 @@ function doSliders() {
 					return y_scale_bars(d.y);
 				}
 			})
-			.attr("fill", "red")
+			.attr("fill", function() {
+				if (j < anzahlPenalties) {
+					return colors[j];
+				}
+				else {
+					return "FireBrick";
+				}
+			})
 			.on('mouseover', function(d) {
 				div.transition()		
 					.duration(200)		
