@@ -59,7 +59,7 @@ function doMatrix() {
 		stepSizes.push(min2-min1);
 	}
 
-	var avgType=true;
+	var avgType=false;
 
 	var getAvgPenalty = function(d) {
 		var result=0;
@@ -378,7 +378,13 @@ function doMatrix() {
 	d3.select("body").select("#ChangeMatrix")
         .on("click", function(d) {
                 avgType=!avgType;
-		drawMatrix();
+				if (avgType) {
+					d3.select("#ChangeMatrix").attr("value", "Change to best");
+				}
+				else {
+					d3.select("#ChangeMatrix").attr("value", "Change to worst");
+				}
+				drawMatrix();
         });
 
 	console.log("Matrix done");

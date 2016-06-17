@@ -5,11 +5,11 @@
 	<title>BioVis - Project</title>
 	
 	<link href="css/bootstrap.css" type="text/css" rel="stylesheet" />
-	<link href="css/font-awesome.min.css" type="text/css" rel="stylesheet" />
+<!--	<link href="css/font-awesome.min.css" type="text/css" rel="stylesheet" /> -->
 	<link href="css/style.css" type="text/css" rel="stylesheet" />
 	<!--<link href="css/d3.parcoords.css" type="text/css" rel="stylesheet" />-->
 	
-	<link href='http://fonts.googleapis.com/css?family=Ruluko' rel='stylesheet' type='text/css' />
+<!--	<link href='http://fonts.googleapis.com/css?family=Ruluko' rel='stylesheet' type='text/css' /> -->
 	
 	<script src="include/d3.js"></script>
 	<!--<script src="include/d3.parcoords.js"></script>-->
@@ -68,7 +68,7 @@
 			width: 55px;					
 			height: 40px;					
 			padding: 5px;
-			background: rgba(0, 0, 0, 0.8);
+			background: rgba(0, 0, 0, 0.9);
 			color: #fff;		
 			pointer-events: none;			
 		}
@@ -77,10 +77,10 @@
 			position: absolute;			
 			text-align: center;		
 			font-size: 10px;
-			width: 60px;					
+			width: 70px;					
 			height: 65px;					
 			padding: 5px;
-			background: rgba(0, 0, 0, 0.8);
+			background: rgba(0, 0, 0, 0.9);
 			color: #fff;		
 			pointer-events: none;			
 		}
@@ -89,10 +89,10 @@
 			position: absolute;			
 			text-align: center;		
 			font-size: 10px;
-			width: 90px;					
+			width: 100px;					
 			height: 150px;					
 			padding: 5px;
-			background: rgba(0, 0, 0, 0.8);
+			background: rgba(0, 0, 0, 0.9);
 			color: #fff;		
 			pointer-events: none;			
 		}
@@ -117,8 +117,9 @@
 			</div>
 			<h5>Change Matrix View</h5>
 			<div class="row" style="margin-left: 10px">
-				<input type="button" id="ChangeMatrix" value="Change to Average Penalty"/>
+				<input type="button" id="ChangeMatrix" value="Change to worst" title="Change which visualisations are visible"/>
 			</div>
+			<br>
 			<div>
 				<label>x axis
 					<select id="filterxaxis" size="1">
@@ -132,8 +133,7 @@
 				</label>
 			</div>
 			<div id="gewichtungen">
-				<label>Gewichtungen fuer Penalties
-				</label>
+				<label>Gewichtungen für Penalties</label>
 			</div>
 			<div>
 				<label id="outlierCheckbox" style="visibility: hidden">
