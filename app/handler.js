@@ -54,11 +54,11 @@ function loadCSV(evt) {
 			if (svgPfad == "NO" || svgPfad == "N" || svgPfad == "n" || svgPfad == "no") {
 				drawSVG = false;
 			}
-			/*
-			else {
-				window.open("file:///" + svgPfad + "/svg2.svg");
-			}
-			*/
+			
+			/*else {
+				window.open("file:///" + svgPfad);
+			}*/
+			
 			for(var i=0;i<anzahlPenalties;++i)
 				gewichtungen.push(1);
 	
@@ -205,7 +205,30 @@ function doAll() {
 
 function showSVG(d, svg_direct) {
 	if (drawSVG) {
-		var group = svg_direct.append("g").attr("class","vis");
+		try {
+			
+			window.open("file:///" + svgPfad + "/svg" + d[0] + ".svg");
+			
+			/*d3.xml("svg1.svg", "image/svg+xml", function(error, xml) {
+					if (error) throw error;
+
+					var svgNode = xml.getElementsByTagName("svg")[0];
+					svg_direct.node().appendChild(svgNode);
+					svg_direct.select("#plotting-area").select("g")
+						.attr("transform","scale(0.5,0.5)")
+						.on("click",function(d) {
+							//window.open("./svg1.svg");
+							console.log("new window");
+							window.open("file:///" + svgPfad + "/svg1.svg");
+						});
+					});*/
+		}
+		catch(err)
+		{
+			alert("File nicht gefunden");
+		}
+	
+		/*var group = svg_direct.append("g").attr("class","vis");
 
 		group.append("rect")
 			.attr("class","details")
@@ -302,6 +325,6 @@ function showSVG(d, svg_direct) {
 			.attr("y",180)
 			.text("Nummer: " + d[0]);
 
-		d3.event.stopPropagation();
+		d3.event.stopPropagation();*/
 	}
 }

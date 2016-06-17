@@ -48,13 +48,14 @@ function doMatrix() {
 
 	for(var i=0;i<columnnames.length-1;++i)
 	{
-		min1 = d3.min(results,function(d) {
+		min1 = d3.min(original_results,function(d) {
 				return d[(anzahlPenalties+2)+i];
 			});
-		min2 = d3.min(results,function(d) {
+		min2 = d3.min(original_results,function(d) {
 				if(d[(anzahlPenalties+2)+i]>min1)
 					return d[(anzahlPenalties+2)+i];
 			});
+		
 		stepSizes.push(min2-min1);
 	}
 
@@ -69,16 +70,16 @@ function doMatrix() {
 
 	var drawRectangles = function(data,i,j,new_group) {
 
-		var iLowerRange=d3.min(results,function(d){return parseFloat(d[i]);});
-		var iUpperRange=parseFloat(d3.max(results,function(d){return d[i];}))+stepSizes[i];
+		var iLowerRange=d3.min(original_results,function(d){return parseFloat(d[i]);});
+		var iUpperRange=parseFloat(d3.max(original_results,function(d){return d[i];}))+stepSizes[i];
 		var iRange=d3.scale.linear().domain([iLowerRange,iUpperRange]).range([0,100]);
 		var iStepSize=iRange(iLowerRange+stepSizes[i]);
-
-		var jLowerRange=d3.min(results,function(d){return parseFloat(d[j]);});
-		var jUpperRange=parseFloat(d3.max(results,function(d){return d[j];}))+stepSizes[j];
+		
+		var jLowerRange=d3.min(original_results,function(d){return parseFloat(d[j]);});
+		var jUpperRange=parseFloat(d3.max(original_results,function(d){return d[j];}))+stepSizes[j];
 		var jRange=d3.scale.linear().domain([jLowerRange,jUpperRange]).range([0,100]);
 		var jStepSize=jRange(jLowerRange+stepSizes[j]);
-
+		
 		var xaxis = d3.svg.axis()
 			.scale(iRange)
 			.orient("top")
@@ -224,7 +225,7 @@ function doMatrix() {
 //				console.log(iLowerRange);
 //				console.log(iUpperRange);
 
-				for(var j=i+1;j<columnnames.length-1;++j)
+				for(var j=i+1;j<=columnnames.length-1;++j)
 				{
 					if((-1==heatmapfilteri || -1==heatmapfilterj) || j==heatmapfilterj)
 					{
