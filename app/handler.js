@@ -186,8 +186,10 @@ function initOptions() {
 					id = parseInt(d3.select(this).attr("class"))-2;
 					console.log(id);
 					gewichtungen[id]=parseFloat(s);
-					doBarchart();
-					doMatrix();
+					extractClusters();
+					doAll();
+					//doBarchart();
+					//doMatrix();
 					console.log(gewichtungen);
 				});
 	}	
