@@ -34,6 +34,29 @@ function doBarchart() {
 	var y_scale2 = d3.scale.linear()
 		.domain([0, d3.max( clusters_filtered, function (d) { return d.length;})])
 		.range([0, height]);
+		
+	var penalty_scale = d3.scale.linear()
+                .domain([0, d3.max( clusters_filtered, function(d) {
+				return d3.mean(d, function(d) {
+					var all = 0;
+					for(var i=0;i<anzahlPenalties;++i)
+						all+=d[2+i];
+					return all;
+				})
+			})])
+                .range([0, height]);
+				
+	var penalty_scale2 = d3.scale.linear()
+                .domain([0, d3.max( clusters_filtered, function(d) {
+				return d3.mean(d, function(d) {
+					var all = 0;
+					for(var i=0;i<anzahlPenalties;++i)
+						all+=d[2+i];
+					return all;
+				})
+			})])
+                .range([height, 0]);
+
 
 	var x_axis = d3.svg.axis()
 		.scale(x_scale)
@@ -50,7 +73,7 @@ function doBarchart() {
 		.ticks(5);
 
 	var y_axisright = d3.svg.axis()
-		.scale(y_scale)
+		.scale(penalty_scale2)
 		.orient("right")
 		.ticks(5);
 
@@ -107,17 +130,6 @@ function doBarchart() {
 			.text("Frequency");
 
 */
-
-	var penalty_scale = d3.scale.linear()
-                .domain([0, d3.max( clusters_filtered, function(d) {
-				return d3.mean(d, function(d) {
-					var all = 0;
-					for(var i=0;i<anzahlPenalties;++i)
-						all+=d[2+i];
-					return all;
-				})
-			})])
-                .range([0, height]);
 
 	//TODO weitere scales fuer die anderen Penalties
 
