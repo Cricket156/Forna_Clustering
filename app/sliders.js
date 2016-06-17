@@ -27,6 +27,10 @@ function doSliders() {
 	wrapper.append("g")
 		.attr("transform", "translate(" + marginLeft + "," + marginTop + ")");
 	
+	var div = d3.select("body").append("div")	
+		.attr("class", "tooltipSmall")				
+		.style("opacity", 0);
+	
 	data = cutData(original_results);
 	
 	var bins = 8;
@@ -93,7 +97,7 @@ function doSliders() {
 		var canvas = wrapper.attr("width", width)
 			.attr("height", height + 30)
 			.append("g")
-			.attr("transform", "translate(20," + y_scale(j)/*height/data[0].length*(j)*/ + ")");
+			.attr("transform", "translate(20," + y_scale(j) + ")");
 
 		canvas.selectAll("rect")
 			.attr("class", "slider")
@@ -115,7 +119,24 @@ function doSliders() {
 					return y_scale_bars(d.y);
 				}
 			})
-			.attr("fill", "red");
+			.attr("fill", "red")
+			.on('mouseover', function(d) {
+				div.transition()		
+					.duration(200)		
+					.style("opacity", .9);	
+					
+				div.html(function() {
+						var text = "frequency: <br>" + d.length;
+						return text;
+					})	
+					.style("left", (d3.event.pageX) + "px")		
+					.style("top", (d3.event.pageY - 28) + "px");
+				})
+			.on('mouseout', function(d) {
+					div.transition()		
+						.duration(500)		
+						.style("opacity", 0);	
+				});
 	}
 	
 	function brush() {
