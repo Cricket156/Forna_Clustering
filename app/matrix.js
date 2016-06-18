@@ -56,7 +56,10 @@ function doMatrix() {
 					return d[(anzahlPenalties+2)+i];
 			});
 		
-		stepSizes.push(min2-min1);
+		if(ifNaN(min2))
+			stepSizes.push(0);
+		else
+			stepSizes.push(min2-min1);
 	}
 
 	var avgType=false;
