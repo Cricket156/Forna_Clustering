@@ -185,8 +185,6 @@ function initOptions() {
 		txtGewichtungen.append("input")
 			.attr("class", i)
 			.attr("type","number")
-			.attr("min",0)
-			.attr("max",1)
 			.attr("step",0.1)
 			.attr("value",1)
 			.attr("title", function() {
@@ -199,9 +197,6 @@ function initOptions() {
 					gewichtungen[id]=parseFloat(s);
 					extractClusters();
 					doAll();
-					//doBarchart();
-					//doMatrix();
-					console.log(gewichtungen);
 				});
 	}	
 }
