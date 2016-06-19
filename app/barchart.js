@@ -19,7 +19,7 @@ function doBarchart() {
 
 	var cluster_count=clusters_filtered.length;
 
-	var div = d3.select("body").append("div")	
+	var tooltipdiv = d3.select("body").append("div")	
 		.attr("class", "tooltipMiddle")				
 		.style("opacity", 0);
 		
@@ -250,12 +250,12 @@ function doBarchart() {
 			})
 		.on("mouseover", function(d) {
 			
-			div.transition()		
+			tooltipdiv.transition()		
                 .duration(200)		
                 .style("opacity", .9);	
 				
-            div.html(function() {
-					var text = "nodes: " + d.length + "<br>";
+            tooltipdiv.html(function() {
+					var text = "nodes: " + d.length + " (" + Math.round(d.length/original_results.length*10000)/100 + "%)<br>";
 					text = String(text).fontcolor("white");
 												
 					for (var i = 0; i < anzahlPenalties; i++) {
@@ -287,7 +287,7 @@ function doBarchart() {
 		.on("mouseout", function(d) {
 				//d3.select("#matrix").selectAll("rect").style("opacity",1.0);
 				
-				div.transition()		
+				tooltipdiv.transition()		
                 .duration(500)		
                 .style("opacity", 0);	
 
