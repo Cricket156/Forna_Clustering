@@ -33,12 +33,62 @@ function doSliders() {
 	
 	data = cutData(original_results);
 	
-	var bins = 8;
+	var bins = [];
+	var stepSizes = [];
+	
+	for(var i=0;i<data[0].length;++i)
+	{
+		min1 = d3.min(original_results,function(d) {
+				return d[2+i];
+			});
+		min2 = d3.min(original_results,function(d) {
+				if(d[2+i]>min1)
+					return d[2+i];
+			});
+		
+		if(isNaN(min2))
+			stepSizes.push(0);
+		else
+			stepSizes.push(min2-min1);
+	}
+	
+	for(var i=0;i<stepSizes.length;++i)
+	{
+		var min = d3.min(original_results,function(d) {
+				return d[2+i];
+			});
+		var max = d3.max(original_results,function(d) {
+				return d[2+i];
+			});
+			
+		var bin=0;
+		
+		console.log(min);
+		console.log(max);
+		
+		if(0==stepSizes[i])
+			bin=1;
+		else
+			bin=(Math.abs(max-min))/stepSizes[i]+1;
+		
+		if(i<anzahlPenalties)
+			bin=8;
+		
+		if(bin>10)
+		{
+			if(bin>20)
+				bin=10;
+			else if(bin%2==0)
+				bin/2;
+		}
+		
+		bins.push(bin);
+	}
 	
 	y_scale = d3.scale.ordinal().rangePoints([0, height], 1);
 	x_scale = {};
 	
-	axis = d3.svg.axis().ticks(bins/2).orient("bottom");
+	axis = d3.svg.axis().ticks(4).orient("bottom");
 	
 	y_scale.domain(slider_dimensions = d3.keys(data[0]).filter(function(d) {
 		return d != "name" && (x_scale[d] = d3.scale.linear()
@@ -88,7 +138,7 @@ function doSliders() {
 		var map = data.map(function (d, i) {if (i > 0) { return d[j];}})       
 		
 		var histogram = d3.layout.histogram()
-			.bins(bins)(map);
+			.bins(bins[j])(map);
 			
 		var y_scale_bars = d3.scale.linear()
 			.domain([0, d3.max(histogram.map( function (i) { return i.length;}))])
@@ -106,13 +156,13 @@ function doSliders() {
 			.append("g")
 			.append("rect")
 			.attr("x", function (d) {
-				return x_scale[j](d.x) - (width/bins) +1;
+				return x_scale[j](d.x) - (width/bins[j]) +1;
 			})
 			.attr("y", function (d) { 
 				return y_scale_bars(d.y) * (-1) + marginTop;// - 1 - y_scale_bars(d.y);
 			}) 
 			.attr("width", function (d) {
-				return (width/bins) - 3;
+				return (width/bins[j]) - 3;
 			})
 			.attr("height", function (d) { 
 				if(y_scale_bars.domain()[1] != data.length-1) {
