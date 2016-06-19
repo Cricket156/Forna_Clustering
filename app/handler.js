@@ -147,30 +147,10 @@ function initOptions() {
 		dropdown_x.append("option")
 			.attr("value",i)
 			.text(columnnames[i]);
-		dropdown_x.on("change",function(d) {
-				var index = d3.select(this).property("selectedIndex");
-				s = d3.select(this).selectAll("option").filter(function (d, i) { return i === index });
-				heatmapfilteri = s.attr("value");
-				
-				if(-1==heatmapfilteri)
-					d3.select("#matrix").selectAll(".axis").style("font","10px sans-serif");
-				
-				doMatrix();
-			});
 
 		dropdown_y.append("option")
 			.attr("value",i)
 			.text(columnnames[i]);
-		dropdown_y.on("change",function(d) {
-				var index = d3.select(this).property("selectedIndex");
-				s = d3.select(this).selectAll("option").filter(function (d, i) { return i === index });
-				heatmapfilterj = s.attr("value");
-				
-				if(-1==heatmapfilterj)
-					d3.select("#matrix").selectAll(".axis").style("font","10px sans-serif");
-				
-				doMatrix();
-			});
 	}
 	
 	//Fuer alle Penalties
@@ -198,7 +178,29 @@ function initOptions() {
 					extractClusters();
 					doAll();
 				});
-	}	
+	}
+	
+	dropdown_x.on("change",function(d) {
+			var index = d3.select(this).property("selectedIndex");
+			s = d3.select(this).selectAll("option").filter(function (d, i) { return i === index });
+			heatmapfilteri = parseInt(s.attr("value"));
+			
+			if(-1==heatmapfilteri)
+				d3.select("#matrix").selectAll(".axis").style("font","10px sans-serif");
+			
+			doMatrix();
+		});
+			
+	dropdown_y.on("change",function(d) {
+			var index = d3.select(this).property("selectedIndex");
+			s = d3.select(this).selectAll("option").filter(function (d, i) { return i === index });
+			heatmapfilterj = parseInt(s.attr("value"));
+			
+			if(-1==heatmapfilterj)
+				d3.select("#matrix").selectAll(".axis").style("font","10px sans-serif");
+			
+			doMatrix();
+		});
 }
 
 function doAll() {

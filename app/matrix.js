@@ -42,18 +42,20 @@ function doMatrix() {
 
 	//Iwo muss gespeichert sein, wie die StepSize beim Generieren war (oder iwie ausrechnen)
 	var stepSizes = [];
+	stepSizes.push(0);
+	stepSizes.push(0);
 	
-	for(var i=0;i<(anzahlPenalties+2);++i)
-		stepSizes.push(0);
+	//for(var i=0;i<(anzahlPenalties+2);++i)
+	//	stepSizes.push(0);
 
-	for(var i=0;i<columnnames.length-1;++i)
+	for(var i=2;i<columnnames.length-1;++i)
 	{
 		min1 = d3.min(original_results,function(d) {
-				return d[(anzahlPenalties+2)+i];
+				return d[i];
 			});
 		min2 = d3.min(original_results,function(d) {
-				if(d[(anzahlPenalties+2)+i]>min1)
-					return d[(anzahlPenalties+2)+i];
+				if(d[i]>min1)
+					return d[i];
 			});
 		
 		if(isNaN(min2))
@@ -135,13 +137,8 @@ function doMatrix() {
 		var squares;
 		
 		if(isScatterplot)
-		{
-			//jLowerRange=0;
-			//jUpperRange=parseFloat(d3.max(original_results,function(d){return d[j];}))+stepSizes[j];
-			//jRange=d3.scale.linear().domain([jLowerRange,jUpperRange]).range([0,100]);
-			//jStepSize=jRange(jLowerRange+stepSizes[j]);
-		
-			group1.selectAll(".dot")
+		{	
+			squares = group1.selectAll(".dot")
 				.data(data)
 				.enter().append("circle")
 				.attr("class", "dot")
@@ -187,6 +184,8 @@ function doMatrix() {
 								})
 				.attr("width",iStepSize)
 				.attr("height",jStepSize);
+				
+				squares.exit().remove();
 		}
 
 		group1.append("g")
@@ -241,8 +240,6 @@ function doMatrix() {
 						.style("opacity", 0);
 			});
 
-		squares.exit().remove();
-
 		if(!new_group)
 			group1.attr("transform","translate(" + (marginSide + (i-(anzahlPenalties+2))*(100+marginSide)) + "," + (marginTop + (j-1-(anzahlPenalties+2))*(100+marginSide)) + ")");
 
@@ -283,7 +280,10 @@ function doMatrix() {
 				svg.selectAll("*").selectAll(".xaxis").remove();
 				svg.selectAll("*").selectAll(".yaxisleft").remove();
 			
-				drawDatapoints(data,i,j,true,true);
+				drawDatapoints(data,heatmapfilteri,heatmapfilterj,true,true);
+				
+				var group = svg.select(".new");
+				group.attr("transform","scale(" + ((marginSide + (100+marginSide)*(columnnames.length-1-(anzahlPenalties+2)-1))/(100+marginSide)) + "," + ((marginTop + (100+marginSide)*(columnnames.length-1-(anzahlPenalties+2)-1))/(100+marginSide)) + "),translate(" + marginSide + "," + marginTop + ")");
 			}
 			else
 			{
@@ -352,7 +352,6 @@ function randomColorGenerator() {
 	for (var i = 0; i < clusters.length; i++) {
 		var color = "#"+((1<<24)*Math.random()|0).toString(16);
 		if (color.length < 7) {
-			console.log("color.length < 7");
 			color = "#"+((1<<24)*Math.random()|0).toString(16);
 		}
 		clusterColors.push(color);
