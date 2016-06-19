@@ -256,9 +256,11 @@ function doBarchart() {
 				
             div.html(function() {
 					var text = "nodes: " + d.length + "<br>";
+					text = String(text).fontcolor("white");
 												
 					for (var i = 0; i < anzahlPenalties; i++) {
 						text = text + columnnames[i+2] + ": " + d[0][i+2] + "<br>";
+						text = String(text).fontcolor(colors[i]);
 					}
 					return text;
 				})	
