@@ -4,7 +4,8 @@ var new_filters = [];
 
 function doSliders() {
 	d3.select("#sliders").selectAll("*").remove();
-
+	d3.select("#sliderstext")
+ 	 .style("visibility", "visible");
 	var data;
 
 	var x, y, dragging, line, axis, background, foreground;
@@ -22,14 +23,7 @@ function doSliders() {
 		.attr("width", width + marginLeft + marginRight)
 		.attr("height", height + marginBottom + marginTop + 200);
 
-	// var help =	svg.append('foreignObject')
-	// 												.attr('x', 0 )
-	// 												.attr('y', 30)
-	// 												.attr('width', 200)
-	// 												.attr('height', 200)
-	// 												.attr("font-size","10px")
-	// 												.append("xhtml:body")
-	// 			 .html('<div style="width: 500px;">These widgets are used <br> to filter for attributes. <br> After you are done with <br> your selection using <br> the widgets <br>  click apply filter. </div>')
+
 
 	var wrapper = svg.append('g');
 

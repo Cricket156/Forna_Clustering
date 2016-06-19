@@ -1,4 +1,6 @@
 function doBarchart() {
+	d3.select("#barcharttext")
+		.style("visibility", "visible");
 	var svg = d3.select("#barchart");
 
 	var clusters_filtered=[];
@@ -34,15 +36,6 @@ function doBarchart() {
 	var y_scale2 = d3.scale.linear()
 		.domain([0, d3.max( clusters_filtered, function (d) { return d.length;})])
 		.range([0, height]);
-
-		 svg.append('foreignObject')
-													.attr('x', 0 )
-													.attr('y', 30)
-													.attr('width', 550)
-													.attr('height', 200)
-													.attr("font-size","10px")
-													.append("xhtml:body")
-				 .html('<div style="width: 500px;">This barchart shows a sorted list of the best clusters.<br> You can select a bar by clicking it and hover over it to show more information. </div>')
 
 
 	var penalty_scale = d3.scale.linear()
