@@ -27,6 +27,7 @@ function loadCSV(evt) {
 	heatmapfilteri = -1;
 	heatmapfilterj = -1;
 	
+	d3.selectAll(".hiddenThings").style("visibility","visible");
 	
 	colors.push("green");
 	colors.push("red");
