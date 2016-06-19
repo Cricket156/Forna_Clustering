@@ -10,6 +10,9 @@
 	<!--<link href="css/d3.parcoords.css" type="text/css" rel="stylesheet" />-->
 
 <!--	<link href='http://fonts.googleapis.com/css?family=Ruluko' rel='stylesheet' type='text/css' /> -->
+	<link href="http://code.jquery.com/ui/1.10.4/themes/ui-lightness/jquery-ui.css" rel="stylesheet">
+	<script src="http://code.jquery.com/jquery-1.10.2.js"></script>
+	<script src="http://code.jquery.com/ui/1.10.4/jquery-ui.js"></script>
 
 	<script src="include/d3.js"></script>
 	<!--<script src="include/d3.parcoords.js"></script>-->
@@ -17,6 +20,13 @@
 	<script src="parallelCoordinates.js"></script>
 	<script src="matrix.js"></script>
 	<script src="sliders.js"></script>
+	<script>
+		function openOptions() {
+			$(function() {
+				$( "#opts" ).dialog();
+			});
+		}
+	</script>
 	<style>
 		svg {
 		  font: 10px sans-serif;
@@ -114,6 +124,10 @@
 			<div class="row" style="margin-left: 10px">
 				<input type="file" id="file" accept=".csv"/>
 			</div>
+			
+			<div class="row" style="margin-left: 10px">
+				<input type="button" id="options" value="Options" onclick="openOptions()"/>
+			</div>
 
 			<div class="hiddenThings" style="visibility: hidden">
 				<h5>Change Matrix View</h5>
@@ -137,9 +151,18 @@
 						</select>
 					</label>
 				</div>
-				<div id="gewichtungen">
-					<h5>Weights for penalties</h5>
-					<div id="field_name">If you think a particular penalty is more detrimental change the weight accordingly.</div>
+				<div id="opts">
+					<div id="gewichtungen">
+						<h5>Weights for penalties</h5>
+						<div id="field_name">If you think a particular penalty is more detrimental change the weight accordingly.</div>
+					</div>
+					<label>Colors for Heatmaps
+						<select id="heatmapcolors" size="1">
+							<option value=0>green-red</option>
+							<option value=1>yellow-blue</option>
+							<option value=2>orange-violett</option>
+						</select>
+					</label>
 				</div>
 				<div>
 					<br>

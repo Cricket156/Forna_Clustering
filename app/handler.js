@@ -14,6 +14,7 @@ var svgPfad = "";
 var drawSVG = true;
 
 var colors = [];
+var heatmapcolors = ["green","red"];	//good, bad Visualization
 	
 var barchartHover = true;
 //reads the csv File from the input to the results array
@@ -199,6 +200,21 @@ function initOptions() {
 			if(-1==heatmapfilterj)
 				d3.select("#matrix").selectAll(".axis").style("font","10px sans-serif");
 			
+			doMatrix();
+		});
+		
+	d3.select("#heatmapcolors").on("change",function(d) {
+			var index = d3.select(this).property("selectedIndex");
+			s = d3.select(this).selectAll("option").filter(function (d, i) { return i === index });
+			var value = s.attr("value");
+			
+			if(0==value)
+				heatmapcolors=["green","red"];
+			else if(1==value)
+				heatmapcolors=["yellow","blue"];
+			else
+				heatmapcolors=["orange","purple"];
+				
 			doMatrix();
 		});
 }

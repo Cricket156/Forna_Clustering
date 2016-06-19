@@ -248,7 +248,7 @@ function doMatrix() {
 	var colorRange=d3.scale.linear().
 			domain([d3.min(results,function(d){return getAvgPenalty(d);}),
 				d3.max(results,function(d){return getAvgPenalty(d);})])
-			.range(["green","red"]);
+			.range([heatmapcolors[0],heatmapcolors[1]]);
 
 	var drawHeatmaps = function(data)
 	{
