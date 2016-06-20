@@ -10,13 +10,14 @@ var matrixfilter = -1;
 var heatmapfilteri = -1;
 var heatmapfilterj = -1;
 var anzahlPenalties = 0;
+var barchartHover = true;
 var svgPfad = "";
 var drawSVG = true;
 
 var colors = [];
 var heatmapcolors = ["green","red"];	//good, bad Visualization
-	
-var barchartHover = true;
+var barchartoption = 0;
+
 //reads the csv File from the input to the results array
 function loadCSV(evt) {
 	results = [];
@@ -179,6 +180,10 @@ function initOptions() {
 					extractClusters();
 					doAll();
 				});
+				
+		d3.select("#barchartoptions").append("option")
+			.attr("value",i)
+			.text(columnnames[i]);
 	}
 	
 	dropdown_x.on("change",function(d) {
@@ -216,6 +221,15 @@ function initOptions() {
 				heatmapcolors=["orange","purple"];
 				
 			doMatrix();
+		});
+	
+	d3.select("#barchartoptions").on("change",function(d) {
+			var index = d3.select(this).property("selectedIndex");
+			s = d3.select(this).selectAll("option").filter(function (d, i) { return i === index });
+			barchartoption = parseInt(s.attr("value"));
+			
+			d3.select("#barchart").selectAll("*").remove();
+			doBarchart();
 		});
 }
 

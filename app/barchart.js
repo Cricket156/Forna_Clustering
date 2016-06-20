@@ -4,7 +4,8 @@ function doBarchart() {
 	var clusters_filtered=[];
 
 	var grenze=20;
-	if(clusters.length<20)
+		
+	if(clusters.length<grenze)
 		grenze=clusters.length;
 
 	for(var i=0;i<grenze;++i)
@@ -40,7 +41,10 @@ function doBarchart() {
 				return d3.mean(d, function(d) {
 					var all = 0;
 					for(var i=0;i<anzahlPenalties;++i)
-						all+=d[2+i];
+						if((0!=barchartoption && barchartoption==(i+2)) || 0==barchartoption)
+							all+=d[2+i];
+					if(1==barchartoption)
+						all=d.length;
 					return all;
 				})
 			})])
@@ -51,7 +55,10 @@ function doBarchart() {
 				return d3.mean(d, function(d) {
 					var all = 0;
 					for(var i=0;i<anzahlPenalties;++i)
-						all+=d[2+i];
+						if((0!=barchartoption && barchartoption==(i+2)) || 0==barchartoption)
+							all+=d[2+i];
+					if(1==barchartoption)
+						all=d.length;
 					return all;
 				})
 			})])
@@ -66,12 +73,24 @@ function doBarchart() {
 //ticks y axis
 	// var y_axisleft = d3.svg.axis().orient("left");
 
-	var y_axisleft = d3.svg.axis()
-		.scale(penalty_scale2)
-		//.scale(y_scale)
+	var y_axisleft;
+
+	if(1==barchartoption)
+	{
+		y_axisleft = d3.svg.axis()
+		.scale(y_scale)
 		// .style("stroke-width", '1')
 		.orient("left")
 		.ticks(5);
+	}
+	else
+	{
+		y_axisleft = d3.svg.axis()
+		.scale(penalty_scale2)
+		// .style("stroke-width", '1')
+		.orient("left")
+		.ticks(5);
+	}
 
 	var y_axisright = d3.svg.axis()
 		//.scale(penalty_scale2)
@@ -104,23 +123,36 @@ function doBarchart() {
 		/*.attr("font-size","15px")
 		.attr("transform", "rotate(-90)")
 		.text("Penalties");*/
-
-	draw.append("g")
-		.attr("class", "yaxisright axis")
-		.attr("transform", "translate(" + width + ",0)")
-		.call(y_axisright)
-		.select("text")
-		.attr("transform", "rotate(-90),translate(0,40)")
-		//.text("Penalties");
-		.text("NodeCount");
-
+	
+	var yLabel = "";
+	
+	switch(barchartoption)
+	{
+		case 0: yLabel="Penalties"; break;
+		case 1: yLabel="NodeCount"; break;
+		default: yLabel=columnnames[barchartoption];
+	
+	}
+	
+	if(0==barchartoption)
+	{
+		draw.append("g")
+			.attr("class", "yaxisright axis")
+			.attr("transform", "translate(" + width + ",0)")
+			.call(y_axisright)
+			.select("text")
+			.attr("transform", "rotate(-90),translate(0,40)")
+			//.text("Penalties");
+			.text("NodeCount");
+	}
+		
 	draw.append("g")
 		.attr("class", "yaxisleft axis")
 		.call(y_axisleft)
 		.select("text")
 		.attr("transform", "rotate(-90),translate(70,-40)")
 		//.text("NodeCount");
-		.text("Penalties");
+		.text(yLabel);
 /*
 	svg.append("g")
 		.attr("class", "yaxisleft")
@@ -137,62 +169,74 @@ function doBarchart() {
 
 	//TODO weitere scales fuer die anderen Penalties
 
-
+	var step=3.0;
+	
+	if(0!=barchartoption)
+		step=1.0;
 	
 	for(var i=0;i<anzahlPenalties;++i)
 	{
-		wrapper.selectAll(".penalties"+i)
-			.data(clusters_filtered)
-			.enter().append("rect")
-			.attr("class", "penalties")
-			.attr("x", function(d,index) {
-					return x_scale(index);
-				})
-			.attr("width", x_scale(1.0/3.0))
-			.attr("y", function(d) {
-					return height - penalty_scale(d3.mean(d, function(d) {
-								var previous = 0;
-								for(var j=0;j<i;++j)
-									previous+=d[2+j];
-								return d[2+i]+previous;
-							}));
-				})
-			.attr("height", function(d) {
-					return penalty_scale(d3.mean(d, function(d) {
-								return d[2+i];
-							}));
-				})
-			.style("fill",colors[i]);
-			
-		wrapper.selectAll(".pticks")
-			.data(clusters_filtered)
-			.enter().append("text")
-			.attr("class", "pticks")
-			.attr("x", function(d,index) {
-					return x_scale(index);
-				})
-			.attr("y", function(d) {
-					return height+20;
-				})
-			.text(function(d) {
-					return d[0][1];
-				});
+		if((0!=barchartoption && barchartoption==(i+2)) || 0==barchartoption)
+		{
+			wrapper.selectAll(".penalties"+i)
+				.data(clusters_filtered)
+				.enter().append("rect")
+				.attr("class", "penalties")
+				.attr("x", function(d,index) {
+						return x_scale(index);
+					})
+				.attr("width", x_scale(1.0/step))
+				.attr("y", function(d) {
+						return height - penalty_scale(d3.mean(d, function(d) {
+									var previous = 0;
+									if(0==barchartoption)
+										for(var j=0;j<i;++j)
+											previous+=d[2+j];
+									return d[2+i]+previous;
+								}));
+					})
+				.attr("height", function(d) {
+						return penalty_scale(d3.mean(d, function(d) {
+									return d[2+i];
+								}));
+					})
+				.style("fill",colors[i]);
+		}
+		
+			wrapper.selectAll(".pticks")
+				.data(clusters_filtered)
+				.enter().append("text")
+				.attr("class", "pticks")
+				.attr("x", function(d,index) {
+						return x_scale(index);
+					})
+				.attr("y", function(d) {
+						return height+20;
+					})
+				.text(function(d) {
+						return d[0][1];
+					});
 	}
 	
-	wrapper.selectAll(".count")
-                .data(clusters_filtered)
-                .enter().append("rect")
-                .attr("class", "count")
-                .attr("x", function(d,i) {
-                                return x_scale(i+1.0/3.0);
-                        })
-                .attr("width", x_scale(1.0/3.0))
-                .attr("y", function(d) {
-                                return height - y_scale2(d.length);
-                        })
-                .attr("height", function(d) {
-                                return y_scale2(d.length);
-                        });
+	if(0==barchartoption || 1==barchartoption)
+	{
+		wrapper.selectAll(".count")
+					.data(clusters_filtered)
+					.enter().append("rect")
+					.attr("class", "count")
+					.attr("x", function(d,i) {
+									if(1==barchartoption)
+										return x_scale(i);
+									return x_scale(i+1.0/step);
+							})
+					.attr("width", x_scale(1.0/step))
+					.attr("y", function(d) {
+									return height - y_scale2(d.length);
+							})
+					.attr("height", function(d) {
+									return y_scale2(d.length);
+							});
+	}
 	
 	svg.selectAll("rect, .pticks")
 		.on("click", function(d) {

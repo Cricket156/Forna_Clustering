@@ -63,9 +63,6 @@ function doSliders() {
 			
 		var bin=0;
 		
-		console.log(min);
-		console.log(max);
-		
 		if(0==stepSizes[i])
 			bin=1;
 		else
