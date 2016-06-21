@@ -249,29 +249,34 @@ function doAll() {
 function showSVG(d, svg_direct) {
 	if (drawSVG) {
 		try {
+			var svg = d3.select("#fixedTooltip");
+			svg.selectAll("*");
+			d3.select("#fixedTooltipDiv")
+				.select("p")
+				.text("");
 			
-			window.open("file:///" + svgPfad + "/svg" + d[0] + ".svg");
+			//window.open("file:///" + svgPfad + "/svg" + d[0] + ".svg");
 			
-			/*d3.xml("svg1.svg", "image/svg+xml", function(error, xml) {
+			d3.xml("svg1.svg", "image/svg+xml", function(error, xml) {
 					if (error) throw error;
 
 					var svgNode = xml.getElementsByTagName("svg")[0];
-					svg_direct.node().appendChild(svgNode);
-					svg_direct.select("#plotting-area").select("g")
-						.attr("transform","scale(0.5,0.5)")
+					svg.node().appendChild(svgNode);
+					svg.select("#plotting-area").select("g")
+						.attr("transform","scale(0.25,0.25)")
 						.on("click",function(d) {
 							//window.open("./svg1.svg");
 							console.log("new window");
 							window.open("file:///" + svgPfad + "/svg1.svg");
 						});
-					});*/
+					});
 		}
 		catch(err)
 		{
 			alert("File nicht gefunden");
 		}
 	
-		/*var group = svg_direct.append("g").attr("class","vis");
+		/*var group = svg.append("g").attr("class","vis");
 
 		group.append("rect")
 			.attr("class","details")
@@ -299,8 +304,8 @@ function showSVG(d, svg_direct) {
 					if (error) throw error;
 
 					var svgNode = xml.getElementsByTagName("svg")[0];
-					svg_direct.node().appendChild(svgNode);
-					svg_direct.select("#plotting-area").select("g")
+					svg.node().appendChild(svgNode);
+					svg.select("#plotting-area").select("g")
 						.attr("transform","scale(0.5,0.5)")
 						.on("click",function(d) {
 							window.open("./svg1.svg");
@@ -322,8 +327,8 @@ function showSVG(d, svg_direct) {
 			.attr('height', 20)
 			.attr('width', 20)
 			.on("click",function(d) {
-				svg_direct.select("#plotting-area").remove();
-				svg_direct.selectAll(".vis").remove();
+				svg.select("#plotting-area").remove();
+				svg.selectAll(".vis").remove();
 			});
 
 		group_close.attr("transform","translate(370,7)");
