@@ -248,7 +248,8 @@ function doBarchart() {
 							})
 					.attr("height", function(d) {
 									return y_scale2(d.length);
-							});
+							})
+					.style("fill","#604A7B");
 	}
 	
 	svg.selectAll("rect, .pticks")

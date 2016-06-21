@@ -34,9 +34,9 @@ function loadCSV(evt) {
 	
 	d3.selectAll(".hiddenThings").style("visibility","visible");
 	
-	colors.push("green");
-	colors.push("red");
-	colors.push("blue");
+	colors.push("#4F81BC");
+	colors.push("#C24F4C");
+	colors.push("#9BBA5C");
 
 	var file = evt.target.files[0];
 	if (file) {
