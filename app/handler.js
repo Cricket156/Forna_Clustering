@@ -265,17 +265,15 @@ function showSVG(d, svg_direct) {
 			
 			//window.open("file:///" + svgPfad + "/svg" + d[0] + ".svg");
 			
-			d3.xml("svg1.svg", "image/svg+xml", function(error, xml) {
+			d3.xml("file:///" + svgPfad + "/svg" + (parseFloat(d[0])+1) + ".svg", "image/svg+xml", function(error, xml) {
 					if (error) throw error;
 
 					var svgNode = xml.getElementsByTagName("svg")[0];
 					svg.node().appendChild(svgNode);
 					svg.select("#plotting-area").select("g")
 						.attr("transform","scale(0.25,0.25)")
-						.on("click",function(d) {
-							//window.open("./svg1.svg");
-							console.log("new window");
-							window.open("file:///" + svgPfad + "/svg1.svg");
+						.on("click",function() {
+							window.open("file:///" + svgPfad + "/svg" + (parseFloat(d[0])+1) + ".svg");
 						});
 					});
 		}
