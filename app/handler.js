@@ -250,10 +250,18 @@ function showSVG(d, svg_direct) {
 	if (drawSVG) {
 		try {
 			var svg = d3.select("#fixedTooltip");
-			svg.selectAll("*");
-			d3.select("#fixedTooltipDiv")
-				.select("p")
-				.text("");
+			svg.selectAll("*").remove();
+			d3.select("#fixedTooltipDiv").select("p").remove();
+		
+			svg.append('image').attr('xlink:href','close.jpg')
+				.attr('height', 20)
+				.attr('width', 20)
+				.attr('x',130)
+				.attr('y',0)
+				.on("click",function(d) {
+					d3.select("#fixedTooltipDiv").append("p");
+					svg.selectAll("*").remove();
+				});
 			
 			//window.open("file:///" + svgPfad + "/svg" + d[0] + ".svg");
 			

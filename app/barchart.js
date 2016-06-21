@@ -130,12 +130,10 @@ function doBarchart() {
 		.attr("class", "xaxis axis")
 		.attr("transform", "translate(0," + height + ")")
 		.call(x_axis)
-		.select("text")
-		.attr("y", width+36)
-		.attr("x", height/2);
-		/*.attr("font-size","15px")
-		.attr("transform", "rotate(-90)")
-		.text("Penalties");*/
+		.append("text")
+		.attr("y", 35)
+		.attr("x", width/2)
+		.text("Cluster ID");
 	
 	var yLabel = "";
 	
