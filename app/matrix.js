@@ -5,8 +5,10 @@ function doMatrix() {
 	var svg = d3.select("#matrix");
 	var svg_direct = svg;
 
-	svg.select(".new").remove();
-
+	svg.selectAll(".new").remove();
+	svg.selectAll(".max").remove();
+	svg.selectAll(".close").remove();
+	
 	if(!matrixloaded)
 	{
 		svg = svg.append("g");
@@ -73,7 +75,7 @@ function doMatrix() {
 		return result;
 	}
 
-	var drawDatapoints = function(data,i,j,new_group, isScatterplot) {
+	var drawDatapoints = function(data,i,j,new_group,isScatterplot) {
 
 		var iLowerRange=d3.min(original_results,function(d){return parseFloat(d[i]);});
 		var iUpperRange=parseFloat(d3.max(original_results,function(d){return d[i];}))+stepSizes[i];
@@ -209,7 +211,20 @@ function doMatrix() {
 			.attr("dy", ".71em")
 			.style("text-anchor", "middle")
 			.text(String(columnnames[j]));
-
+			
+		var group_max = group1.append("g").attr("class","max");
+		
+		group_max.append('image').attr('xlink:href','max.JPG')
+			.attr('height', 20)
+			.attr('width', 20)
+			.attr('x',100)
+			.attr('y',0)
+			.on("click",function(d) {
+				heatmapfilteri=i;
+				heatmapfilterj=j;
+				doMatrix();
+			});
+			
 		squares.on("click",function(d) {
 				showSVG(d, svg_direct);
 			})
@@ -252,6 +267,9 @@ function doMatrix() {
 
 	var drawHeatmaps = function(data)
 	{
+		svg.selectAll(".close").remove();
+		svg.selectAll(".max").remove();
+		
 		var new_heatmap=true;
 
 		for(var i=anzahlPenalties+2;i<columnnames.length-1;++i)
@@ -272,6 +290,19 @@ function doMatrix() {
 
 		if(-1!=heatmapfilteri && -1!=heatmapfilterj)
 		{
+			svg.selectAll(".max").remove();
+			
+			var group_close = svg.append("g").attr("class","close");
+		
+			group_close.append('image').attr('xlink:href','close.jpg')
+				.attr('height', 20)
+				.attr('width', 20)
+				.attr('x',0)
+				.attr('y',0)
+				.on("click",function(d) {
+					resetMatrixFilter();
+				});
+		
 			if(heatmapfilterj<(anzahlPenalties+2))
 			{
 				d3.select("#outlierCheckbox")

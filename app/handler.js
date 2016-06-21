@@ -373,4 +373,4 @@ function resetMatrixFilter() {
 	heatmapfilteri=-1;
 	heatmapfilterj=-1;
 	doMatrix();
-} 
+}
