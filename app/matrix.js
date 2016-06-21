@@ -230,11 +230,12 @@ function doMatrix() {
 			})
 		.on("mouseover",function(d) {
 				d3.selectAll(".r"+d[0]).style("stroke", "white").style("stroke-width",4);
+				d3.selectAll(".p"+d[0]).style("stroke-width",3);
 				d3.event.stopPropagation();
 				
 				div.transition()		
 					.duration(200)		
-					.style("opacity", .9);	
+					.style("opacity", .9);
 					
 				div.html(function() {
 						var text = "";
@@ -248,6 +249,7 @@ function doMatrix() {
 			})
 		.on("mouseout",function(d) {
 				d3.selectAll(".r"+d[0]).style("stroke", "none");
+				d3.selectAll(".p"+d[0]).style("stroke-width",1);
 				d3.event.stopPropagation();
 				
 				div.transition()		

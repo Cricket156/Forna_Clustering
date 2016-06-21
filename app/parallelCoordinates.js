@@ -67,10 +67,19 @@ function doParallelCoordinates() {
 			.data(data)
 			.enter().append("path")
 			.attr("d", path)
+			.attr("class",function(d,i) {
+					if(i!=0)
+						return "p" + clusters[clusterposition][i-1][0];
+					else
+						return "labels";
+				})
 			.on("click", function(d, i) {
 				showSVG(clusters[clusterposition][i-1], wrapper);
 			})
 			.on('mouseover', function(d, i) {
+				d3.selectAll(".p"+clusters[clusterposition][i-1][0]).style("stroke-width",3).style("stroke","red");
+				d3.select("#matrix").selectAll(".r"+clusters[clusterposition][i-1][0]).style("stroke", "white").style("stroke-width",4);
+			
 				div.transition()		
 					.duration(200)		
 					.style("opacity", .9);	
@@ -86,6 +95,9 @@ function doParallelCoordinates() {
 					.style("top", (d3.event.pageY - 28) + "px");
 				})
 			.on('mouseout', function(d) {
+					d3.selectAll("path").style("stroke-width",1).style("stroke","midnightblue");
+					d3.select("#matrix").selectAll("rect").style("stroke", "none");
+					
 					div.transition()		
 						.duration(500)		
 						.style("opacity", 0);	
