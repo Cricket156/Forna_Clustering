@@ -1,6 +1,7 @@
 document.getElementById('file').addEventListener('change', loadCSV, false);
 window.addEventListener('resize', doAll);
 
+var original_results = [];
 var results = [];		//2d array, that holds all nodes
 var clusters = [];		//3d array; 1st D: cluster, 2nd D: single node, 3rd D: node info
 var columnnames = [];

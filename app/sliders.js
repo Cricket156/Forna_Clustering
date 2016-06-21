@@ -5,7 +5,7 @@ var new_filters = [];
 function doSliders() {
 	d3.select("#sliders").selectAll("*").remove();
 	
-	var data;
+	var data,original_data;
 
 	var x, y, dragging, line, axis, background, foreground;
 	
@@ -31,7 +31,9 @@ function doSliders() {
 		.attr("class", "tooltipSmall")				
 		.style("opacity", 0);
 	
-	data = cutData(original_results);
+	//data = cutData(original_results);
+	data = cutData(results);
+	original_data = cutData(original_results);
 	
 	var bins = [];
 	var stepSizes = [];
@@ -89,7 +91,7 @@ function doSliders() {
 	
 	y_scale.domain(slider_dimensions = d3.keys(data[0]).filter(function(d) {
 		return d != "name" && (x_scale[d] = d3.scale.linear()
-			.domain(d3.extent(data, function(p) { return +p[d]; }))
+			.domain(d3.extent(original_data, function(p) { return +p[d]; }))
 			.range([width, 0]));
 	}));
 		
@@ -225,8 +227,6 @@ function doSliders() {
 
 }
 
-var original_results = [];
-
 function SlidersApplyFilter() {
 	results = [];
 		
@@ -245,6 +245,9 @@ function SlidersApplyFilter() {
 	if (results.length != 0) {
 		extractClusters();
 		doAll();
+		
+		doSliders();
+		
 	}
 	else {
 		alert("This filter does not contain any nodes, the filter will be reseted");
@@ -262,5 +265,6 @@ function SlidersResetFilter() {
 	
 	d3.select("#sliders").selectAll("*").remove();
 	doSliders();
+	
 	SlidersApplyFilter();
 }
