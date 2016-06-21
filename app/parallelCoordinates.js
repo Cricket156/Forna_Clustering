@@ -94,8 +94,9 @@ function doParallelCoordinates() {
 					.style("left", (d3.event.pageX) + "px")		
 					.style("top", (d3.event.pageY - 28) + "px");
 				})
-			.on('mouseout', function(d) {
-					d3.selectAll("path").style("stroke-width",1).style("stroke","midnightblue");
+			.on('mouseout', function(d, i) {
+					d3.selectAll(".p"+clusters[clusterposition][i-1][0]).style("stroke-width",1).style("stroke","midnightblue");
+				//	d3.select(".foreground").selectAll(".path").style("stroke-width",1).style("stroke","midnightblue");
 					d3.select("#matrix").selectAll("rect").style("stroke", "none");
 					
 					div.transition()		
