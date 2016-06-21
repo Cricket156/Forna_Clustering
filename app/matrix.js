@@ -229,7 +229,7 @@ function doMatrix() {
 				showSVG(d, svg_direct);
 			})
 		.on("mouseover",function(d) {
-				d3.selectAll(".r"+d[0]).style("stroke", "white");
+				d3.selectAll(".r"+d[0]).style("stroke", "white").style("stroke-width",4);
 				d3.event.stopPropagation();
 				
 				div.transition()		
