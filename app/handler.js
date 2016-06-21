@@ -368,3 +368,9 @@ function showSVG(d, svg_direct) {
 		d3.event.stopPropagation();*/
 	}
 }
+
+function resetMatrixFilter() {
+	heatmapfilteri=-1;
+	heatmapfilterj=-1;
+	doMatrix();
+} 
