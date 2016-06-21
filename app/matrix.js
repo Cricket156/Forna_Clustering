@@ -58,7 +58,7 @@ function doMatrix() {
 		min2 = d3.min(original_results,function(d) {
 				if(d[i]>min1)
 					return d[i];
-			});
+				});
 		
 		if(isNaN(min2))
 			stepSizes.push(0);
@@ -89,7 +89,7 @@ function doMatrix() {
 		
 		var xaxis = d3.svg.axis()
 			.scale(iRange)
-			.orient("top")
+			.orient("bottom")
 			.ticks(5);
 
 		var yaxisleft = d3.svg.axis()
@@ -190,13 +190,15 @@ function doMatrix() {
 				squares.exit().remove();
 		}
 
+		var w = 100; // heatmap width
 		group1.append("g")
 			.attr("class", "xaxis axis")
+			.attr("transform", "translate(0," + w + ")")
 			.call(xaxis)
 			.append("text")
 		//	.attr("class", "label")
-			.attr("y", -20)
-		//	.attr("x", -70)
+			.attr("y", 30)
+			.attr("x", w/2)
 			.style("text-anchor", "middle")
 			.text(String(columnnames[i]));
 
@@ -206,8 +208,8 @@ function doMatrix() {
 			.append("text")
 		//	.attr("class", "label")
 			.attr("transform", "rotate(-90)")
-			.attr("y", -30)
-			.attr("x", -70)
+			.attr("y", -35)
+			.attr("x", -(w/2))
 			.attr("dy", ".71em")
 			.style("text-anchor", "middle")
 			.text(String(columnnames[j]));
