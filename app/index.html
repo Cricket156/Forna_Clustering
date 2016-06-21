@@ -22,6 +22,7 @@
 	<script src="sliders.js"></script>
 	<script>
 		function openOptions() {
+			d3.selectAll("#opts").style("visibility","visible");
 			$(function() {
 				$( "#opts" ).dialog();
 			});
@@ -120,19 +121,17 @@
 	</nav>
 	<section>
 		<div class="col-md-2">
-			<h5>Load Data</h5>
-			<div class="row" style="margin-left: 10px">
-				<input type="file" id="file" accept=".csv"/>
-			</div>
-			
-			<div class="row" style="margin-left: 10px">
-				<input type="button" id="options" value="Options" onclick="openOptions()"/>
+			<div id="loaddata">
+				<h5>Load Data</h5>
+				<div class="row" style="margin-left: 10px">
+					<input type="file" id="file" accept=".csv"/>
+				</div>
 			</div>
 
 			<div class="hiddenThings" style="visibility: hidden">
-				<h5>Change Matrix View</h5>
+				<h5></h5>
 				<div class="row" style="margin-left: 10px">
-					<input type="button" id="ChangeMatrix" value="Change to worst" title="Change which visualisations are visible"/>
+					<input type="button" id="options" value="Options" onclick="openOptions()"/>
 				</div>
 				<br>
 				<div id="panel">
@@ -152,7 +151,15 @@
 					</label>
 				</div>
 				<input type="button" id="resetmatrixfilter" value="Reset" onclick="resetMatrixFilter()"/>
-				<div id="opts">
+				<div id="fixedTooltipDiv">
+					<p style="font-size:10px; margin:0; padding:0"></p>
+					<svg id="fixedTooltip" height="150px" width="100%"></svg>
+				</div>
+				<div id="opts" style="visibility: hidden">
+					<h5>Change Matrix View</h5>
+					<div class="row" style="margin-left: 10px">
+						<input type="button" id="ChangeMatrix" value="Change to worst" title="Change which visualisations are visible"/>
+					</div>
 					<label>Barchart
 						<select id="barchartoptions" size="1">
 							<option value=0>all</option>
@@ -185,9 +192,6 @@
 				<div class="col-md-12" id="barchartDiv">
 					<svg id="barchart" height="250px" width="100%"></svg>
 				</div>
-				<div id="barcharttext">
-					<div id="field_name">This barchart shows a sorted list of the best clusters. You can hover over the bars to see more information. Clicking on a cluster will select it and show more information below.</div>
-				</div>
 			</div>
 			<div class="row">
 				<div class="col-md-7" id="matrixDiv">
@@ -200,10 +204,6 @@
 		</div>
 		<div class="col-md-2 hiddenThings" style="visibility: hidden" id="sliderDiv">
 			<h5></h5>
-			<div id="sliderstext">
-				<div id="field_name">  These widgets are used to filter for attributes. After you are done with your selection using the widgets click apply filter. </div>
-			</div>
-			<br>
 			<div class="col-md-6">
 				<input type="button" id="ApplyFilter" value="Apply Filter" onclick="SlidersApplyFilter()"/>
 			</div>

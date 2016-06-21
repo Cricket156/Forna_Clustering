@@ -1,4 +1,6 @@
 function doBarchart() {
+	var beschreibung = "This barchart shows a sorted list of the best clusters. You can hover over the bars to see more information. Clicking on a cluster will select it and show more information below.";
+	
 	var svg = d3.select("#barchart");
 
 	var clusters_filtered=[];
@@ -100,7 +102,18 @@ function doBarchart() {
 
 	var svg = d3.select("#barchart")
 		.attr("width", width + m[3] + m[1])
-	    .attr("height", height + m[0] + m[2]);
+	    .attr("height", height + m[0] + m[2])
+		.on("mouseover", function(d) {
+			//writeBarchartText();
+			d3.select("#fixedTooltipDiv")
+				.select("p")
+				.text(beschreibung);
+		})
+		.on("mouseout", function(d) {
+			d3.select("#fixedTooltipDiv")
+				.select("p")
+				.text("");
+		});
 
 	var wrapper = svg.append("g")
 		.attr("transform", "translate(" + m[3] + "," + m[0] + ")");
@@ -327,6 +340,9 @@ function doBarchart() {
 				}
 				
 				d3.event.stopPropagation();
+				d3.select("#fixedTooltipDiv")
+				.select("p")
+				.text(beschreibung);
 			})
 		.on("mouseout", function(d) {
 				//d3.select("#matrix").selectAll("rect").style("opacity",1.0);
@@ -346,6 +362,5 @@ function doBarchart() {
 				
 				d3.event.stopPropagation();
 			});
-
 	console.log("Barchart done");
 }

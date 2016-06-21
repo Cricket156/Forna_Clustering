@@ -1,8 +1,10 @@
 var original_filters = [];
-
 var new_filters = [];
 
 function doSliders() {
+
+	var beschreibung = "These widgets are used to filter for attributes. After you are done with your selection using the widgets click apply filter.";
+	
 	d3.select("#sliders").selectAll("*").remove();
 	
 	var data,original_data;
@@ -20,7 +22,18 @@ function doSliders() {
 	
 	var svg = d3.select("#sliders")
 		.attr("width", width + marginLeft + marginRight)
-		.attr("height", height + marginBottom + marginTop);
+		.attr("height", height + marginBottom + marginTop)
+		.on("mouseover", function(d) {
+			//writeBarchartText();
+			d3.select("#fixedTooltipDiv")
+				.select("p")
+				.text(beschreibung);
+		})
+		.on("mouseout", function(d) {
+			d3.select("#fixedTooltipDiv")
+				.select("p")
+				.text("");
+		});
 	
 	var wrapper = svg.append('g');
 	
@@ -177,6 +190,9 @@ function doSliders() {
 				}
 			})
 			.on('mouseover', function(d) {
+				d3.select("#fixedTooltipDiv")
+					.select("p")
+					.text(beschreibung);
 				div.transition()		
 					.duration(200)		
 					.style("opacity", .9);	
@@ -191,7 +207,7 @@ function doSliders() {
 			.on('mouseout', function(d) {
 					div.transition()		
 						.duration(500)		
-						.style("opacity", 0);	
+						.style("opacity", 0);
 				});
 	}
 	
