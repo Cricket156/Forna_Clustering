@@ -257,17 +257,17 @@ function showSVG(d, svg_direct) {
 			
 			//window.open("file:///" + svgPfad + "/svg" + d[0] + ".svg");
 			
-			d3.xml("svg1.svg", "image/svg+xml", function(error, xml) {
+			d3.xml("svg" + d[0] + ".svg", "image/svg+xml", function(error, xml) {
 					if (error) throw error;
 
 					var svgNode = xml.getElementsByTagName("svg")[0];
 					svg.node().appendChild(svgNode);
 					svg.select("#plotting-area").select("g")
-						.attr("transform","scale(0.25,0.25)")
+						.attr("transform","scale(0.50,0.50)")
 						.on("click",function(d) {
 							//window.open("./svg1.svg");
 							console.log("new window");
-							window.open("file:///" + svgPfad + "/svg1.svg");
+							window.open("file:///" + svgPfad + "/svg" + d[0] + ".svg");
 						});
 					});
 		}

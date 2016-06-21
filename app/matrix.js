@@ -216,17 +216,17 @@ function doMatrix() {
 			
 		var group_max = group1.append("g").attr("class","max");
 		
-		group_max.append('image').attr('xlink:href','max.JPG')
-			.attr('height', 20)
-			.attr('width', 20)
-			.attr('x',100)
-			.attr('y',0)
+		group_max.append('image').attr('xlink:href','maximize.svg')
+			.attr('height', 15)
+			.attr('width', 15)
+			.attr('x',-15)
+			.attr('y',100)
 			.on("click",function(d) {
 				heatmapfilteri=i;
 				heatmapfilterj=j;
 				doMatrix();
 			});
-			
+
 		squares.on("click",function(d) {
 				showSVG(d, svg_direct);
 			})
@@ -298,11 +298,12 @@ function doMatrix() {
 			
 			var group_close = svg.append("g").attr("class","close");
 		
-			group_close.append('image').attr('xlink:href','close.jpg')
-				.attr('height', 20)
-				.attr('width', 20)
+			group_close.append('image').attr('xlink:href','minimize.svg')
+				.attr('height', 30)
+				.attr('width', 30)
 				.attr('x',0)
 				.attr('y',0)
+				.style("opacity", 1.0)
 				.on("click",function(d) {
 					resetMatrixFilter();
 				});
