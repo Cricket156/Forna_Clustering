@@ -150,11 +150,11 @@ function doSliders() {
 					d3.event.sourceEvent.stopPropagation();
 				})
 				.on("brush", brush));
+				
+			x_scale[d].brush.extent([0, 0]);
 		})
 		.selectAll("rect")
-		.attr("x", 0)
 		.attr("y", -9)
-		.attr("width", width)
 		.attr("height", 16);
 		
 			
