@@ -147,14 +147,24 @@ function doSliders() {
 		original_filters.push(x_scale[j].domain());
 		new_filters.push(x_scale[j].domain());
 		
-		var map = data.map(function (d, i) {if (i > 0) { return d[j];}});
-		var original_map = original_data.map(function (d, i) {if (i > 0) { return d[j];}})
+		var data1 = [];
+		var original_data1 = [];
 		
+		for(var x=1;x<data.length;++x)
+			data1.push(data[x]);
+		for(var x=1;x<original_data.length;++x)
+			original_data1.push(original_data[x]);
+			
+		var map = data1.map(function (d, i) { return d[j];});
+		var original_map = original_data1.map(function (d, i) {if (i > 0) { return d[j];}})
+		
+		var histogram;
+
 		var histogram = d3.layout.histogram().range(
 					[d3.min(original_map/*original_results, function(d) { return d[j];}*/),
 					 d3.max(original_map/*original_results, function(d) { return d[j];}*/)])
 			.bins(bins[j])(map);
-			
+		
 		var original_histogram = d3.layout.histogram().range(
 					[d3.min(original_map/*original_results, function(d) { return d[j];}*/),
 					 d3.max(original_map/*original_results, function(d) { return d[j];}*/)])
