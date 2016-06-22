@@ -97,8 +97,9 @@ function doMatrix() {
 		
 		var jLowerRange=d3.min(original_results,function(d){return parseFloat(d[j]);});
 		var jUpperRange=parseFloat(d3.max(original_results,function(d){return d[j];}))+stepSizes[j];
-		var jRange=d3.scale.linear().domain([jLowerRange,jUpperRange]).range([0,100]);
-		var jStepSize=jRange(jLowerRange+stepSizes[j]);
+//		var jRange=d3.scale.linear().domain([jLowerRange,jUpperRange]).range([0,100]);
+		var jRange=d3.scale.linear().domain([jUpperRange, jLowerRange]).range([0,100]);
+		var jStepSize=Math.abs(jRange(jUpperRange+stepSizes[j]));
 		
 		var xaxis = d3.svg.axis()
 			.scale(iRange)
@@ -195,8 +196,8 @@ function doMatrix() {
 						return iRange(d[i]);
 					})
 				.attr("y",function(d){
-										return jRange(d[j]);
-								})
+						return jRange(d[j])-jStepSize;
+					})
 				.attr("width",iStepSize)
 				.attr("height",jStepSize);
 				
