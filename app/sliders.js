@@ -155,10 +155,13 @@ function doSliders() {
 					 d3.max(original_map/*original_results, function(d) { return d[j];}*/)])
 			.bins(bins[j])(map);
 			
-		console.log(histogram);
+		var original_histogram = d3.layout.histogram().range(
+					[d3.min(original_map/*original_results, function(d) { return d[j];}*/),
+					 d3.max(original_map/*original_results, function(d) { return d[j];}*/)])
+			.bins(bins[j])(original_map);
 			
 		var y_scale_bars = d3.scale.linear()
-			.domain([0, d3.max(histogram.map( function (i) { return i.length;}))])
+			.domain([0, d3.max(original_histogram.map( function (i) { return i.length;}))])
 			.range([0, height/data[0].length-marginTop]);
 			
 		var canvas = wrapper.attr("width", width)
@@ -166,12 +169,40 @@ function doSliders() {
 			.append("g")
 			.attr("transform", "translate(20," + y_scale(j) + ")");
 
-		canvas.selectAll("rect")
-			.attr("class", "slider")
+		canvas.selectAll(".original")
+			.data(original_histogram)
+			.enter()
+			.append("rect")
+			.attr("class","original")
+			.attr("x", function (d) {
+				return x_scale[j](d.x) - (width/bins[j]) +1;
+			})
+			.attr("y", function (d) {
+				return y_scale_bars(d.y) * (-1) + marginTop;// - 1 - y_scale_bars(d.y);
+			})
+			.attr("width", function (d) {
+				return (width/bins[j]) - 3;
+			})
+			.attr("height", function (d) { 
+				if(y_scale_bars.domain()[1] != data.length-1) {
+					return y_scale_bars(d.y);
+				}
+			})
+			.attr("fill", function() {
+				if (j < anzahlPenalties) {
+					return colors[j];
+				}
+				else {
+					return "midnightblue";
+				}
+			})
+			.attr("opacity",0.5);
+			
+		canvas.selectAll(".filtered")
 			.data(histogram)
 			.enter()
-			.append("g")
 			.append("rect")
+			.attr("class","filtered")
 			.attr("x", function (d) {
 				return x_scale[j](d.x) - (width/bins[j]) +1;
 			})
@@ -191,10 +222,11 @@ function doSliders() {
 					return colors[j];
 				}
 				else {
-					return "FireBrick";
+					return "midnightblue";
 				}
-			})
-			.on('mouseover', function(d) {
+			});
+			
+		svg.selectAll("rect").on('mouseover', function(d) {
 				d3.select("#fixedTooltipDiv")
 					.select("p")
 					.text(beschreibung);
