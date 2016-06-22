@@ -82,10 +82,37 @@ function doMatrix() {
 		var iRange=d3.scale.linear().domain([iLowerRange,iUpperRange]).range([0,100]);
 		var iStepSize=iRange(iLowerRange+stepSizes[i]);
 		
-		var jLowerRange=d3.min(original_results,function(d){return parseFloat(d[j]);});
-		var jUpperRange=parseFloat(d3.max(original_results,function(d){return d[j];}))+stepSizes[j];
-		var jRange=d3.scale.linear().domain([jLowerRange,jUpperRange]).range([0,100]);
-		var jStepSize=jRange(jLowerRange+stepSizes[j]);
+		var jLowerRange;
+		var jUpperRange;
+		var jRange;
+		var jStepSize;
+		
+		if(-2==j && -1!=i)
+		{
+			jLowerRange=0;/*parseFloat(d3.min(original_results,function(d){
+					var all;
+					for(var x=0;x<anzahlPenalties;++x)
+						all+=d[x+2];
+					return all;
+				}));*/
+			jUpperRange=d3.max(original_results,function(d){
+					var all=0;
+					for(var x=0;x<anzahlPenalties;++x)
+						all+=d[x+2];
+					return all;
+				})+1;
+			
+			console.log(jUpperRange);
+			jRange=d3.scale.linear().domain([jLowerRange,jUpperRange]).range([0,100]);
+			//jStepSize=jRange(jLowerRange+stepSizes[j]);
+		}
+		else
+		{
+			jLowerRange=d3.min(original_results,function(d){return parseFloat(d[j]);});
+			jUpperRange=parseFloat(d3.max(original_results,function(d){return d[j];}))+stepSizes[j];
+			jRange=d3.scale.linear().domain([jLowerRange,jUpperRange]).range([0,100]);
+			jStepSize=jRange(jLowerRange+stepSizes[j]);
+		}
 		
 		var xaxis = d3.svg.axis()
 			.scale(iRange)
@@ -146,7 +173,16 @@ function doMatrix() {
 				.attr("class", "dot")
 				.attr("r", 3.5)
 				.attr("cx", function(d) { return iRange(d[i]); })
-				.attr("cy", function(d) { return jRange(d[j]); })
+				.attr("cy", function(d) { 
+						if(-2==j  && -1!=i)
+						{
+							var all=0;
+							for(var x=0;x<anzahlPenalties;++x)
+								all+=d[x+2];
+							return jRange(all);
+						}
+						else
+							return jRange(d[j]); })
 				.style("opacity",0.2)
 				.style("fill", function(d, i) {
 						if(-1==d[1])
@@ -201,7 +237,7 @@ function doMatrix() {
 			.attr("x", w/2)
 			.style("text-anchor", "middle")
 			.text(String(columnnames[i]));
-
+		
 		group1.append("g")
 			.attr("class", "yaxisleft axis")
 			.call(yaxisleft)
@@ -212,7 +248,12 @@ function doMatrix() {
 			.attr("x", -(w/2))
 			.attr("dy", ".71em")
 			.style("text-anchor", "middle")
-			.text(String(columnnames[j]));
+			.text(function() {
+					if(-2==j  && -1!=i)
+						return String("SumPenalties");
+					else
+						return String(columnnames[j]);
+				});
 			
 		var group_max = group1.append("g").attr("class","max");
 		

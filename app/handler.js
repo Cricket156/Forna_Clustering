@@ -183,11 +183,15 @@ function initOptions() {
 					extractClusters();
 					doAll();
 				});
-				
+		
 		d3.select("#barchartoptions").append("option")
 			.attr("value",i)
 			.text(columnnames[i]);
 	}
+	
+	dropdown_y.append("option")
+			.attr("value",-2)
+			.text("SumPenalties");
 	
 	dropdown_x.on("change",function(d) {
 			var index = d3.select(this).property("selectedIndex");
