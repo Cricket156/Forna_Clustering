@@ -359,6 +359,8 @@ function doMatrix() {
 			
 				drawDatapoints(data,heatmapfilteri,heatmapfilterj,true,true);
 				
+				svg.selectAll(".max").remove();
+				
 				var group = svg.select(".new");
 				group.attr("transform","scale(" + ((marginSide + (100+marginSide)*(columnnames.length-1-(anzahlPenalties+2)-1))/(100+marginSide)) + "," + ((marginTop + (100+marginSide)*(columnnames.length-1-(anzahlPenalties+2)-1))/(100+marginSide)) + "),translate(" + marginSide + "," + marginTop + ")");
 			}
