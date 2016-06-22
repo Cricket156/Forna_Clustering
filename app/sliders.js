@@ -3,7 +3,7 @@ var new_filters = [];
 
 function doSliders() {
 
-	var beschreibung = "These widgets are used to filter for attributes. After you are done with your selection using the widgets click apply filter.";
+	var beschreibung = "These widgets are used to filter for attributes. After you are done with your selection using the widgets click apply filter. Brush over the axes to filter the parameters.";
 	
 	d3.select("#sliders").selectAll("*").remove();
 	
@@ -150,11 +150,11 @@ function doSliders() {
 					d3.event.sourceEvent.stopPropagation();
 				})
 				.on("brush", brush));
+				
+			x_scale[d].brush.extent([0, 0]);
 		})
 		.selectAll("rect")
-		.attr("x", 0)
 		.attr("y", -9)
-		.attr("width", width)
 		.attr("height", 16);
 		
 			
@@ -302,7 +302,7 @@ function doSliders() {
 		return newData;	
 	}
 	
-
+	console.log("Sliders done");
 }
 
 function SlidersApplyFilter() {
@@ -341,7 +341,7 @@ function SlidersResetFilter() {
 	extractClusters();
 	doAll();
 	
-	d3.select("#sliders").selectAll("*").remove();
+//	d3.select("#sliders").selectAll("*").remove();
 	doSliders();
 	
 	SlidersApplyFilter();
