@@ -115,16 +115,15 @@ function doMatrix() {
 					return all;
 				})+1;
 			
-			console.log(jUpperRange);
-			jRange=d3.scale.linear().domain([jLowerRange,jUpperRange]).range([0,100]);
+			jRange=d3.scale.linear().domain([jUpperRange,jLowerRange]).range([0,100]);
 			//jStepSize=jRange(jLowerRange+stepSizes[j]);
 		}
 		else
 		{
 			jLowerRange=d3.min(original_results,function(d){return parseFloat(d[j]);});
 			jUpperRange=parseFloat(d3.max(original_results,function(d){return d[j];}))+stepSizes[j];
-			jRange=d3.scale.linear().domain([jLowerRange,jUpperRange]).range([0,100]);
-			jStepSize=jRange(jLowerRange+stepSizes[j]);
+			jRange=d3.scale.linear().domain([jUpperRange,jLowerRange]).range([0,100]);
+			jStepSize=Math.abs(jRange(jUpperRange+stepSizes[j]));
 		}
 		
 		var xaxis = d3.svg.axis()
