@@ -171,8 +171,8 @@ function doMatrix() {
 				.data(data)
 				.enter().append("circle")
 				.attr("class", "dot")
-				.attr("r", 3.5)
-				.attr("cx", function(d) { return iRange(d[i]); })
+				.attr("r", 1.5)
+				.attr("cx", function(d) { return iRange(d[i]) + (Math.random()*5); })
 				.attr("cy", function(d) { 
 						if(-2==j  && -1!=i)
 						{
