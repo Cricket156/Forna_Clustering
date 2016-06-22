@@ -1,7 +1,9 @@
 var clusterColors = [];
 
 function doMatrix() {
-
+	
+	var beschreibung = "This Heat-Map-Matrix shows 'good' (light colors) and 'bad' (dark colors) Visualizations based on their Penalty-Sum. Hovering over one Square highlights the Node in the other Heat-Maps as well as the corresponding Line in the Parallel Coordinates. By Clicking on one Square, the Visualization behind is shown. Click on this Visualization to open it in an new window. Maximize a particular Map with the maximize Button.";
+	
 	var svg = d3.select("#matrix");
 	var svg_direct = svg;
 
@@ -35,7 +37,18 @@ function doMatrix() {
 		.style("opacity", 0);
 		
 	svg_direct.attr("width", width)
-		.attr("height", width);
+		.attr("height", width)
+		.on("mouseover", function(d) {
+			//writeBarchartText();
+			d3.select("#fixedTooltipDiv")
+				.select("p")
+				.text(beschreibung);
+		})
+		.on("mouseout", function(d) {
+			d3.select("#fixedTooltipDiv")
+				.select("p")
+				.text("");
+		});
 
 	width = width - marginSide - marginSide;
 	height = height - marginBottom - marginTop;
@@ -248,6 +261,10 @@ function doMatrix() {
 					})	
 					.style("left", (d3.event.pageX) + "px")		
 					.style("top", (d3.event.pageY - 28) + "px");
+					
+				d3.select("#fixedTooltipDiv")
+					.select("p")
+					.text(beschreibung);
 			})
 		.on("mouseout",function(d) {
 				d3.selectAll(".r"+d[0]).style("stroke", "none");
@@ -257,6 +274,10 @@ function doMatrix() {
 				div.transition()		
 						.duration(500)		
 						.style("opacity", 0);
+						
+				d3.select("#fixedTooltipDiv")
+					.select("p")
+					.text("");
 			});
 
 		if(!new_group)

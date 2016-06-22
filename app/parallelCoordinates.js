@@ -1,4 +1,6 @@
 function doParallelCoordinates() {
+	var beschreibung = "The Parallel Coordinates can be used to find similar Visualizations based on their Parameters. By hovering over one line, the associated Visualization in the Heatmap will be highlighted.";
+	
 	var data;
 
 	var x, y, dragging, line, axis, background, foreground;	
@@ -16,7 +18,18 @@ function doParallelCoordinates() {
 	
 	var svg = d3.select("#parallelCoordinates")
 		.attr("width", width + 2*marginSide)
-		.attr("height", height + marginBottom + marginTop);
+		.attr("height", height + marginBottom + marginTop)
+		.on("mouseover", function(d) {
+			//writeBarchartText();
+			d3.select("#fixedTooltipDiv")
+				.select("p")
+				.text(beschreibung);
+		})
+		.on("mouseout", function(d) {
+			d3.select("#fixedTooltipDiv")
+				.select("p")
+				.text("");
+		});
 	
 	var wrapper = svg.append('g');
 	
