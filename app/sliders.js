@@ -45,7 +45,22 @@ function doSliders() {
 		.style("opacity", 0);
 	
 	//data = cutData(original_results);
-	data = cutData(results);
+	
+	var clusterposition;
+		
+	if(-1!=matrixfilter)
+	{
+		for(var i=0;i<clusters.length;++i)
+		{
+			if(clusters[i][0][1]==matrixfilter)
+				clusterposition=i;
+		}
+		
+		data = cutData(clusters[clusterposition]);
+	}
+	else
+		data = cutData(results);
+		
 	original_data = cutData(original_results);
 	
 	var bins = [];
@@ -236,7 +251,7 @@ function doSliders() {
 				}
 			});
 			
-		svg.selectAll("rect").on('mouseover', function(d) {
+		svg.selectAll(".filtered, .original").on('mouseover', function(d) {
 				d3.select("#fixedTooltipDiv")
 					.select("p")
 					.text(beschreibung);
