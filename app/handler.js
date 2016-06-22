@@ -255,17 +255,6 @@ function showSVG(d, svg_direct) {
 		try {
 			var svg = d3.select("#fixedTooltip");
 			svg.selectAll("*").remove();
-			d3.select("#fixedTooltipDiv").select("p").remove();
-		
-			svg.append('image').attr('xlink:href','close.jpg')
-				.attr('height', 20)
-				.attr('width', 20)
-				.attr('x',130)
-				.attr('y',0)
-				.on("click",function(d) {
-					d3.select("#fixedTooltipDiv").append("p");
-					svg.selectAll("*").remove();
-				});
 			
 			//window.open("file:///" + svgPfad + "/svg" + d[0] + ".svg");
 			
@@ -280,6 +269,18 @@ function showSVG(d, svg_direct) {
 							window.open("file:///" + svgPfad + "/svg" + (parseFloat(d[0])+1) + ".svg");
 						});
 					});
+					
+			d3.select("#fixedTooltipDiv").select("p").remove();
+					
+			svg.append('image').attr('xlink:href','close.jpg')
+				.attr('height', 20)
+				.attr('width', 20)
+				.attr('x',130)
+				.attr('y',0)
+				.on("click",function(d) {
+					d3.select("#fixedTooltipDiv").append("p");
+					svg.selectAll("*").remove();
+				});
 		}
 		catch(err)
 		{
