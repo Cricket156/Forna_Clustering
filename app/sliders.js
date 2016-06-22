@@ -83,8 +83,8 @@ function doSliders() {
 		else
 			bin=(Math.abs(max-min))/stepSizes[i]+1;
 		
-		if(i<anzahlPenalties)
-			bin=8;
+		//if(i<anzahlPenalties || bin > 8)
+		//	bin=8;
 		
 		if(bin>10)
 		{
