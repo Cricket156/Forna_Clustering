@@ -91,7 +91,7 @@ function doParallelCoordinates() {
 			})
 			.on('mouseover', function(d, i) {
 				d3.selectAll(".p"+clusters[clusterposition][i-1][0]).style("stroke-width",3).style("stroke","red");
-				d3.select("#matrix").selectAll(".r"+clusters[clusterposition][i-1][0]).style("stroke", "white").style("stroke-width",4);
+				d3.select("#matrix").selectAll(".r"+clusters[clusterposition][i-1][0]).style("stroke", "black").style("stroke-width",4);
 			
 				div.transition()		
 					.duration(200)		
@@ -100,7 +100,7 @@ function doParallelCoordinates() {
 				div.html(function() {
 						var text = "";
 						for (var j = 0; j < columnnames.length-1; j++) {
-							text = text + columnnames[j] + ": " + clusters[clusterposition][i-1][j] + "<br>";
+							text = text + columnnames[j] + ": " + Math.round(clusters[clusterposition][i-1][j]*100)/100 + "<br>";
 						}
 						return text;
 					})	

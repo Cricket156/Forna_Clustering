@@ -146,6 +146,7 @@ function doBarchart() {
 	}
 	
 	if(0==barchartoption)
+	if(0==barchartoption)
 	{
 		draw.append("g")
 			.attr("class", "yaxisright axis")
@@ -315,7 +316,7 @@ function doBarchart() {
 					text = String(text).fontcolor("white");
 												
 					for (var i = 0; i < anzahlPenalties; i++) {
-						text = text + columnnames[i+2] + ": " + d[0][i+2] + "<br>";
+						text = text + columnnames[i+2] + ": " + Math.round(d[0][i+2]*100)/100 + "<br>";
 						text = String(text).fontcolor(colors[i]);
 					}
 					return text;

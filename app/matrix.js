@@ -284,8 +284,8 @@ function doMatrix() {
 				showSVG(d, svg_direct);
 			})
 		.on("mouseover",function(d) {
-				d3.selectAll(".r"+d[0]).style("stroke", "white").style("stroke-width",4);
-				d3.selectAll(".p"+d[0]).style("stroke-width",3);
+				d3.selectAll(".r"+d[0]).style("stroke", "black").style("stroke-width",4);
+				d3.selectAll(".p"+d[0]).style("stroke", "red").style("stroke-width",3);
 				d3.event.stopPropagation();
 				
 				div.transition()		
@@ -295,7 +295,7 @@ function doMatrix() {
 				div.html(function() {
 						var text = "";
 						for (var j = 0; j < columnnames.length-1; j++) {
-							text = text + columnnames[j] + ": " + d[j] + "<br>";
+							text = text + columnnames[j] + ": " + Math.round(d[j]*100)/100 + "<br>";
 						}
 						return text;
 					})	
@@ -308,7 +308,7 @@ function doMatrix() {
 			})
 		.on("mouseout",function(d) {
 				d3.selectAll(".r"+d[0]).style("stroke", "none");
-				d3.selectAll(".p"+d[0]).style("stroke-width",1);
+				d3.selectAll(".p"+d[0]).style("stroke", "midnightblue").style("stroke-width",1);
 				d3.event.stopPropagation();
 				
 				div.transition()		

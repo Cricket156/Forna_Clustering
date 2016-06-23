@@ -223,7 +223,7 @@ function initOptions() {
 			if(0==value)
 				heatmapcolors=["green","red"];
 			else if(1==value)
-				heatmapcolors=["yellow","blue"];
+				heatmapcolors=["#FFD500","#4102FF"];
 			else
 				heatmapcolors=["orange","purple"];
 				
