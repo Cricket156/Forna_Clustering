@@ -184,21 +184,44 @@ int getStretchPenalty(vector<Line>* p_lines)
 {
 	int stretches=0;
 
-	double min_length=(*p_lines)[0].getLength();
+	double min_length=40000;
+
+	for(unsigned i=0;i<(*p_lines).size();++i)
+		if(BASEPAIR==(*p_lines)[i].getType())
+		{
+			min_length=(*p_lines)[i].getLength();
+			break;
+		}
 
 	for(unsigned i=1;i<p_lines->size();++i)
-		if((*p_lines)[i].getLength()<min_length)
-			min_length=(*p_lines)[i].getLength();
-		//average_length+=(*p_lines)[i].getLength();
-
-	//average_length/=p_lines->size();
-
-	//cout << "Durchschnittliche Laenge: " << average_length << endl;
-	//cout << "Kleinste Laenge: " << min_length << endl;
+		if(BASEPAIR==(*p_lines)[i].getType())
+			if((*p_lines)[i].getLength()<min_length)
+				min_length=(*p_lines)[i].getLength();
 
 	for(unsigned i=0;i<p_lines->size();++i)
-		if((*p_lines)[i].getLength()>3*min_length)
+		if((*p_lines)[i].getLength()>2*min_length)
 			++stretches;
+
+
+	min_length=40000;
+
+        for(unsigned i=0;i<(*p_lines).size();++i)
+                if(BACKBONE==(*p_lines)[i].getType())
+                {
+                        min_length=(*p_lines)[i].getLength();
+                        break;
+                }
+
+        for(unsigned i=1;i<p_lines->size();++i)
+                if(BACKBONE==(*p_lines)[i].getType())
+                        if((*p_lines)[i].getLength()<min_length)
+                                min_length=(*p_lines)[i].getLength();
+
+        for(unsigned i=0;i<p_lines->size();++i)
+                if((*p_lines)[i].getLength()>2*min_length)
+                        ++stretches;
+	
+
 	return stretches;
 }
 
