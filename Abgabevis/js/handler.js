@@ -29,11 +29,11 @@ function loadCSV(evt) {
 	matrixfilter = -1;
 	heatmapfilteri = -1;
 	heatmapfilterj = -1;
-
+	
 	d3.selectAll("#loaddata").remove();
-
+	
 	d3.selectAll(".hiddenThings").style("visibility","visible");
-
+	
 	colors.push("#4F81BC");
 	colors.push("#C24F4C");
 	colors.push("#9BBA5C");
@@ -50,7 +50,7 @@ function loadCSV(evt) {
 			for (var j=0; j<line1.length; j++) {
 				columnnames.push(line1[j]);
 			}
-
+                                
 			for (var i=1; i<allTextLines.length-1; i++) {
 				var data = allTextLines[i].split(',');
 					var line = [];
@@ -60,31 +60,31 @@ function loadCSV(evt) {
 					results.push(line);
 					original_results.push(line);
 			}
-
+			
 			anzahlPenalties = parseInt(prompt("Please enter the Number of Penalties"));
 			svgPfad = prompt("Please enter the full path to the SVG files. \nIf you don't want to show the SVG's, just enter 'NO'");
-
+			
 			if (svgPfad == "NO" || svgPfad == "N" || svgPfad == "n" || svgPfad == "no") {
 				drawSVG = false;
 			}
-
+			
 			/*else {
 				window.open("file:///" + svgPfad);
 			}*/
-
+			
 			for(var i=0;i<anzahlPenalties;++i)
 				gewichtungen.push(1);
-
+	
 			initOptions();
 			extractClusters();
 			randomColorGenerator();
 			doAll();
-
+			
 			d3.select("#sliders").selectAll("*").remove();
 			doSliders();
 		}
 	}
-	else {
+	else { 
 		alert("Failed to load file");
 	}
 }
@@ -104,14 +104,14 @@ function extractClusters() {
 			cluster.push(results[i]);
 		}
 	}
-
+	
 	var getAvgPenalty = function(d) {
 		var result=0;
 		for(var i=0;i<gewichtungen.length;++i)
 			result+=gewichtungen[i]*d[2+i];
 		return result;
 	}
-
+	
 	clusters = clusters.sort(function(a, b) {
 			var a_avg = [];
 			a_avg.push(0);
@@ -128,10 +128,10 @@ function extractClusters() {
 						return parseFloat(d[2+i]);
 					}));
 			}
-
+			
 			return getAvgPenalty(a_avg) - getAvgPenalty(b_avg);
 		});
-
+	
 }
 
 function initOptions() {
@@ -141,11 +141,11 @@ function initOptions() {
 	dropdown_x.append("option")
 		.attr("value",-1)
 		.text("no selection");
-
+		
 	dropdown_y.append("option")
 		.attr("value",-1)
 		.text("no selection");
-
+	
 	//Fuer alle Parameter
 	for(var i=anzahlPenalties+2;i<columnnames.length-1;++i)
 	{
@@ -157,14 +157,14 @@ function initOptions() {
 			.attr("value",i)
 			.text(columnnames[i]);
 	}
-
+	
 	//Fuer alle Penalties
 	for(var i=2;i<anzahlPenalties+2;++i)
 	{
 		dropdown_y.append("option")
 			.attr("value",i)
 			.text(columnnames[i]);
-
+			
 		var txtGewichtungen = d3.select("#gewichtungen");
 		txtGewichtungen.append("br");
 		txtGewichtungen.append("input")
@@ -183,58 +183,58 @@ function initOptions() {
 					extractClusters();
 					doAll();
 				});
-
+		
 		d3.select("#barchartoptions").append("option")
 			.attr("value",i)
 			.text(columnnames[i]);
 	}
-
+	
 	dropdown_y.append("option")
 			.attr("value",-2)
 			.text("SumPenalties");
-
+	
 	dropdown_x.on("change",function(d) {
 			var index = d3.select(this).property("selectedIndex");
 			s = d3.select(this).selectAll("option").filter(function (d, i) { return i === index });
 			heatmapfilteri = parseInt(s.attr("value"));
-
+			
 			if(-1==heatmapfilteri)
 				d3.select("#matrix").selectAll(".axis").style("font","10px sans-serif");
-
+			
 			doMatrix();
 		});
-
+			
 	dropdown_y.on("change",function(d) {
 			var index = d3.select(this).property("selectedIndex");
 			s = d3.select(this).selectAll("option").filter(function (d, i) { return i === index });
 			heatmapfilterj = parseInt(s.attr("value"));
-
+			
 			if(-1==heatmapfilterj)
 				d3.select("#matrix").selectAll(".axis").style("font","10px sans-serif");
-
+			
 			doMatrix();
 		});
-
+		
 	d3.select("#heatmapcolors").on("change",function(d) {
 			var index = d3.select(this).property("selectedIndex");
 			s = d3.select(this).selectAll("option").filter(function (d, i) { return i === index });
 			var value = s.attr("value");
-
+			
 			if(0==value)
 				heatmapcolors=["green","red"];
 			else if(1==value)
 				heatmapcolors=["#FFD500","#4102FF"];
 			else
 				heatmapcolors=["orange","purple"];
-
+				
 			doMatrix();
 		});
-
+	
 	d3.select("#barchartoptions").on("change",function(d) {
 			var index = d3.select(this).property("selectedIndex");
 			s = d3.select(this).selectAll("option").filter(function (d, i) { return i === index });
 			barchartoption = parseInt(s.attr("value"));
-
+			
 			d3.select("#barchart").selectAll("*").remove();
 			doBarchart();
 		});
@@ -255,9 +255,9 @@ function showSVG(d, svg_direct) {
 		try {
 			var svg = d3.select("#fixedTooltip");
 			svg.selectAll("*").remove();
-
+			
 			//window.open("file:///" + svgPfad + "/svg" + d[0] + ".svg");
-
+			
 			d3.xml("file:///" + svgPfad + "/svg" + (parseFloat(d[0])+1) + ".svg", "image/svg+xml", function(error, xml) {
 					if (error) throw error;
 
@@ -269,9 +269,9 @@ function showSVG(d, svg_direct) {
 							window.open("file:///" + svgPfad + "/svg" + (parseFloat(d[0])+1) + ".svg");
 						});
 					});
-
+					
 			d3.select("#fixedTooltipDiv").select("p").remove();
-
+					
 			svg.append('image').attr('xlink:href','close.jpg')
 				.attr('height', 20)
 				.attr('width', 20)
@@ -286,7 +286,7 @@ function showSVG(d, svg_direct) {
 		{
 			alert("File nicht gefunden");
 		}
-
+	
 		/*var group = svg.append("g").attr("class","vis");
 
 		group.append("rect")
@@ -296,9 +296,9 @@ function showSVG(d, svg_direct) {
 			.attr("width",400)
 			.attr("height",300)
 			.attr("fill","khaki");
-
+			
 		var group_new_window = group.append("g").attr("class","new_window");
-
+			
 		group_new_window.append("rect")
 			.attr("class","vis_rect")
 			.attr("x",10)
@@ -309,7 +309,7 @@ function showSVG(d, svg_direct) {
 			.on("click",function(d) {
 				window.open("./svg1.svg");
 			});
-
+			
 		try {
 			d3.xml("svg1.svg", "image/svg+xml", function(error, xml) {
 					if (error) throw error;

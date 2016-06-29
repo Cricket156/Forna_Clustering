@@ -1,16 +1,16 @@
 var clusterColors = [];
 
 function doMatrix() {
-
+	
 	var beschreibung = "This Heat-Map-Matrix shows 'good' (light colors) and 'bad' (dark colors) Visualizations based on their Penalty-Sum. Hovering over one Square highlights the Node in the other Heat-Maps as well as the corresponding Line in the Parallel Coordinates. By Clicking on one Square, the Visualization behind is shown. Click on this Visualization to open it in an new window. Maximize a particular Map with the maximize Button.";
-
+	
 	var svg = d3.select("#matrix");
 	var svg_direct = svg;
 
 	svg.selectAll(".new").remove();
 	svg.selectAll(".max").remove();
 	svg.selectAll(".close").remove();
-
+	
 	if(!matrixloaded)
 	{
 		svg = svg.append("g");
@@ -32,10 +32,10 @@ function doMatrix() {
 	var width = document.getElementById('matrixDiv').clientWidth;
 	var height = (window.innerHeight-60)*(2/3);
 
-	var div = d3.select("body").append("div")
-		.attr("class", "tooltipLarge")
+	var div = d3.select("body").append("div")	
+		.attr("class", "tooltipLarge")				
 		.style("opacity", 0);
-
+		
 	svg_direct.attr("width", width)
 		.attr("height", width)
 		.on("mouseover", function(d) {
@@ -59,7 +59,7 @@ function doMatrix() {
 	var stepSizes = [];
 	stepSizes.push(0);
 	stepSizes.push(0);
-
+	
 	//for(var i=0;i<(anzahlPenalties+2);++i)
 	//	stepSizes.push(0);
 
@@ -72,7 +72,7 @@ function doMatrix() {
 				if(d[i]>min1)
 					return d[i];
 				});
-
+		
 		if(isNaN(min2))
 			stepSizes.push(0);
 		else
@@ -94,12 +94,12 @@ function doMatrix() {
 		var iUpperRange=parseFloat(d3.max(original_results,function(d){return d[i];}))+stepSizes[i];
 		var iRange=d3.scale.linear().domain([iLowerRange,iUpperRange]).range([0,100]);
 		var iStepSize=iRange(iLowerRange+stepSizes[i]);
-
+		
 		var jLowerRange;
 		var jUpperRange;
 		var jRange;
 		var jStepSize;
-
+		
 		if(-2==j && -1!=i)
 		{
 			jLowerRange=0;/*parseFloat(d3.min(original_results,function(d){
@@ -114,7 +114,7 @@ function doMatrix() {
 						all+=d[x+2];
 					return all;
 				})+1;
-
+			
 			jRange=d3.scale.linear().domain([jUpperRange,jLowerRange]).range([0,100]);
 			//jStepSize=jRange(jLowerRange+stepSizes[j]);
 		}
@@ -125,7 +125,7 @@ function doMatrix() {
 			jRange=d3.scale.linear().domain([jUpperRange,jLowerRange]).range([0,100]);
 			jStepSize=Math.abs(jRange(jUpperRange+stepSizes[j]));
 		}
-
+		
 		var xaxis = d3.svg.axis()
 			.scale(iRange)
 			.orient("bottom")
@@ -135,7 +135,7 @@ function doMatrix() {
 			.scale(jRange)
 			.orient("left")
 			.ticks(5);
-
+		
 		var visible = [];
 		visible.push(data[0]);
 
@@ -176,16 +176,16 @@ function doMatrix() {
 		}
 
 		var squares;
-
+		
 		if(isScatterplot)
-		{
+		{	
 			squares = group1.selectAll(".dot")
 				.data(data)
 				.enter().append("circle")
 				.attr("class", "dot")
 				.attr("r", 1.5)
 				.attr("cx", function(d) { return iRange(d[i]) + (Math.random()*5); })
-				.attr("cy", function(d) {
+				.attr("cy", function(d) { 
 						if(-2==j  && -1!=i)
 						{
 							var all=0;
@@ -234,7 +234,7 @@ function doMatrix() {
 					})
 				.attr("width",iStepSize)
 				.attr("height",jStepSize);
-
+				
 				squares.exit().remove();
 		}
 
@@ -249,7 +249,7 @@ function doMatrix() {
 			.attr("x", w/2)
 			.style("text-anchor", "middle")
 			.text(String(columnnames[i]));
-
+		
 		group1.append("g")
 			.attr("class", "yaxisleft axis")
 			.call(yaxisleft)
@@ -266,9 +266,9 @@ function doMatrix() {
 					else
 						return String(columnnames[j]);
 				});
-
+			
 		var group_max = group1.append("g").attr("class","max");
-
+		
 		group_max.append('image').attr('xlink:href','maximize.svg')
 			.attr('height', 15)
 			.attr('width', 15)
@@ -287,21 +287,21 @@ function doMatrix() {
 				d3.selectAll(".r"+d[0]).style("stroke", "black").style("stroke-width",4);
 				d3.selectAll(".p"+d[0]).style("stroke", "red").style("stroke-width",3);
 				d3.event.stopPropagation();
-
-				div.transition()
-					.duration(200)
+				
+				div.transition()		
+					.duration(200)		
 					.style("opacity", .9);
-
+					
 				div.html(function() {
 						var text = "";
 						for (var j = 0; j < columnnames.length-1; j++) {
 							text = text + columnnames[j] + ": " + Math.round(d[j]*100)/100 + "<br>";
 						}
 						return text;
-					})
-					.style("left", (d3.event.pageX) + "px")
+					})	
+					.style("left", (d3.event.pageX) + "px")		
 					.style("top", (d3.event.pageY - 28) + "px");
-
+					
 				d3.select("#fixedTooltipDiv")
 					.select("p")
 					.text(beschreibung);
@@ -310,11 +310,11 @@ function doMatrix() {
 				d3.selectAll(".r"+d[0]).style("stroke", "none");
 				d3.selectAll(".p"+d[0]).style("stroke", "midnightblue").style("stroke-width",1);
 				d3.event.stopPropagation();
-
-				div.transition()
-						.duration(500)
+				
+				div.transition()		
+						.duration(500)		
 						.style("opacity", 0);
-
+						
 				d3.select("#fixedTooltipDiv")
 					.select("p")
 					.text("");
@@ -334,7 +334,7 @@ function doMatrix() {
 	{
 		svg.selectAll(".close").remove();
 		svg.selectAll(".max").remove();
-
+		
 		var new_heatmap=true;
 
 		for(var i=anzahlPenalties+2;i<columnnames.length-1;++i)
@@ -356,9 +356,9 @@ function doMatrix() {
 		if(-1!=heatmapfilteri && -1!=heatmapfilterj)
 		{
 			svg.selectAll(".max").remove();
-
+			
 			var group_close = svg.append("g").attr("class","close");
-
+		
 			group_close.append('image').attr('xlink:href','minimize.svg')
 				.attr('height', 30)
 				.attr('width', 30)
@@ -368,7 +368,7 @@ function doMatrix() {
 				.on("click",function(d) {
 					resetMatrixFilter();
 				});
-
+		
 			if(heatmapfilterj<(anzahlPenalties+2))
 			{
 				d3.select("#outlierCheckbox")
@@ -376,11 +376,11 @@ function doMatrix() {
 				svg.selectAll("*").selectAll("rect").remove();
 				svg.selectAll("*").selectAll(".xaxis").remove();
 				svg.selectAll("*").selectAll(".yaxisleft").remove();
-
+			
 				drawDatapoints(data,heatmapfilteri,heatmapfilterj,true,true);
-
+				
 				svg.selectAll(".max").remove();
-
+				
 				var group = svg.select(".new");
 				group.attr("transform","scale(" + ((marginSide + (100+marginSide)*(columnnames.length-1-(anzahlPenalties+2)-1))/(100+marginSide)) + "," + ((marginTop + (100+marginSide)*(columnnames.length-1-(anzahlPenalties+2)-1))/(100+marginSide)) + "),translate(" + marginSide + "," + marginTop + ")");
 			}
@@ -393,7 +393,7 @@ function doMatrix() {
 					svg.selectAll("*").selectAll("rect").remove();
 					svg.selectAll("*").selectAll(".xaxis").remove();
 					svg.selectAll("*").selectAll(".yaxisleft").remove();
-
+					
 					drawDatapoints(data,heatmapfilteri,heatmapfilterj,true,false);
 					var group = svg.select(".new");
 					group.attr("transform","scale(" + ((marginSide + (100+marginSide)*(columnnames.length-1-(anzahlPenalties+2)-1))/(100+marginSide)) + "," + ((marginTop + (100+marginSide)*(columnnames.length-1-(anzahlPenalties+2)-1))/(100+marginSide)) + "),translate(" + marginSide + "," + marginTop + ")");
@@ -403,13 +403,13 @@ function doMatrix() {
 					svg.selectAll("*:not(.c"+heatmapfilteri+"-"+heatmapfilterj+")").selectAll("rect").remove();
 					svg.selectAll("*:not(.c"+heatmapfilteri+"-"+heatmapfilterj+")").selectAll(".xaxis").remove();
 					svg.selectAll("*:not(.c"+heatmapfilteri+"-"+heatmapfilterj+")").selectAll(".yaxisleft").remove();
-
+					
 					var group = svg.selectAll(".c"+heatmapfilteri+"-"+heatmapfilterj);
 					group.attr("transform","scale(" + ((marginSide + (100+marginSide)*(columnnames.length-1-(anzahlPenalties+2)-1))/(100+marginSide)) + "," + ((marginTop + (100+marginSide)*(columnnames.length-1-(anzahlPenalties+2)-1))/(100+marginSide)) + "),translate(" + marginSide + "," + marginTop + ")");
 					//group.transition().duration(1000).attr("transform","scale(2,2)");
 				}
 			}
-
+			
 			svg.selectAll(".axis").style("font","5px sans-serif");
 		}
 
@@ -417,19 +417,19 @@ function doMatrix() {
 
 	var drawMatrix = function() {
 		var clusterposition;
-
+		
 		for(var i=0;i<clusters.length;++i)
 		{
 			if(clusters[i][0][1]==matrixfilter)
 				clusterposition=i;
 		}
-
+		
 		if(-1==matrixfilter)
 			drawHeatmaps(results);
 		else
 			drawHeatmaps(clusters[clusterposition]);
 	};
-
+	
 	drawMatrix();
 
 	d3.select("body").select("#ChangeMatrix")
