@@ -1,0 +1,4 @@
+for starting the application start app/userinterface.html (for installation details see app/README)
+if you want to start the visualization app without clustering, start app/index.html
+
+data files for the visualization are in datafiles/ (see datafiles/README for more information)
