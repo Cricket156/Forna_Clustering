@@ -1,0 +1,3 @@
+Data files for the visualization
+
+all files have 3 penalties (when loading csv file in the application, one has to specify the count of penalties in the loaded file)
