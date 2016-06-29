@@ -1,6 +1,4 @@
 Script zum Generieren der Bilddateien mit den SVGs
-Template-Datei fuer generator.js
+Template-Datei fuer index.html
 
 Kann mit fornac-sim verwendet werden
-
-Derzeit werden nur friction, middleCharge und otherCharge veraendert 
