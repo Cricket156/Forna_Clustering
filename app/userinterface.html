@@ -1,0 +1,58 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="utf-8">
+ <title>BioVis - Project</title>
+ <!-- link jquery, opencpu and knockout.js -->
+ <link href="css/bootstrap.css" type="text/css" rel="stylesheet" />
+ <!-- <link href="css/font-awesome.min.css" type="text/css" rel="stylesheet" /> -->
+ <link href="css/style.css" type="text/css" rel="stylesheet" />
+ <!--<link href="css/d3.parcoords.css" type="text/css" rel="stylesheet" />-->
+
+ <!-- <link href='http://fonts.googleapis.com/css?family=Ruluko' rel='stylesheet' type='text/css' /> -->
+ <script src='js/knockout-3.4.0.js'></script>
+
+ <!-- OpenCPU client library -->
+ <script src='js/jquery-1.12.4.min.js'></script>
+
+</head>
+<body>
+
+
+<h2>Upload the file for clustering</h2>
+
+<div class="col-md-12">
+  <div class="row" style="margin-left: 10px">
+    <input type="file" id="file" accept=".csv"/>
+  </div>
+
+<h2>Select the parameters you want to use in clustering</h2>
+
+<table>
+    <thead><tr>
+        <th>Parameter name</th>
+    </tr></thead>
+    <tbody data-bind="foreach: Parameter">
+        <tr>
+        <!-- bindings options and optionsText which control the set of available items in a dropdown list -->
+            <td><select data-bind="options: $root.availableParameters, value: Parameter, optionsText: 'Parameter'"></select></td>
+            <td><a href="#" data-bind="click: $root.removeParameter">Remove</button></td>
+              <!-- <td><a href="#" data-bind="click: $root.addParameter">Add</button></td> -->
+
+        </tr>
+    </tbody>
+</table>
+
+
+<!-- this adds a button using the click binding associates clicks with viewmodel
+function -->
+<button data-bind="click: addParameter">Use another parameter</button>
+
+<h2>If you are ready save your parameter choice. This will automatically start the clustering.</h2>
+<input type="button" data-bind="click: sendMe, enable: Parameter" Value="Save"/>
+<!-- needs to be at the bottom of the script -->
+<script src="viewmodel.js"></script>
+<!-- <script src="fileupload.js"></script>  -->
+
+</body>
+</html>

@@ -1,0 +1,245 @@
+<!-- // inspired by this https://bl.ocks.org/mbostock/3887118 -->
+
+<!DOCTYPE html>
+<meta charset="utf-8">
+
+<head>
+    <meta charset="utf-8">
+	<title>BioVis - Project</title>
+
+	<link href="css/bootstrap.css" type="text/css" rel="stylesheet" />
+	<!-- <link href="css/font-awesome.min.css" type="text/css" rel="stylesheet" /> -->
+	<link href="css/style.css" type="text/css" rel="stylesheet" />
+	<!-- <link href='http://fonts.googleapis.com/css?family=Ruluko' rel='stylesheet' type='text/css' /> -->
+  <script src="d3.js"></script>
+  <script src='js/jquery-1.12.4.min.js'></script>
+
+
+
+  </head>
+  <form id="continue" action="http://localhost:5000/index.html" method="post">
+      <input type="submit" name="html" value="continue to upload"/>
+  </form>
+  <div id="log"></div>
+
+  <div class="col-md-1" id="scatterplotDiv">
+        <svg id="scatterplot" width="100%"></svg>
+      </div>
+
+
+
+  <body>
+
+
+
+<style>
+.toolTip {
+    font-family: "Helvetica Neue", Helvetica, Arial, sans-serif;
+    position: absolute;
+    display: none;
+    width: auto;
+    height: auto;
+    background: none repeat scroll 0 0 white;
+    border: 0 none;
+    border-radius: 8px 8px 8px 8px;
+    box-shadow: -3px 3px 15px #888888;
+    color: black;
+    font: 12px sans-serif;
+    padding: 5px;
+    text-align: center;
+}
+
+
+
+body {
+  font: 15px sans-serif;
+}
+
+.axis path,
+.axis line {
+  fill: none;
+  stroke: #000;
+  shape-rendering: crispEdges;
+}
+
+.legend {
+  font-size: 12px;
+}
+rect {
+  stroke-width: 2;
+opacity:0.8;
+}
+
+.dot {
+  stroke: #000;
+}
+
+</style>
+</head>
+
+<body>
+<script>
+
+$('#continue').submit(function(e) {
+    // simulate async
+    window.location.replace("http://localhost:5000/index.html")
+    setTimeout(function() {
+        $('#continue').submit();
+    },2000);
+    e.preventDefault();
+    return false;
+});
+
+
+var w = 800
+var h = 450
+var legendRectSize = 18;
+var legendSpacing = 4;
+var margin = {top: 80, right: 200, bottom: 30, left: 60},
+    width = w - margin.left - margin.right,
+    height = h - margin.top - margin.bottom;
+
+var divTooltip = d3.select("body").append("div").attr("class", "toolTip");
+
+var svg = d3.select("body").append("svg")
+    .attr("width", width + margin.left + margin.right)
+    .attr("height", height + margin.top + margin.bottom)
+    .append("g")
+    .attr("transform", "translate(" + margin.left + "," + margin.top + ")");
+
+d3.csv("clusteringsim.csv", function(error, data) {
+  if (error) throw error;
+  data.forEach(function(d) {
+    d.silhouette = +d.silhouette;
+    d.eps = +d.eps;
+    d.minpts = +d.minpts;
+    d.numberofclusters = +d.numberofclusters;
+    d.file = d.file
+  });
+
+  var x = d3.scale.linear()
+      .domain([d3.min(data, function(d){ return +d.eps;}), d3.max(data, function(d){ return +d.eps;})])
+      .range([0, (width/2)*d3.max(data, function(d){ return +d.eps;})]);
+
+  var y = d3.scale.linear()
+      .domain([d3.min(data, function(d){ return +d.silhouette;}), d3.max(data, function(d){ return +d.silhouette;})])
+      .range([height, 0]);
+
+  var xAxis = d3.svg.axis()
+      .scale(x)
+      .orient("bottom")
+      .ticks(5);
+
+  var yAxis = d3.svg.axis()
+      .scale(y)
+      .orient("left");
+
+  // var color = d3.scale.ordinal()
+  //         .range(["green", "red"]);
+
+  var colorRange=d3.scale.linear().
+			domain([d3.min(data, function(d){return +d.silhouette;}),
+				        d3.max(data, function(d){return +d.silhouette;})])
+			         .range(["red", "green"]);
+
+  x.domain(d3.extent(data, function(d) { return +d.eps; })).nice();
+  y.domain(d3.extent(data, function(d) { return +d.minpts; })).nice();
+
+  svg.append("g")
+      .attr("class", "x axis")
+      .attr("transform", "translate(0," + height + ")")
+      .call(xAxis)
+      .append("text")
+      .attr("class", "label")
+      .attr("x", (width/2)*d3.max(data, function(d){ return +d.eps;}))
+      .attr("y", -6)
+      .style("text-anchor", "beginning")
+      .text("Eps value of: "+d3.max(data, function(d){return +d.eps;}));
+
+  svg.append("g")
+      .attr("class", "y axis")
+      .call(yAxis)
+    .append("text")
+      .attr("class", "label")
+      .attr("transform", "rotate(-90)")
+      .attr("y", 6)
+      .attr("x", 0)
+      .attr("dy", ".71em")
+      .style("text-anchor", "left")
+      .text("Minpts")
+
+  svg.selectAll(".dot")
+      .data(data)
+    .enter().append("circle")
+      .attr("class", "dot")
+      .attr("r", 5)
+      .attr("cx", function(d) { return x(d.eps) ; })
+      .attr("cy", function(d) { return y(d.minpts); })
+      .style("opacity", 1.0)
+      .style("fill",function(d){
+        // coloring according to silhouettescore
+      return	colorRange(+d.silhouette);
+        })
+    .on("mouseover", function(d){
+        d3.select(this).style("opacity",1.0)
+        divTooltip.style("left", d3.event.pageX+10+"px");
+        divTooltip.style("top", d3.event.pageY-25+"px");
+        divTooltip.style("display", "inline-block");
+        var x = d3.event.pageX, y = d3.event.pageY
+        var elements = document.querySelectorAll(':hover');
+				var name = d;
+        divTooltip.html(("silhouette:".fontcolor("#2F4F4F")+d.silhouette+"<br>")+"filename: ".fontcolor("steelblue")+d.file+"<br>"
+      +"number of clusters: ".fontcolor("darkblue")+d.numberofclusters+"<br>");
+    })
+    .on("mouseout", function(d){
+        divTooltip.style("display", "none")
+				d3.select(this).style("opacity", 0.7);
+    });
+
+// var legend = svg.selectAll('.legend')
+//   .data(colorRange)
+//   .enter()
+//   .append('g')
+//   .attr('class', 'legend')
+//   .attr('x', 200)
+//   .attr('y', 400)
+//   .attr('transform', function(d, i) {
+//     var height = legendRectSize + legendSpacing;
+//     var offset =  height * colorRange.length/ d.length;
+//     var horz = 200 + (-2 * legendRectSize);
+//     var vert = i * height - offset;
+//     return 'translate(' + horz + ',' + vert + ')';
+//   });
+//
+// legend.append('rect')
+//       .data(data)
+//       .attr('width', legendRectSize)
+//       .attr('height', legendRectSize)
+//       .style("fill",function(d){
+//           // coloring according to silhouettescore
+//         return	colorRange(+d.silhouette);
+//         });
+//
+//
+// legend.append('text')
+//       .data(data)
+//       .attr('x', legendRectSize + legendSpacing)
+//       .attr('y', legendRectSize - legendSpacing)
+//       .text((function(d) { return +d.silhouette; }) );
+//
+//
+              text = svg.append('foreignObject')
+                                    .attr('x',(width/2 + 60)*d3.max(data, function(d){ return +d.eps;}) )
+                                    .attr('y', height/2 -50)
+                                    .attr('width', 700)
+                                    .attr('height', 500)
+                                    .attr("font-size","15px")
+                                    .append("xhtml:body")
+                   .html('<div style="width: 500px;">This scatterplot shows results for the silhouette coefficient <br> dependent on the value for eps and minpts used in dbscan.<br> Hovering over the point will show the exact value of the silhouette coefficient.<br> Please bear in mind that the following visualization will only work with more than one cluster. <br>Hence you should choose the best clustering according to this. </div>')
+
+
+});
+
+</script>
+</body>
+</html>
